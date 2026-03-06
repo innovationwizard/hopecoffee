@@ -41,7 +41,8 @@ export default function LoginPage() {
   return (
     <div className="w-full max-w-sm">
       <div className="text-center mb-8">
-        <img src="/logo.png" alt="HOPE COFFEE" width={48} height={48} className="rounded-lg mx-auto mb-4" />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/logo.png" alt="HOPE COFFEE" width="80" height="80" className="rounded-xl mx-auto mb-4" />
         <h1 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
           HOPE COFFEE
         </h1>
