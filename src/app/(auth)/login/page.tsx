@@ -45,7 +45,7 @@ export default function LoginPage() {
           <span className="text-white dark:text-orion-900 font-bold text-lg tracking-tight">GO</span>
         </div>
         <h1 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
-          CafeMargen
+          HOPE COFFEE
         </h1>
         <p className="text-xs font-mono text-slate-400 dark:text-slate-500 mt-1 uppercase tracking-wider">
           Grupo Orion — Coffee Export Management
@@ -68,7 +68,7 @@ export default function LoginPage() {
             required
             autoFocus
             className="w-full px-3 py-2 border border-slate-300 dark:border-orion-700 rounded-md bg-white dark:bg-orion-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-orion-400 focus:border-orion-400 outline-none"
-            placeholder="admin@cafemargen.com"
+            placeholder="octavio@hopecoffee.com"
           />
         </div>
 

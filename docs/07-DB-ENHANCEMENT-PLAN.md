@@ -1,4 +1,4 @@
-# CafeMargen — Database Enhancement Implementation Plan
+# HOPE COFFEE — Database Enhancement Implementation Plan
 
 > Implementation plan for the 10 enhancements identified in `06-DATABASE-DESIGN-REVIEW.md`.
 > Organized into 5 waves by dependency and effort. Each wave is independently deployable.

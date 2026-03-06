@@ -75,7 +75,7 @@ export function AppShell({
           </div>
           <div>
             <h1 className="text-sm font-bold text-slate-900 dark:text-white tracking-tight leading-none">
-              CafeMargen
+              HOPE COFFEE
             </h1>
             <span className="text-[10px] font-mono text-slate-400 dark:text-slate-500 tracking-wider uppercase">
               Grupo Orion

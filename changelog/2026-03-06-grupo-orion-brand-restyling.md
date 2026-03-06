@@ -2,7 +2,7 @@
 
 ## Summary
 
-Complete visual restyling of CafeMargen to match the Grupo Orion holding group brand identity. Replaces the previous emerald/gray theme with a navy blue + white corporate palette derived from the trademarked Grupo Orion logo. Typography updated to DM Sans (body) + JetBrains Mono (data) for a corporate-geeky dashboard aesthetic. Dark mode set as default, with a discrete light/dark toggle added to the top bar. TypeScript: 0 errors.
+Complete visual restyling of HOPE COFFEE to match the Grupo Orion holding group brand identity. Replaces the previous emerald/gray theme with a navy blue + white corporate palette derived from the trademarked Grupo Orion logo. Typography updated to DM Sans (body) + JetBrains Mono (data) for a corporate-geeky dashboard aesthetic. Dark mode set as default, with a discrete light/dark toggle added to the top bar. TypeScript: 0 errors.
 
 ---
 
@@ -37,7 +37,7 @@ Swapped body font from Inter to DM Sans. Changed default theme to dark. Rewrote 
 
 | File | Change |
 |------|--------|
-| `src/app/layout.tsx` | Replaced `Inter` import with `DM_Sans` (400/500/700). Variable renamed to `--font-dm-sans`. `defaultTheme` changed from `"light"` to `"dark"`. Title updated to `"CafeMargen — Grupo Orion"`. |
+| `src/app/layout.tsx` | Replaced `Inter` import with `DM_Sans` (400/500/700). Variable renamed to `--font-dm-sans`. `defaultTheme` changed from `"light"` to `"dark"`. Title updated to `"HOPE COFFEE — Grupo Orion"`. |
 | `src/app/globals.css` | CSS variables: borders now use `slate` (light) / `orion-800` (dark). Added `--accent` / `--accent-dim` variables. `.data-table th` background updated to `#f8fafc` (light) / `#0a1628` (dark). Added `.dense-table` component for dashboard compact tables. |
 
 ---
@@ -50,7 +50,7 @@ Navy sidebar with Grupo Orion brand mark. Theme toggle added to top bar.
 
 | File | Change |
 |------|--------|
-| `src/components/layout/app-shell.tsx` | Added `useTheme` from `next-themes` + `Sun`/`Moon` icons from lucide. Sidebar brand area: `GO` monogram in rounded square + "CafeMargen" title + "GRUPO ORION" mono subtitle. All `gray-*` classes replaced with `slate-*` (light) / `orion-*` (dark). Active nav states: `emerald-*` replaced with `orion-*`. Role badge colors updated. Avatar circle: `emerald-600` replaced with `orion-600`. Sidebar width: 64 -> 60 (`md:w-60`). Top bar height: 14 -> 12 (`h-12`). Added Sun/Moon toggle button (right side of top bar). |
+| `src/components/layout/app-shell.tsx` | Added `useTheme` from `next-themes` + `Sun`/`Moon` icons from lucide. Sidebar brand area: `GO` monogram in rounded square + "HOPE COFFEE" title + "GRUPO ORION" mono subtitle. All `gray-*` classes replaced with `slate-*` (light) / `orion-*` (dark). Active nav states: `emerald-*` replaced with `orion-*`. Role badge colors updated. Avatar circle: `emerald-600` replaced with `orion-600`. Sidebar width: 64 -> 60 (`md:w-60`). Top bar height: 14 -> 12 (`h-12`). Added Sun/Moon toggle button (right side of top bar). |
 | `src/components/layout/sidebar-link.tsx` | Active state: `emerald-50/700` replaced with `orion-50/700` (light), `orion-800/300` (dark). Hover state: `gray-100/800` replaced with `slate-100` / `white/5`. |
 
 ---

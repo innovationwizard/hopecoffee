@@ -18,7 +18,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CafeMargen — Grupo Orion",
+  title: "HOPE COFFEE — Grupo Orion",
   description: "Coffee Export Contract & Margin Management System",
 };
 

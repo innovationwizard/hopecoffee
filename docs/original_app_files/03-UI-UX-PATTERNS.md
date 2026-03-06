@@ -1,6 +1,6 @@
 # Guide 03 — UI/UX Patterns & The "Excel Replacement" Feel
 
-> **Goal**: Make the transition from Excel seamless. Users should feel *faster* in CafeMargen within the first session, not slower. This guide defines the interaction patterns that make that happen.
+> **Goal**: Make the transition from Excel seamless. Users should feel *faster* in HOPE COFFEE within the first session, not slower. This guide defines the interaction patterns that make that happen.
 
 ---
 
@@ -10,7 +10,7 @@ The #1 reason enterprise Excel replacements fail: **they feel slower than Excel.
 
 Excel users are keyboard-driven. They expect instant feedback. They expect to see 50+ rows at once. They hate modals. They hate loading spinners. They hate clicking 3 times to do what took 1 keystroke.
 
-CafeMargen must be:
+HOPE COFFEE must be:
 - **Dense**: Show more data per screen than feels comfortable. Users will thank you.
 - **Instant**: Calculations update as you type. No submit buttons for computed fields.
 - **Keyboard-first**: Tab between fields, Enter to save, Escape to cancel, shortcuts for everything.

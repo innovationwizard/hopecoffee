@@ -1,13 +1,13 @@
 # Guide 01 — Domain Model & Business Logic
 
-> **Audience**: Developer building or extending CafeMargen  
+> **Audience**: Developer building or extending HOPE COFFEE  
 > **Goal**: Understand every calculation, entity relationship, and business rule extracted from the Excel file so you never need to open it again.
 
 ---
 
 ## The Coffee Export Lifecycle
 
-CafeMargen tracks the full lifecycle of Guatemalan specialty coffee from farm to international buyer. Understanding this flow is essential — every screen, calculation, and data relationship maps to a stage in this pipeline:
+HOPE COFFEE tracks the full lifecycle of Guatemalan specialty coffee from farm to international buyer. Understanding this flow is essential — every screen, calculation, and data relationship maps to a stage in this pipeline:
 
 ```
 FARM (Finca)                    Raw coffee cherries grown at origin
@@ -98,7 +98,7 @@ utilidad_sin_costo_f  = utilidad_sin_gastos − costo_financiero
 total_pago_qtz        = utilidad_sin_costo_f × tipo_cambio
 ```
 
-**Financial Cost**: This varies. Some contracts compute it as a percentage of billing; others use flat amounts. The Excel is inconsistent. In CafeMargen, we store it as a computed field with an optional manual override. Default computation: `(facturacion_kgs / sacos_46kg) × (some factor per contract)`. When in doubt, allow manual entry.
+**Financial Cost**: This varies. Some contracts compute it as a percentage of billing; others use flat amounts. The Excel is inconsistent. In HOPE COFFEE, we store it as a computed field with an optional manual override. Default computation: `(facturacion_kgs / sacos_46kg) × (some factor per contract)`. When in doubt, allow manual entry.
 
 ### 2. Materia Prima (Raw Material Cost)
 

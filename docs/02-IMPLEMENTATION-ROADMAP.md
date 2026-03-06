@@ -1,6 +1,6 @@
 # Guide 02 — Implementation Roadmap
 
-> **Goal**: Build CafeMargen in 4 phases over ~6 weeks. Each phase delivers a usable increment. No big-bang launch — each phase replaces specific Excel sheets.
+> **Goal**: Build HOPE COFFEE in 4 phases over ~6 weeks. Each phase delivers a usable increment. No big-bang launch — each phase replaces specific Excel sheets.
 
 ---
 
@@ -27,8 +27,8 @@ Set up the entire project infrastructure and build the contract management modul
 **1.1 — Project Setup** (~2 hours)
 
 ```bash
-npx create-next-app@latest cafemargen --typescript --tailwind --eslint --app --src-dir
-cd cafemargen
+npx create-next-app@latest hopecoffee --typescript --tailwind --eslint --app --src-dir
+cd hopecoffee
 npm install @prisma/client @tanstack/react-query @tanstack/react-table \
   bcryptjs class-variance-authority clsx date-fns decimal.js jose \
   lucide-react next-themes react-hook-form recharts sonner \
@@ -418,7 +418,7 @@ At the end of Phase 4:
 □ JWT_SECRET generated and set
 □ Admin user seeded
 □ Historical Excel data imported
-□ DNS configured (e.g., cafemargen.yourdomain.com)
+□ DNS configured (e.g., hopecoffee.yourdomain.com)
 □ Vercel deployment verified
 □ Team users created with appropriate roles
 □ Quick training session with team (30 min max — it should be intuitive)

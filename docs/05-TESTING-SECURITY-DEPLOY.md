@@ -266,7 +266,7 @@ const ContractCreateSchema = z.object({
 
 Environment variables in Vercel dashboard:
 ```
-DATABASE_URL      = postgresql://user:pass@your-aurora-endpoint:5432/cafemargen
+DATABASE_URL      = postgresql://user:pass@your-aurora-endpoint:5432/hopecoffee
 JWT_SECRET        = (generated with openssl rand -hex 32)
 JWT_EXPIRY        = 24h
 NODE_ENV          = production

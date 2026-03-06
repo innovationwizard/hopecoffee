@@ -1,5 +1,5 @@
 // ============================================================================
-// CafeMargen — Prisma Client Singleton
+// HOPE COFFEE — Prisma Client Singleton
 // ============================================================================
 // Prevents multiple Prisma Client instances in development (hot reload).
 // In production, a single instance is created and reused.

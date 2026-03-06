@@ -1,5 +1,5 @@
 // ============================================================================
-// CafeMargen — Formatting Utilities
+// HOPE COFFEE — Formatting Utilities
 // ============================================================================
 
 import Decimal from "decimal.js";

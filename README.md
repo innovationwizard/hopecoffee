@@ -1,4 +1,4 @@
-# CafeMargen
+# HOPE COFFEE
 
 **Coffee Export Contract & Margin Management System**
 
@@ -8,7 +8,7 @@ A full-stack web application replacing the `Control_Contratos_y_Margenes.xlsx` w
 
 ## Why This Exists
 
-The Excel file tracked 14 interconnected sheets with fragile cross-references (`#REF!` errors on PROMEDIO), manual calculations prone to drift, no audit trail, no concurrent access, and no role-based permissions. CafeMargen replaces every sheet with a purpose-built module while adding real-time dashboards, historical audit logs, and team collaboration.
+The Excel file tracked 14 interconnected sheets with fragile cross-references (`#REF!` errors on PROMEDIO), manual calculations prone to drift, no audit trail, no concurrent access, and no role-based permissions. HOPE COFFEE replaces every sheet with a purpose-built module while adding real-time dashboards, historical audit logs, and team collaboration.
 
 ---
 
@@ -116,7 +116,7 @@ npm run dev
 # → http://localhost:3000
 ```
 
-**Default admin login:** `admin@cafemargen.com` / `CafeMargen2026!`
+**Default admin login:** `octavio@hopecoffee.com` / `HopeCoffee2026`
 
 ---
 

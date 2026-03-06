@@ -1,4 +1,4 @@
-# CafeMargen — Database Design Review
+# HOPE COFFEE — Database Design Review
 
 > Reference document. Produced 2026-03-06 by analyzing the full Prisma schema (430 lines, 17 models), all 50+ Prisma queries across 13 action files, `docs/COFFEE.md` stakeholder requirements, and `docs/01-DOMAIN-MODEL.md`.
 

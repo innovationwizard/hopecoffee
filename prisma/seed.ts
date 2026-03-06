@@ -1,5 +1,5 @@
 // ============================================================================
-// CafeMargen — Database Seed
+// HOPE COFFEE — Database Seed
 // ============================================================================
 // Run with: npm run db:seed
 // Creates: admin user, default clients, suppliers, exchange rate, export config
@@ -14,12 +14,12 @@ async function main() {
   console.log("🌱 Seeding database...\n");
 
   // ── Admin User ──
-  const adminPassword = await hash("CafeMargen2026!", 12);
+  const adminPassword = await hash("HopeCoffee2026", 12);
   const admin = await prisma.user.upsert({
-    where: { email: "admin@cafemargen.com" },
+    where: { email: "octavio@hopecoffee.com" },
     update: {},
     create: {
-      email: "admin@cafemargen.com",
+      email: "octavio@hopecoffee.com",
       name: "Administrador",
       passwordHash: adminPassword,
       role: UserRole.ADMIN,
@@ -136,8 +136,8 @@ async function main() {
 
   console.log("\n🎉 Seed complete!\n");
   console.log("  Login credentials:");
-  console.log("  Email:    admin@cafemargen.com");
-  console.log("  Password: CafeMargen2026!");
+  console.log("  Email:    octavio@hopecoffee.com");
+  console.log("  Password: HopeCoffee2026");
   console.log("");
 }
 

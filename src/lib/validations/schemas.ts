@@ -1,5 +1,5 @@
 // ============================================================================
-// CafeMargen — Validation Schemas
+// HOPE COFFEE — Validation Schemas
 // ============================================================================
 // Zod schemas used at every data entry point: API routes, server actions,
 // form validation, and Excel import. Single source of truth for constraints.

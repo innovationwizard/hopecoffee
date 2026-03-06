@@ -1,5 +1,5 @@
 // ============================================================================
-// CafeMargen — Excel Import Service
+// HOPE COFFEE — Excel Import Service
 // ============================================================================
 // Parses the Control_Contratos_y_Margenes.xlsx file and maps each sheet
 // to the corresponding Prisma models for historical data migration.

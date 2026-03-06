@@ -1,6 +1,6 @@
 # Guide 04 — Data Migration & Verification
 
-> **Goal**: Import every row from `Control_Contratos_y_Margenes.xlsx` into CafeMargen with zero data loss, then verify every computed field matches the Excel output exactly.
+> **Goal**: Import every row from `Control_Contratos_y_Margenes.xlsx` into HOPE COFFEE with zero data loss, then verify every computed field matches the Excel output exactly.
 
 ---
 

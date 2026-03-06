@@ -1,5 +1,5 @@
 // ============================================================================
-// CafeMargen — Calculation Engine
+// HOPE COFFEE — Calculation Engine
 // ============================================================================
 // Replicates ALL Excel formulas as pure, testable functions.
 // Every formula is documented with its Excel origin cell/logic.

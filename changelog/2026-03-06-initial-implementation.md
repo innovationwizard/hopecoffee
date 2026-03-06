@@ -2,13 +2,13 @@
 
 ## Summary
 
-Built the complete CafeMargen application across all 4 phases in a single session. The app replaces the `Control_Contratos_y_Margenes.xlsx` workbook with a full-stack Next.js 15 web application. All 79 source files pass typecheck and all 19 unit tests pass.
+Built the complete HOPE COFFEE application across all 4 phases in a single session. The app replaces the `Control_Contratos_y_Margenes.xlsx` workbook with a full-stack Next.js 15 web application. All 79 source files pass typecheck and all 19 unit tests pass.
 
 ---
 
 ## Phase 0: Project Bootstrap
 
-- Moved `cafemargen/.env.example` and `.gitignore` to project root, deleted `cafemargen/` subdirectory
+- Moved `hopecoffee/.env.example` and `.gitignore` to project root, deleted `hopecoffee/` subdirectory
 - Created `next.config.ts` with `serverExternalPackages: ["@prisma/client"]`
 - Created `tailwind.config.ts` with content paths, container-queries plugin, JetBrains Mono font
 - Created `postcss.config.mjs` (tailwindcss + autoprefixer)
