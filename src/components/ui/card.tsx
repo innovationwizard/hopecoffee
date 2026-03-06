@@ -9,7 +9,7 @@ export function Card({ children, className }: CardProps) {
   return (
     <div
       className={twMerge(
-        "bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm",
+        "bg-white dark:bg-orion-900 border border-slate-200 dark:border-orion-800 rounded-lg shadow-sm",
         className
       )}
     >
@@ -22,7 +22,7 @@ export function CardHeader({ children, className }: CardProps) {
   return (
     <div
       className={twMerge(
-        "px-4 py-3 border-b border-gray-200 dark:border-gray-700",
+        "px-4 py-3 border-b border-slate-200 dark:border-orion-800",
         className
       )}
     >

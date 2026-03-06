@@ -15,19 +15,19 @@ export function PageHeader({ title, breadcrumbs, action }: PageHeaderProps) {
   return (
     <div className="mb-6">
       {breadcrumbs && breadcrumbs.length > 0 && (
-        <nav className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+        <nav className="text-sm text-slate-500 dark:text-slate-500 mb-2 font-mono">
           {breadcrumbs.map((crumb, i) => (
             <span key={i}>
-              {i > 0 && <span className="mx-1.5">/</span>}
+              {i > 0 && <span className="mx-1.5 text-slate-300 dark:text-slate-600">/</span>}
               {crumb.href ? (
                 <Link
                   href={crumb.href}
-                  className="hover:text-gray-700 dark:hover:text-gray-200"
+                  className="hover:text-orion-600 dark:hover:text-orion-400 transition-colors"
                 >
                   {crumb.label}
                 </Link>
               ) : (
-                <span className="text-gray-900 dark:text-white">
+                <span className="text-slate-900 dark:text-white">
                   {crumb.label}
                 </span>
               )}
@@ -36,7 +36,7 @@ export function PageHeader({ title, breadcrumbs, action }: PageHeaderProps) {
         </nav>
       )}
       <div className="flex items-center justify-between gap-4">
-        <h1 className="text-xl font-bold text-gray-900 dark:text-white">
+        <h1 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">
           {title}
         </h1>
         {action}

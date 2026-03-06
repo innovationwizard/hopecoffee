@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { useTheme } from "next-themes";
 import {
   LayoutDashboard,
   FileText,
@@ -15,6 +16,8 @@ import {
   Menu,
   X,
   ChevronDown,
+  Sun,
+  Moon,
 } from "lucide-react";
 import type { Session } from "@/lib/services/auth";
 import { SidebarLink } from "./sidebar-link";
@@ -44,6 +47,7 @@ export function AppShell({
 }) {
   const pathname = usePathname();
   const router = useRouter();
+  const { theme, setTheme } = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(
     pathname.startsWith("/settings")
@@ -56,20 +60,31 @@ export function AppShell({
   }
 
   const roleBadgeColor = {
-    ADMIN: "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300",
-    OPERATOR: "bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300",
-    VIEWER: "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300",
+    ADMIN: "bg-orion-100 text-orion-700 dark:bg-orion-800/50 dark:text-orion-300",
+    OPERATOR: "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300",
+    VIEWER: "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400",
   };
 
   const sidebar = (
     <nav className="flex flex-col h-full">
-      <div className="px-4 py-5 border-b border-gray-200 dark:border-gray-700">
-        <h1 className="text-lg font-bold text-gray-900 dark:text-white">
-          CafeMargen
-        </h1>
+      {/* Brand */}
+      <div className="px-4 py-5 border-b border-slate-200 dark:border-orion-800">
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-md bg-orion-900 dark:bg-white flex items-center justify-center">
+            <span className="text-white dark:text-orion-900 font-bold text-sm tracking-tight">GO</span>
+          </div>
+          <div>
+            <h1 className="text-sm font-bold text-slate-900 dark:text-white tracking-tight leading-none">
+              CafeMargen
+            </h1>
+            <span className="text-[10px] font-mono text-slate-400 dark:text-slate-500 tracking-wider uppercase">
+              Grupo Orion
+            </span>
+          </div>
+        </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto py-2 px-2 space-y-1">
+      <div className="flex-1 overflow-y-auto py-2 px-2 space-y-0.5">
         {NAV_ITEMS.map((item) => (
           <SidebarLink
             key={item.href}
@@ -86,18 +101,18 @@ export function AppShell({
             onClick={() => setSettingsOpen(!settingsOpen)}
             className={`w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
               pathname.startsWith("/settings")
-                ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400"
-                : "text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+                ? "bg-orion-50 text-orion-700 dark:bg-orion-800/30 dark:text-orion-300"
+                : "text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-white/5"
             }`}
           >
             <Settings className="w-5 h-5 shrink-0" />
-            <span className="flex-1 text-left">Configuración</span>
+            <span className="flex-1 text-left">Configuracion</span>
             <ChevronDown
               className={`w-4 h-4 transition-transform ${settingsOpen ? "rotate-180" : ""}`}
             />
           </button>
           {settingsOpen && (
-            <div className="ml-8 mt-1 space-y-1">
+            <div className="ml-8 mt-1 space-y-0.5">
               {SETTINGS_ITEMS.filter(
                 (item) => !item.adminOnly || session.role === "ADMIN"
               ).map((item) => (
@@ -124,25 +139,25 @@ export function AppShell({
         )}
       </div>
 
-      <div className="border-t border-gray-200 dark:border-gray-700 p-4">
+      <div className="border-t border-slate-200 dark:border-orion-800 p-4">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center text-sm font-medium">
+          <div className="w-8 h-8 rounded-md bg-orion-600 text-white flex items-center justify-center text-sm font-bold">
             {session.name.charAt(0).toUpperCase()}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
+            <p className="text-sm font-medium text-slate-900 dark:text-white truncate">
               {session.name}
             </p>
             <span
-              className={`inline-block text-xs px-1.5 py-0.5 rounded ${roleBadgeColor[session.role]}`}
+              className={`inline-block text-[10px] font-mono px-1.5 py-0.5 rounded ${roleBadgeColor[session.role]}`}
             >
               {session.role}
             </span>
           </div>
           <button
             onClick={handleLogout}
-            className="p-1.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-            title="Cerrar sesión"
+            className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
+            title="Cerrar sesion"
           >
             <LogOut className="w-4 h-4" />
           </button>
@@ -152,9 +167,9 @@ export function AppShell({
   );
 
   return (
-    <div className="flex h-screen bg-gray-50 dark:bg-gray-950">
+    <div className="flex h-screen bg-slate-50 dark:bg-orion-950">
       {/* Desktop sidebar */}
-      <aside className="hidden md:flex md:w-64 md:flex-col bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700">
+      <aside className="hidden md:flex md:w-60 md:flex-col bg-white dark:bg-orion-900 border-r border-slate-200 dark:border-orion-800">
         {sidebar}
       </aside>
 
@@ -168,13 +183,13 @@ export function AppShell({
 
       {/* Mobile sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-900 transform transition-transform md:hidden ${
+        className={`fixed inset-y-0 left-0 z-50 w-60 bg-white dark:bg-orion-900 transform transition-transform md:hidden ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         <button
           onClick={() => setMobileOpen(false)}
-          className="absolute top-4 right-4 p-1 text-gray-400"
+          className="absolute top-4 right-4 p-1 text-slate-400"
         >
           <X className="w-5 h-5" />
         </button>
@@ -184,14 +199,23 @@ export function AppShell({
       {/* Main content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Top bar */}
-        <header className="h-14 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center px-4 gap-4">
+        <header className="h-12 border-b border-slate-200 dark:border-orion-800 bg-white dark:bg-orion-900 flex items-center px-4 gap-4">
           <button
             onClick={() => setMobileOpen(true)}
-            className="md:hidden p-1.5 text-gray-500"
+            className="md:hidden p-1.5 text-slate-500"
           >
             <Menu className="w-5 h-5" />
           </button>
           <div className="flex-1" />
+          {/* Theme toggle */}
+          <button
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="p-1.5 rounded-md text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
+            title="Cambiar tema"
+          >
+            <Sun className="w-4 h-4 hidden dark:block" />
+            <Moon className="w-4 h-4 block dark:hidden" />
+          </button>
         </header>
 
         <main className="flex-1 overflow-auto p-6">{children}</main>

@@ -4,24 +4,28 @@
 
 @layer base {
   :root {
-    --border-subtle: #e5e7eb;
-    --border-strong: #d1d5db;
-    --row-hover: #f9fafb;
-    --surface-elevated: #f3f4f6;
+    --border-subtle: #e2e8f0;
+    --border-strong: #cbd5e1;
+    --row-hover: #f1f5f9;
+    --surface-elevated: #f8fafc;
+    --accent: #2656d6;
+    --accent-dim: rgba(38, 86, 214, 0.08);
   }
 
   .dark {
-    --border-subtle: #374151;
-    --border-strong: #4b5563;
-    --row-hover: #1f2937;
-    --surface-elevated: #111827;
+    --border-subtle: #1e293b;
+    --border-strong: #334155;
+    --row-hover: rgba(255, 255, 255, 0.02);
+    --surface-elevated: #0c1f54;
+    --accent: #4a7aff;
+    --accent-dim: rgba(74, 122, 255, 0.08);
   }
 }
 
 @layer components {
   .data-table td,
   .data-table th {
-    padding: 4px 8px;
+    padding: 5px 10px;
     font-size: 13px;
     font-variant-numeric: tabular-nums;
     border-bottom: 1px solid var(--border-subtle);
@@ -29,24 +33,24 @@
 
   .data-table th {
     font-weight: 600;
-    font-size: 12px;
+    font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #6b7280;
+    letter-spacing: 0.06em;
+    color: #64748b;
     position: sticky;
     top: 0;
-    background: white;
+    background: #f8fafc;
     z-index: 10;
   }
 
   .dark .data-table th {
-    background: #111827;
-    color: #9ca3af;
+    background: #0a1628;
+    color: #64748b;
   }
 
   .data-table td.numeric {
     text-align: right;
-    font-family: "JetBrains Mono", "SF Mono", ui-monospace, monospace;
+    font-family: var(--font-mono), "JetBrains Mono", ui-monospace, monospace;
   }
 
   .data-table tr:hover td {
@@ -64,5 +68,22 @@
 
   .data-table tr {
     height: 32px;
+  }
+
+  /* Dense table variant for dashboard */
+  .dense-table td,
+  .dense-table th {
+    padding: 4px 8px;
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .dense-table th {
+    font-weight: 600;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #64748b;
   }
 }

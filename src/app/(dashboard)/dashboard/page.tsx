@@ -28,7 +28,7 @@ export default async function DashboardPage() {
 
   const marginColor =
     weightedMargin >= 0.12
-      ? "text-emerald-700 dark:text-emerald-400"
+      ? "text-emerald-600 dark:text-emerald-400"
       : weightedMargin >= 0.10
       ? "text-amber-600 dark:text-amber-400"
       : "text-red-600 dark:text-red-400";
@@ -39,7 +39,7 @@ export default async function DashboardPage() {
 
       {/* Margin Alert */}
       {marginAlert && (
-        <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-sm text-red-700 dark:text-red-400">
+        <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-800/40 rounded-lg text-sm text-red-700 dark:text-red-400">
           Margen ponderado por debajo del 12% ({formatPercent(weightedMargin)}). Hay que recuperar en los siguientes contratos.
         </div>
       )}
@@ -48,17 +48,17 @@ export default async function DashboardPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
         <Card>
           <CardContent className="py-6 text-center">
-            <p className="text-xs text-gray-500 uppercase tracking-wide">
+            <p className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">
               Revenue Total
             </p>
-            <p className="text-2xl font-bold font-mono text-emerald-700 dark:text-emerald-400 mt-1">
+            <p className="text-2xl font-bold font-mono text-orion-600 dark:text-orion-400 mt-1">
               {formatGTQ(totalRevenue)}
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="py-6 text-center">
-            <p className="text-xs text-gray-500 uppercase tracking-wide">
+            <p className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">
               Margen Ponderado
             </p>
             <p className={`text-2xl font-bold font-mono mt-1 ${marginColor}`}>
@@ -68,7 +68,7 @@ export default async function DashboardPage() {
         </Card>
         <Card>
           <CardContent className="py-6 text-center">
-            <p className="text-xs text-gray-500 uppercase tracking-wide">
+            <p className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">
               Contenedores
             </p>
             <p className="text-2xl font-bold font-mono text-gray-900 dark:text-white mt-1">
@@ -78,7 +78,7 @@ export default async function DashboardPage() {
         </Card>
         <Card>
           <CardContent className="py-6 text-center">
-            <p className="text-xs text-gray-500 uppercase tracking-wide">
+            <p className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">
               Contratos Activos
             </p>
             <p className="text-2xl font-bold font-mono text-gray-900 dark:text-white mt-1">
@@ -88,15 +88,15 @@ export default async function DashboardPage() {
         </Card>
         <Card>
           <CardContent className="py-6 text-center">
-            <p className="text-xs text-gray-500 uppercase tracking-wide">
+            <p className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">
               Break-even
             </p>
             <p className="text-lg font-bold font-mono text-gray-900 dark:text-white mt-1">
               {formatPercent(Math.min(breakEvenProgress, 1))}
             </p>
-            <div className="mt-2 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+            <div className="mt-2 h-2 bg-slate-200 dark:bg-orion-800 rounded-full overflow-hidden">
               <div
-                className="h-full bg-emerald-500 rounded-full transition-all"
+                className="h-full bg-orion-500 rounded-full transition-all"
                 style={{ width: `${Math.min(breakEvenProgress * 100, 100)}%` }}
               />
             </div>
@@ -116,12 +116,12 @@ export default async function DashboardPage() {
         <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+              <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                 Embarques Recientes
               </h3>
               <Link
                 href="/shipments"
-                className="text-xs text-blue-600 hover:underline"
+                className="text-xs text-orion-600 dark:text-orion-400 hover:underline"
               >
                 Ver todos
               </Link>
@@ -145,7 +145,7 @@ export default async function DashboardPage() {
                         <td>
                           <Link
                             href={`/shipments/${s.id}`}
-                            className="text-blue-600 hover:underline"
+                            className="text-orion-600 dark:text-orion-400 hover:underline"
                           >
                             {s.name}
                           </Link>
@@ -176,12 +176,12 @@ export default async function DashboardPage() {
         <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+              <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                 Contratos Recientes
               </h3>
               <Link
                 href="/contracts"
-                className="text-xs text-blue-600 hover:underline"
+                className="text-xs text-orion-600 dark:text-orion-400 hover:underline"
               >
                 Ver todos
               </Link>
@@ -205,7 +205,7 @@ export default async function DashboardPage() {
                         <td>
                           <Link
                             href={`/contracts/${c.id}`}
-                            className="text-blue-600 hover:underline"
+                            className="text-orion-600 dark:text-orion-400 hover:underline"
                           >
                             {c.contractNumber}
                           </Link>

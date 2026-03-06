@@ -42,7 +42,7 @@ export function DataTable<T>({
 
   return (
     <div>
-      <div className="overflow-auto border border-gray-200 dark:border-gray-700 rounded-lg">
+      <div className="overflow-auto border border-slate-200 dark:border-orion-800 rounded-lg">
         <table className="data-table w-full">
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -62,7 +62,7 @@ export function DataTable<T>({
                         header.getContext()
                       )}
                       {header.column.getCanSort() && (
-                        <span className="text-gray-400">
+                        <span className="text-slate-400">
                           {header.column.getIsSorted() === "asc" ? (
                             <ChevronUp className="w-3 h-3" />
                           ) : header.column.getIsSorted() === "desc" ? (
@@ -123,7 +123,7 @@ export function DataTable<T>({
       </div>
 
       {table.getPageCount() > 1 && (
-        <div className="flex items-center justify-between mt-3 text-sm text-gray-500">
+        <div className="flex items-center justify-between mt-3 text-sm text-slate-500">
           <span>
             {table.getState().pagination.pageIndex *
               table.getState().pagination.pageSize +
@@ -140,14 +140,14 @@ export function DataTable<T>({
             <button
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
-              className="px-2 py-1 rounded border border-gray-300 dark:border-gray-600 disabled:opacity-50 hover:bg-gray-50 dark:hover:bg-gray-800"
+              className="px-2 py-1 rounded border border-slate-300 dark:border-orion-700 disabled:opacity-50 hover:bg-slate-50 dark:hover:bg-white/5 text-sm"
             >
               Anterior
             </button>
             <button
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
-              className="px-2 py-1 rounded border border-gray-300 dark:border-gray-600 disabled:opacity-50 hover:bg-gray-50 dark:hover:bg-gray-800"
+              className="px-2 py-1 rounded border border-slate-300 dark:border-orion-700 disabled:opacity-50 hover:bg-slate-50 dark:hover:bg-white/5 text-sm"
             >
               Siguiente
             </button>

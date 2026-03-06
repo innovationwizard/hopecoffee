@@ -41,11 +41,14 @@ export default function LoginPage() {
   return (
     <div className="w-full max-w-sm">
       <div className="text-center mb-8">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+        <div className="w-12 h-12 rounded-lg bg-orion-900 dark:bg-white mx-auto mb-4 flex items-center justify-center">
+          <span className="text-white dark:text-orion-900 font-bold text-lg tracking-tight">GO</span>
+        </div>
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
           CafeMargen
         </h1>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-          Coffee Export Management
+        <p className="text-xs font-mono text-slate-400 dark:text-slate-500 mt-1 uppercase tracking-wider">
+          Grupo Orion — Coffee Export Management
         </p>
       </div>
 
@@ -53,7 +56,7 @@ export default function LoginPage() {
         <div>
           <label
             htmlFor="email"
-            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+            className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
           >
             Email
           </label>
@@ -64,7 +67,7 @@ export default function LoginPage() {
             onChange={(e) => setEmail(e.target.value)}
             required
             autoFocus
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+            className="w-full px-3 py-2 border border-slate-300 dark:border-orion-700 rounded-md bg-white dark:bg-orion-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-orion-400 focus:border-orion-400 outline-none"
             placeholder="admin@cafemargen.com"
           />
         </div>
@@ -72,7 +75,7 @@ export default function LoginPage() {
         <div>
           <label
             htmlFor="password"
-            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+            className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
           >
             Password
           </label>
@@ -83,7 +86,7 @@ export default function LoginPage() {
             onChange={(e) => setPassword(e.target.value)}
             required
             minLength={8}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+            className="w-full px-3 py-2 border border-slate-300 dark:border-orion-700 rounded-md bg-white dark:bg-orion-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-orion-400 focus:border-orion-400 outline-none"
           />
         </div>
 
@@ -94,7 +97,7 @@ export default function LoginPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-2 px-4 bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400 text-white font-medium rounded-md transition-colors"
+          className="w-full py-2 px-4 bg-orion-600 hover:bg-orion-700 disabled:bg-orion-400 dark:bg-orion-500 dark:hover:bg-orion-600 text-white font-medium rounded-md transition-colors"
         >
           {loading ? "Signing in..." : "Sign in"}
         </button>
