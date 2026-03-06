@@ -1,0 +1,503 @@
+// ============================================================================
+// CafeMargen — Prisma Schema
+// Coffee Export Contract & Margin Management System
+// ============================================================================
+// Domain: Guatemalan specialty coffee export operations
+// Entities model the full lifecycle: purchase → processing → export → billing
+// All monetary values stored as Decimal for financial precision
+// ============================================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================================
+// AUTH & ACCESS CONTROL
+// ============================================================================
+
+enum UserRole {
+  ADMIN    // Full access: CRUD all entities, manage users, system settings
+  OPERATOR // Operational access: CRUD contracts/shipments/inventory, no user mgmt
+  VIEWER   // Read-only access: dashboards, reports, exports
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String
+  passwordHash  String
+  role          UserRole  @default(VIEWER)
+  isActive      Boolean   @default(true)
+  lastLoginAt   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  auditLogs AuditLog[]
+
+  @@map("users")
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String
+  action     String   // CREATE, UPDATE, DELETE, STATUS_CHANGE, PRICE_FIX
+  entity     String   // Contract, Shipment, PurchaseOrder, etc.
+  entityId   String
+  oldValue   Json?    // Snapshot before change
+  newValue   Json?    // Snapshot after change
+  ipAddress  String?
+  createdAt  DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([entity, entityId])
+  @@index([userId, createdAt])
+  @@map("audit_logs")
+}
+
+// ============================================================================
+// SYSTEM CONFIGURATION
+// ============================================================================
+
+model ExchangeRate {
+  id        String   @id @default(cuid())
+  rate      Decimal  @db.Decimal(10, 4) // e.g., 7.6500
+  validFrom DateTime
+  validTo   DateTime?
+  isActive  Boolean  @default(true)
+  notes     String?
+  createdAt DateTime @default(now())
+
+  @@index([validFrom, validTo])
+  @@map("exchange_rates")
+}
+
+model ExportCostConfig {
+  id                String   @id @default(cuid())
+  name              String   // e.g., "Default 2026", "Organico Premium"
+  gastosPerSaco     Decimal  @db.Decimal(10, 2) // Export cost per saco (20-23)
+  trillaPerQQ       Decimal  @db.Decimal(10, 2) // Milling cost per quintal
+  sacoYute          Decimal  @db.Decimal(10, 2)
+  estampado         Decimal  @db.Decimal(10, 2)
+  bolsaGrainPro     Decimal  @db.Decimal(10, 2)
+  fitoSanitario     Decimal  @db.Decimal(10, 2)
+  impuestoAnacafe1  Decimal  @db.Decimal(10, 2)
+  impuestoAnacafe2  Decimal  @db.Decimal(10, 2)
+  inspeccionOirsa   Decimal  @db.Decimal(10, 2)
+  fumigacion        Decimal  @db.Decimal(10, 2)
+  emisionDocumento  Decimal  @db.Decimal(10, 2)
+  fletePuerto       Decimal  @db.Decimal(10, 2)
+  seguro            Decimal  @db.Decimal(10, 2)
+  custodio          Decimal  @db.Decimal(10, 2)
+  agenteAduanal     Decimal  @db.Decimal(10, 2)
+  comisionExportadorOrganico Decimal @db.Decimal(10, 2) @default(0)
+  isDefault         Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  shipments Shipment[]
+  contracts Contract[] @relation("ContractExportCostConfig")
+
+  @@map("export_cost_configs")
+}
+
+// ============================================================================
+// COMMERCIAL ENTITIES
+// ============================================================================
+
+model Client {
+  id        String   @id @default(cuid())
+  name      String   @unique // Serengetti, Swiss Water, Opal, Onyx, Atlas, Stonex
+  code      String   @unique // SER, SWP, OPL, ONX, ATL, STX
+  country   String?
+  contact   String?
+  email     String?
+  phone     String?
+  notes     String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  contracts Contract[]
+
+  @@map("clients")
+}
+
+model Supplier {
+  id        String   @id @default(cuid())
+  name      String   @unique // K-Finos, José David Guerra, Walco
+  code      String   @unique
+  contact   String?
+  email     String?
+  phone     String?
+  notes     String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  purchaseOrders   PurchaseOrder[]
+  accountEntries   SupplierAccountEntry[]
+
+  @@map("suppliers")
+}
+
+// ============================================================================
+// CONTRACT MANAGEMENT (Core Domain)
+// ============================================================================
+
+enum ContractStatus {
+  NEGOCIACION  // Under negotiation
+  CONFIRMADO   // Confirmed, terms agreed
+  FIJADO       // Price fixed (bolsa locked)
+  NO_FIJADO    // Confirmed but price floating
+  EMBARCADO    // Shipped
+  LIQUIDADO    // Fully settled/paid
+  CANCELADO    // Cancelled
+}
+
+enum CoffeeRegion {
+  SANTA_ROSA
+  HUEHUETENANGO
+  ORGANICO
+  DANILANDIA
+  SANTA_ISABEL
+  OTHER
+}
+
+enum POStatus {
+  PENDIENTE
+  RECIBIDO
+  LIQUIDADO
+}
+
+enum ShipmentStatus {
+  PREPARACION  // Being assembled
+  EMBARCADO    // Shipped
+  LIQUIDADO    // Settled
+}
+
+enum TipoFacturacion {
+  LIBRAS_GUATEMALTECAS // quintales_100lb × precio_USD
+  LIBRAS_ESPANOLAS     // (sacos_69kg × 69 × 2.2046) × (precio_USD / 100)
+}
+
+enum PosicionBolsa {
+  MAR // Marzo
+  MAY // Mayo
+  JUL // Julio
+  SEP // Septiembre
+  DEC // Diciembre
+}
+
+model Contract {
+  id              String          @id @default(cuid())
+  contractNumber  String          @unique // P40129, P40028, etc. or "Pendiente"/"No asignado"
+  clientId        String
+  shipmentId      String?
+  status          ContractStatus  @default(NEGOCIACION)
+  regions         CoffeeRegion[]  // Can span multiple regions
+
+  // Coffee specs
+  puntaje         Int             // Cupping score: 81-85+
+  sacos69kg       Decimal         @db.Decimal(10, 2) // Bags at 69kg
+  sacos46kg       Decimal         @db.Decimal(10, 2) // Calculated: sacos69kg × 1.5
+  rendimiento     Decimal         @db.Decimal(6, 4)  // Yield factor, typically 1.32
+
+  // Pricing (USD per 100lb sack)
+  precioBolsa     Decimal?        @db.Decimal(10, 2) // NY C-market or fixed price
+  diferencial     Decimal?        @db.Decimal(10, 2) // Differential above/below bolsa
+  precioBolsaDif  Decimal?        @db.Decimal(10, 2) // Computed: bolsa + diferencial
+
+  // Billing & commissions
+  tipoFacturacion TipoFacturacion @default(LIBRAS_GUATEMALTECAS)
+  comisionCompra  Decimal?        @db.Decimal(10, 2) // 1.50 USD/quintal (buy)
+  comisionVenta   Decimal?        @db.Decimal(10, 2) // 1.50 USD/quintal (sell)
+  montoCredito    Decimal?        @db.Decimal(14, 2) // Credit amount in GTQ for financial cost
+
+  // Harvest year
+  cosecha         String?         // "25/26", "26/27"
+
+  // Position & timing
+  posicionBolsa   PosicionBolsa?  // ICE futures month (min 2 months ahead of embarque)
+  posicionNY      DateTime?       // NY futures position date
+  fechaEmbarque   DateTime?       // Shipment date
+  lote            String?         // Lot description: "Organico", "Santa Rosa", "Huehue"
+
+  // Computed billing fields (stored for performance, recalculated on change)
+  facturacionLbs  Decimal?        @db.Decimal(14, 2) // Billing in pounds
+  facturacionKgs  Decimal?        @db.Decimal(14, 2) // Billing in kilos (with conversion)
+  gastosExport    Decimal?        @db.Decimal(14, 2) // Export expenses
+  utilidadSinGE   Decimal?        @db.Decimal(14, 2) // Profit before export expenses
+  costoFinanciero Decimal?        @db.Decimal(14, 2) // Financial cost
+  utilidadSinCF   Decimal?        @db.Decimal(14, 2) // Profit before financial cost
+  tipoCambio      Decimal?        @db.Decimal(10, 4) // Exchange rate at contract
+  totalPagoQTZ    Decimal?        @db.Decimal(14, 2) // Total payment in Quetzales
+
+  notes           String?
+  computedAt      DateTime?       // Set by computeContractFields(), staleness = updatedAt > computedAt
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  // Snapshot references
+  exportCostConfigId String?
+
+  client           Client            @relation(fields: [clientId], references: [id])
+  shipment         Shipment?         @relation(fields: [shipmentId], references: [id])
+  exportCostConfig ExportCostConfig? @relation("ContractExportCostConfig", fields: [exportCostConfigId], references: [id])
+
+  materiaPrimaAllocations MateriaPrimaAllocation[]
+  priceSnapshots          ContractPriceSnapshot[]
+
+  @@index([clientId])
+  @@index([shipmentId])
+  @@index([status, createdAt])
+  @@index([createdAt])
+  @@index([fechaEmbarque])
+  @@map("contracts")
+}
+
+// ============================================================================
+// SHIPMENT MANAGEMENT (Monthly Container Grouping)
+// ============================================================================
+
+model Shipment {
+  id                  String   @id @default(cuid())
+  name                String   // "Enero 2026", "Febrero 2026", etc.
+  month               Int      // 1-12
+  year                Int
+  status              ShipmentStatus @default(PREPARACION)
+  numContainers       Int      // Number of containers
+  regions             String?  // Descriptive: "Organico/Santa Rosa/Huehue"
+  posicionDate        DateTime?
+  embarqueDate        DateTime?
+  exportCostConfigId  String?
+  gastosPerSaco       Decimal? @db.Decimal(10, 2) // Override per-saco cost
+
+  // Aggregated computed fields
+  totalSacos69        Decimal? @db.Decimal(10, 2)
+  totalSacos46        Decimal? @db.Decimal(10, 2)
+  totalFacturacionLbs Decimal? @db.Decimal(14, 2)
+  totalFacturacionKgs Decimal? @db.Decimal(14, 2)
+  totalGastosExport   Decimal? @db.Decimal(14, 2)
+  totalUtilidadSinGE  Decimal? @db.Decimal(14, 2)
+  totalCostoFinanc    Decimal? @db.Decimal(14, 2)
+  totalUtilidadSinCF  Decimal? @db.Decimal(14, 2)
+  totalPagoQTZ        Decimal? @db.Decimal(14, 2)
+
+  // Materia Prima aggregates
+  totalMateriaPrima   Decimal? @db.Decimal(14, 2)
+  totalComision       Decimal? @db.Decimal(14, 2)
+  totalSubproducto    Decimal? @db.Decimal(14, 2)
+  utilidadBruta       Decimal? @db.Decimal(14, 2)
+  margenBruto         Decimal? @db.Decimal(8, 6) // Percentage as decimal
+
+  notes               String?
+  aggregatedAt        DateTime? // Set by recalculateShipment(), staleness = updatedAt > aggregatedAt
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  exportCostConfig ExportCostConfig? @relation(fields: [exportCostConfigId], references: [id])
+  contracts        Contract[]
+  containers       Container[]
+  materiaPrima     MateriaPrima[]
+  subproductos     Subproducto[]
+
+  @@unique([month, year, name])
+  @@index([year, month])
+  @@map("shipments")
+}
+
+// ============================================================================
+// RAW MATERIAL & COST TRACKING
+// ============================================================================
+
+model MateriaPrima {
+  id           String   @id @default(cuid())
+  shipmentId   String
+  supplierId   String?
+  supplierNote String?  // "Comprado / José David", "Comprado / Kfinos", "NO COMPRADO"
+  isPurchased  Boolean  @default(false)
+
+  punteo       Int               // Cupping score
+  oro          Decimal           @db.Decimal(10, 2) // Gold coffee qty (sacos 46kg)
+  rendimiento  Decimal           @db.Decimal(6, 4)  // Yield: typically 1.32
+  pergamino    Decimal           @db.Decimal(10, 2) // Parchment coffee qty
+  precioPromQ  Decimal           @db.Decimal(10, 2) // Average price in Quetzales
+  totalMP      Decimal           @db.Decimal(14, 2) // pergamino × precioPromQ
+
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  shipment    Shipment                @relation(fields: [shipmentId], references: [id])
+  allocations MateriaPrimaAllocation[]
+
+  @@index([shipmentId])
+  @@map("materia_prima")
+}
+
+model MateriaPrimaAllocation {
+  id                  String   @id @default(cuid())
+  materiaPrimaId      String
+  contractId          String
+  quintalesAllocated  Decimal? @db.Decimal(10, 2) // null = full allocation (backward compat)
+
+  materiaPrima MateriaPrima @relation(fields: [materiaPrimaId], references: [id])
+  contract     Contract     @relation(fields: [contractId], references: [id])
+
+  @@unique([materiaPrimaId, contractId])
+  @@map("materia_prima_allocations")
+}
+
+model Subproducto {
+  id            String  @id @default(cuid())
+  shipmentId    String
+  contenedores  Decimal @db.Decimal(10, 4) // Can be fractional (e.g., 0.6545)
+  oroPerCont    Decimal @db.Decimal(10, 2) // Typically 25
+  totalOro      Decimal @db.Decimal(10, 2) // contenedores × oroPerCont
+  precioSinIVA  Decimal @db.Decimal(10, 2) // Typically 2000
+  totalPerga    Decimal @db.Decimal(14, 2) // totalOro × precioSinIVA
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  shipment Shipment @relation(fields: [shipmentId], references: [id])
+
+  @@index([shipmentId])
+  @@map("subproductos")
+}
+
+// ============================================================================
+// PURCHASE ORDERS & INVENTORY
+// ============================================================================
+
+model PurchaseOrder {
+  id              String   @id @default(cuid())
+  orderNumber     String   @unique // OC-2526-01, OC-2526-02
+  supplierId      String
+  date            DateTime
+  status          POStatus @default(PENDIENTE)
+  cosecha         String?  // "25/26", "26/27"
+
+  // Pergamino purchase
+  quintalesPerg   Decimal  @db.Decimal(10, 2)
+  precioPerg      Decimal  @db.Decimal(10, 2) // Price per quintal
+  totalCafe       Decimal  @db.Decimal(14, 2) // quintales × precio
+
+  // Logistics costs
+  fletePorQQ      Decimal  @db.Decimal(10, 2)
+  totalFlete      Decimal  @db.Decimal(14, 2)
+  seguridad       Decimal  @db.Decimal(10, 2)
+  seguro          Decimal  @db.Decimal(10, 2)
+  cadena          Decimal  @db.Decimal(10, 2) @default(0)
+  cargas          Decimal  @db.Decimal(10, 2) @default(0)
+  descargas       Decimal  @db.Decimal(10, 2) @default(0)
+
+  // Computed
+  costoTotalAccum Decimal  @db.Decimal(14, 2) // All-in cost
+  precioPromedio  Decimal  @db.Decimal(10, 4) // Weighted average price
+
+  notes           String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  supplier Supplier @relation(fields: [supplierId], references: [id])
+
+  @@index([supplierId])
+  @@index([date])
+  @@map("purchase_orders")
+}
+
+// ============================================================================
+// SUPPLIER ACCOUNT TRACKING (Estado de Cuenta)
+// ============================================================================
+
+model SupplierAccountEntry {
+  id           String   @id @default(cuid())
+  supplierId   String
+  orderCode    String   // OC4, OC5, OC6, OC8
+  ingresoNum   Int      // Entry/receipt number (568, 569, etc.)
+  date         DateTime
+  pergamino    Decimal  @db.Decimal(10, 2) // Weight in qq
+  precio       Decimal  @db.Decimal(10, 2) // Price per qq
+  total        Decimal  @db.Decimal(14, 2) // pergamino × precio
+  createdAt    DateTime @default(now())
+
+  supplier Supplier @relation(fields: [supplierId], references: [id])
+
+  @@index([supplierId, orderCode])
+  @@index([date])
+  @@map("supplier_account_entries")
+}
+
+// ============================================================================
+// FARM FINANCING (Brisas, San Emiliano)
+// ============================================================================
+
+model Farm {
+  id               String  @id @default(cuid())
+  name             String  @unique // "BRISAS", "SAN EMILIANO"
+  totalQuetzales   Decimal @db.Decimal(14, 2)
+  tipoCambio       Decimal @db.Decimal(10, 4)
+  totalUSD         Decimal @db.Decimal(14, 2) // totalQuetzales / tipoCambio
+  porcentaje       Decimal @db.Decimal(8, 6)  // Weight percentage
+  aumentoPorcentaje Decimal @db.Decimal(8, 4) // 0.20 = 20%
+  nuevoTotal       Decimal @db.Decimal(14, 2) // totalUSD × (1 + aumento)
+  porcentajePrest  Decimal @db.Decimal(6, 4)  // Loan percentage (0.70)
+  totalPrestamo    Decimal @db.Decimal(14, 2) // nuevoTotal × porcentajePrest
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("farms")
+}
+
+// ============================================================================
+// CONTAINER TRACKING (Per-container logistics)
+// ============================================================================
+
+model Container {
+  id            String    @id @default(cuid())
+  shipmentId    String
+  containerNum  String?   // MSKU1234567
+  blNumber      String?   // Bill of Lading
+  sealNumber    String?
+  weightKg      Decimal?  @db.Decimal(10, 2)
+  vessel        String?
+  port          String?
+  eta           DateTime?
+  notes         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  shipment Shipment @relation(fields: [shipmentId], references: [id])
+
+  @@index([shipmentId])
+  @@map("containers")
+}
+
+// ============================================================================
+// CONTRACT PRICE HISTORY (Audit-grade price snapshots)
+// ============================================================================
+
+model ContractPriceSnapshot {
+  id            String          @id @default(cuid())
+  contractId    String
+  precioBolsa   Decimal?        @db.Decimal(10, 2)
+  diferencial   Decimal?        @db.Decimal(10, 2)
+  tipoCambio    Decimal?        @db.Decimal(10, 4)
+  posicionBolsa PosicionBolsa?
+  status        ContractStatus
+  triggeredBy   String?         // userId
+  reason        String?         // "price_update", "status_change", "manual"
+  snapshotAt    DateTime        @default(now())
+
+  contract Contract @relation(fields: [contractId], references: [id])
+
+  @@index([contractId, snapshotAt])
+  @@map("contract_price_snapshots")
+}

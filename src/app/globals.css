@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --border-subtle: #e5e7eb;
+    --border-strong: #d1d5db;
+    --row-hover: #f9fafb;
+    --surface-elevated: #f3f4f6;
+  }
+
+  .dark {
+    --border-subtle: #374151;
+    --border-strong: #4b5563;
+    --row-hover: #1f2937;
+    --surface-elevated: #111827;
+  }
+}
+
+@layer components {
+  .data-table td,
+  .data-table th {
+    padding: 4px 8px;
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .data-table th {
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6b7280;
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 10;
+  }
+
+  .dark .data-table th {
+    background: #111827;
+    color: #9ca3af;
+  }
+
+  .data-table td.numeric {
+    text-align: right;
+    font-family: "JetBrains Mono", "SF Mono", ui-monospace, monospace;
+  }
+
+  .data-table tr:hover td {
+    background: var(--row-hover);
+  }
+
+  .data-table tfoot td {
+    font-weight: 600;
+    background: var(--surface-elevated);
+    border-top: 2px solid var(--border-strong);
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+  }
+
+  .data-table tr {
+    height: 32px;
+  }
+}
