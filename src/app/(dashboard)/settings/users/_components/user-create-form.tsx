@@ -38,7 +38,7 @@ export function UserCreateForm() {
         label="Email"
         name="email"
         type="email"
-        placeholder="juan@hopecoffee.com"
+        placeholder="name@example.com"
       />
       <Input
         label="Contraseña"

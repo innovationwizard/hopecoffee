@@ -42,7 +42,7 @@ export default function LoginPage() {
     <div className="w-full max-w-sm">
       <div className="text-center mb-8">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/logo.png" alt="HOPE COFFEE" width="80" height="80" className="rounded-xl mx-auto mb-4" />
+        <img src="/logo.png" alt="" width="80" height="80" className="w-20 h-20 rounded-xl mx-auto mb-4 object-cover" />
         <h1 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
           HOPE COFFEE
         </h1>
@@ -67,7 +67,7 @@ export default function LoginPage() {
             required
             autoFocus
             className="w-full px-3 py-2 border border-slate-300 dark:border-orion-700 rounded-md bg-white dark:bg-orion-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-orion-400 focus:border-orion-400 outline-none"
-            placeholder="octavio@hopecoffee.com"
+            placeholder="you@example.com"
           />
         </div>
 
