@@ -20,6 +20,15 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "HOPE COFFEE — Grupo Orion",
   description: "Coffee Export Contract & Margin Management System",
+  icons: {
+    icon: "/icon.png",
+    apple: "/apple-icon.png",
+  },
+  openGraph: {
+    title: "HOPE COFFEE — Grupo Orion",
+    description: "Coffee Export Contract & Margin Management System",
+    images: [{ url: "/opengraph-image.png", width: 1200, height: 630 }],
+  },
 };
 
 export default function RootLayout({

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import {
@@ -70,9 +71,7 @@ export function AppShell({
       {/* Brand */}
       <div className="px-4 py-5 border-b border-slate-200 dark:border-orion-800">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-md bg-orion-900 dark:bg-white flex items-center justify-center">
-            <span className="text-white dark:text-orion-900 font-bold text-sm tracking-tight">GO</span>
-          </div>
+          <Image src="/logo.png" alt="HOPE COFFEE" width={32} height={32} className="rounded-md" />
           <div>
             <h1 className="text-sm font-bold text-slate-900 dark:text-white tracking-tight leading-none">
               HOPE COFFEE

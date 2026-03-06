@@ -41,9 +41,7 @@ export default function LoginPage() {
   return (
     <div className="w-full max-w-sm">
       <div className="text-center mb-8">
-        <div className="w-12 h-12 rounded-lg bg-orion-900 dark:bg-white mx-auto mb-4 flex items-center justify-center">
-          <span className="text-white dark:text-orion-900 font-bold text-lg tracking-tight">GO</span>
-        </div>
+        <img src="/logo.png" alt="HOPE COFFEE" width={48} height={48} className="rounded-lg mx-auto mb-4" />
         <h1 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
           HOPE COFFEE
         </h1>
