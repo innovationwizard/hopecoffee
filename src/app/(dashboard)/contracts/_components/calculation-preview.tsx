@@ -86,7 +86,7 @@ export function CalculationPreview({ calc, tipoFacturacion, posicionBolsa, statu
       </CardHeader>
       <CardContent className="space-y-0.5">
         <Row
-          label="Sacos 46kg"
+          label="Quintales"
           value={formatNumber(calc.sacos46kg.toNumber(), 1)}
           source="external"
         />

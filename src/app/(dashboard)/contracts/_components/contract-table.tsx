@@ -61,7 +61,7 @@ const columns = [
     cell: (info) => formatNumber(toNum(info.getValue()), 0),
   }),
   col.accessor("sacos46kg", {
-    header: "Sacos 46kg",
+    header: "Quintales",
     size: 90,
     meta: { numeric: true },
     cell: (info) => formatNumber(toNum(info.getValue()), 1),

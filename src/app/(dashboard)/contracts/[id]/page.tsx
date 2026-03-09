@@ -49,7 +49,7 @@ export default async function ContractDetailPage({
     { label: "Cosecha", value: contract.cosecha ?? "—", source: "external" },
     { label: "Puntaje", value: contract.puntaje, source: "external" },
     { label: "Sacos 69kg", value: formatNumber(toNum(contract.sacos69kg), 0), source: "external" },
-    { label: "Sacos 46kg", value: formatNumber(toNum(contract.sacos46kg), 1) },
+    { label: "Quintales", value: formatNumber(toNum(contract.sacos46kg), 1) },
     { label: "Rendimiento", value: formatNumber(toNum(contract.rendimiento), 4), source: "external" },
     { label: "Bolsa", value: formatUSD(toNum(contract.precioBolsa)), source: "external" },
     { label: "Diferencial", value: formatUSD(toNum(contract.diferencial)), source: "external" },

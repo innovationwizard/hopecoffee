@@ -10,11 +10,14 @@ and documented the full ETL complexity in `docs/etl-complexity-report.md`.
 
 ## Infrastructure
 
-### Supabase IPv4 Connectivity Fix
-- **Problem**: `db.oghjrudsurmkhzmoryfy.supabase.co` (Direct connection) does not
+### Supabase Connectivity Fix
+- **Problem 1**: `db.oghjrudsurmkhzmoryfy.supabase.co` (Direct connection) does not
   resolve over IPv4, which Vercel serverless functions require.
-- **Fix**: Switched `DATABASE_URL` to the Session pooler endpoint:
-  `aws-1-us-east-2.pooler.supabase.com:5432` with username `postgres.oghjrudsurmkhzmoryfy`.
+- **Problem 2**: Session pooler (port 5432) hit `MaxClientsInSessionMode` under
+  concurrent serverless function invocations.
+- **Fix**: Switched `DATABASE_URL` to the Transaction pooler (port 6543) with
+  `pgbouncer=true&connection_limit=1`. Transaction pooler is designed for serverless
+  and supports many more concurrent clients via PgBouncer.
 - Updated `.env` and Vercel environment variables.
 
 ### Database Reset & Re-Import
@@ -65,12 +68,40 @@ and documented the full ETL complexity in `docs/etl-complexity-report.md`.
 
 ---
 
+## Post-Import: Contract Recalculation
+
+The import script was creating contracts with raw pricing data (`precioBolsa`,
+`diferencial`) but not computing downstream financial fields (`facturacionLbs`,
+`facturacionKgs`, `gastosExport`, `totalPagoQTZ`, etc.) and not aggregating
+shipment-level totals. This caused the dashboard to show all zeros.
+
+- Added a recalculation pass at the end of `scripts/import-excel.ts` that computes
+  all contract fields (using Decimal.js) and aggregates shipment totals.
+- Created `scripts/recalc.ts` as a standalone tool to re-run calculations without
+  re-importing data.
+
+## Prisma Client Generation for Vercel
+
+- Added `postinstall: "prisma generate"` to `package.json` — ensures the Prisma
+  Client is generated on Vercel after `npm install`.
+- Updated `build` script to `prisma generate && next build` as belt-and-suspenders.
+
+## Login Error Logging
+
+- Added `console.error` to the login route catch block so actual errors appear in
+  Vercel function logs instead of being silently swallowed.
+
+---
+
 ## File Changes
 
 | File | Action | Description |
 |---|---|---|
-| `.env` | Modified | DATABASE_URL switched to Session pooler |
-| `scripts/import-excel.ts` | Modified | All 6 ETL fixes applied |
+| `.env` | Modified | DATABASE_URL switched to Transaction pooler (port 6543) |
+| `package.json` | Modified | Added postinstall hook, updated build script |
+| `scripts/import-excel.ts` | Modified | All 6 ETL fixes + recalculation pass |
+| `scripts/recalc.ts` | Created | Standalone recalculation script |
+| `src/app/api/auth/login/route.ts` | Modified | Added error logging |
 | `src/lib/services/excel-import.ts` | Deleted | Replaced by scripts/import-excel.ts |
 | `docs/etl-complexity-report.md` | Created | Exhaustive documentation of all discrepancies |
 | `go-live-checklist.md` | Modified | Updated with verified record counts |
