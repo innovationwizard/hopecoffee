@@ -11,6 +11,7 @@ import {
   Package,
   Users,
   TreePine,
+  BarChart3,
   Settings,
   Upload,
   LogOut,
@@ -30,6 +31,7 @@ const NAV_ITEMS = [
   { href: "/inventory", label: "Inventario", icon: Package },
   { href: "/suppliers", label: "Proveedores", icon: Users },
   { href: "/farms", label: "Fincas", icon: TreePine },
+  { href: "/reports", label: "Reportes", icon: BarChart3 },
 ];
 
 const SETTINGS_ITEMS = [

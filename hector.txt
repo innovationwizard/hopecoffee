@@ -1,0 +1,504 @@
+Yo valido la calidad para que te lo paguen.
+Entonces, ahí hay una intersección de temas.
+Entonces, yo lo que te quería platicar es
+¿Qué hacemos para que lo vayas como
+armando? Digamos, es un contrato de compra.
+Ahí ponen a quién le compran,
+qué cantidad, qué calidad y qué parámetros
+de rendimiento. Cuando el cajón ingresa al bodeg,
+si se compromete, yo la valido. Que sea la calidad que dice el contrato,
+que tenga el rendimiento que dice el contrato y que tenga la calidad.
+Porque según esas variables,
+no es la que dice el contrato que afecta el precio.
+Ese es un tema que no se está haciendo.
+Si se compra con 1.32, si no me da 1.33 en el laboratorio,
+el precio debe ser ajustado. La idea es que cuando yo ingrese mi catación
+con el número de recibo, cuando aquel genere su pago,
+¡plum!, ya era el ajuste. El ajuste y el rendimiento lo tenemos en 3.3.
+¿Verdad? Esa es una.
+Otra, es los contratos de venta. Digamos, yo vendo el cajón exterior.
+Vendo una calidad, desde una calidad,
+por un mes de embarque. Yo tengo mi reporte de ventas por mes
+porque ya cortó. Creo que eso también lo debería generar el sistema.
+¿Por qué? Porque yo todo el café que entra en las bodegas
+en beneficios, lo asigno a mis ventas. De acuerdo a la calidad.
+Y armo mis órdenes de trigo.
+Todos los recibos que se validaron y que se pagaron, que están en bodega,
+yo necesito un inventario en calidad de hoy. Yo no llevo afecito porque nadie lo tiene.
+Tengo este inventario en esta bodega, este proveedor en esta calidad.
+Entonces, esto lo voy a usar para este, este para este, este para este.
+Llevo mis órdenes de trigo y las manda también.
+Entonces, super resumen y eso. Pero el problema es que yo en ese inventario
+todo se cruza sin importar, porque todo es plata.
+Entonces, yo no quisiera que trabajara esto y al final
+quedara justo afuera, porque creo que esa es una operación importante para
+validar inventarios, los precios de las compras,
+para si vamos a ingresar una catación al sistema,
+que llegue el número vecino, quién es el proveedor,
+qué bodega se entregó, qué calidad es, qué rendimiento.
+Entonces, yo tengo que ir a algún lugar donde cuando aquel vea o quiera hacer un pago, le diga, pum, esto es de una catación, vamos.
+¿Vos ya viste la que hiciste aquí?
+No, yo hasta hoy vi una que hiciste a Daniel.
+Ah, no, la de Daniel. Esta es la de Daniel. Sí, esa fue la que vimos hoy.
+Pero...
+Esa es una de Hope Coffees.
+¿Qué es eso?
+Esto es de Hope Coffees.
+¿Esto es la preparatoria, no vos?
+¿Ese es de este mes?
+¿No me has pagado?
+No, este mes es el mes que hemos anticipado, ocho meses.
+Pero eso agarró un par de minutos, ¿cierto?
+Sí, claro.
+Ya lo alcanzaste en ocho meses.
+¿Te aviso?
+Ahí solo faltan las conferencias de contabilidad y todo,
+y ya te lo paso yo para que tú lo cerres, ¿no?
+Buenísimo.
+¿Se va a abrir?
+Sí, sí, sí.
+Es el calor de Hope Coffees.
+¡Ja, ja, ja!
+¡Muy bien!
+El mío rubio.
+El mío rubio.
+COLOCACIÓN
+COLOCACIÓN
+COLOCACIÓN
+COLOCACIÓN
+COLOCACIÓN
+COLOCACIÓN
+COLOCACIÓN
+COLOCACIÓN
+COLOCACIÓN
+COLOCACIÓN
+COLOCACIÓN
+COLOCACIÓN
+COLLA DÁ Blick
+COLLA DÁ looking
+COLLA DÁ Blick
+COLLA DÁ Blick
+COLLA DÁ Blick
+Vamos a esperar un cachito más.
+Un nuevo contrato.
+Un nuevo contrato.
+Que yo sepa.
+Subir los que tengo.
+Que yo tenía Octavio en su Excel.
+Ah, ok.
+De ahí no creo que nadie haya ingresado nada.
+Ah, va, sí.
+Eso es parte de lo que nosotros se nos dieron el contrato de pedir.
+Digamos, a mí me mandó el contrato el cliente.
+Sí, sí.
+Entonces, lo primero que yo te quería pedir es, esta era la referencia de él.
+Sí.
+Es que el sistema me genera un correlativo nuestro.
+Ok.
+Sí, porque si no yo tengo diferentes correlativos.
+Sí.
+Si vos lo ves en el reporte, todo eso no tiene W, no sé qué.
+Ajá.
+No tiene P, no sé qué.
+No creo que P o S, no sé qué.
+Sí, sí, pues.
+Es casi.
+Esa es la referencia de ellos.
+Entonces, que el sistema le vaya asignando un correlativo nuestro.
+¿Verdad?
+Independientemente de que el cliente sea.
+Esa sería una de las cosas para que nos facilite a nosotros llevar nuestro contrato.
+¿Verdad?
+Yo recibo el de ellos, lo reviso, lo firmo, y ya les genero un nuestro.
+Con la misma información, y el sistema cumple con un correlativo nuestro.
+Entonces, además del número del contrato, necesitamos un correlativo propio.
+Referencia a cliente.
+Sí.
+Sí.
+Sí.
+Sí.
+Sí.
+Sí.
+Y el número del contrato.
+¿Verdad?
+OK.
+¿Sí?
+Sí, eso está perfecto.
+Entonces, ahí lo reviso.
+¿Embarques?
+Embarques, eso, ¿cómo está?
+Encerrela.
+¿Hay un cuadrito qué es?
+¿Un cuadrito es un embarque?
+OK.
+Un cuadrito es un embarque.
+Bloqueo uno, bloqueo dos.
+Bloqueo tres.
+Así lo tenía aquel.
+Eso sí lo sabría.
+pero por el equipo
+es que el excel de él
+le mete mano
+le mete cosas
+está hecho a su
+interior
+pero de ambos nosotros
+yo necesitaría más
+dame tu poder
+yo tengo uno
+vos puedes entrar a la nube
+estamos buscando
+alguien
+no creo
+que
+no creo
+que
+no tengo acceso
+a la nube
+solo para facturar
+vos ves calidad
+yo veo calidad
+precios
+yo fijo
+yo vendo el precio
+y todo
+pero
+digamos
+esto
+de cuentos
+en margen
+y todo
+lo veo en un comentario
+cuando nos reunimos
+y me dicen
+mira en margen
+aquí, aquí, allá
+pero no es la información
+que mi trabajo
+requiera
+entonces yo
+ahorita voy a hacer
+el reporte
+ahí está toda la información
+que nosotros vemos
+que yo veo
+miremos
+miremos
+miremos
+pero les dije
+se boncó
+ahíbn
+yo se hired a
+aquí
+porque
+yo
+creo
+no
+les digo
+cómo
+nos
+llegan
+como
+vamos
+aquí
+tenemos
+un
+sitio
+y
+me dice
+enанию
+y
+El contrato, yo cuando tengo dos calidades en un mismo contenedor, tengo el mismo colectivo, porque esto es un contenedor, son dos calidades en un mismo contenedor, todos los demás son dos intensivos, entonces cada uno de estos es un contrato, este es el mismo contrato, entonces yo tengo el número de contrato del cliente, qué número de partida le asigno, qué cliente es, quién es el embarque, qué tipo, qué calidad, qué certificación lleva, qué score,
+la cantidad de sacos, quintales, foros, el precio al que lo fío, qué diferencial, el precio final, porque el precio final es este más este, pero tenemos un caso que puede ser negativo, entonces a este yo le pongo un precio y el precio le restó el diferencial, es por la calidad, son los números de 300 defectos,
+un café de explotación lleva 8, es un café de inferior calidad, digamos, usted se vende a este diferencial negativo.
+Después, esto ya es información que lleva Evelin, si están marcados los sacos, si tiene instrucciones de embarque, si hay que destino vaca, si tiene un tiempo estimado de cuando se va, ya lo han pagado, pero esto no lo podría generar del contrato, porque esta información no viene del contrato, digamos, entonces esto hasta ahorita llevamos ahí 45 contenedores vendidos,
+entonces esto hasta ahorita llevamos ahí 45 contenedores vendidos,
+entonces esto hasta ahorita llevamos ahí 45 contenedores vendidos,
+Quiero saber cómo pega.
+Eso con lo de Octavio.
+Ajá, miremos el que tiene en gama y le ponemos este. De 4 mayores 26.
+P Näe 2.
+Sí, este es el cálculo de los para el margen porque se debe comprender eso por más.
+como pegó esto con esto así por los cuadritos porque tus dos cuentas son de otra variedad
+mis cuentas tus cuentas son de dinero y las cuentas de que él son de contenedores
+como sé cuáles de estos de estas tarjetas van adentro
+130
+coincidan porque en algunos tenemos los mismos números porque porque a veces en alguna era
+pues
+le
+exactamente
+el número para que nos mandan ellos es uno y el corral
+porque nosotros lo podemos hacer por años como
+trabajamos nosotros con el contrato
+yo no los tengo así bueno al final cuál es primero este o este cuál iría primero
+de hecho no lo podríamos
+ni publicar
+ni manipular digamos
+yo lo que puedo hacer es mañana revisar que los dos contratos sean exactamente los números exactos que tiene aquel
+eso sí porque vamos ya la relación de aquel haga marcha con la nuestra
+eso es lo que necesito exactamente
+pues eso lo va a hacer aquel porque él sí ha manipulado sus contratos
+este contrato no me acuerdo
+no pues ese no está acá
+vende
+si ese no está
+ser 1 millón 30 no hay ninguno que diga ser
+pero
+pero
+pero
+pero
+pero
+pero
+pero
+pero
+pero
+blame
+pero
+que
+es porque cuando lo escribió se estaba pendiente ser creo que es de serengeti
+no 30 me parece una fecha
+nos vemos
+contratos
+lo que
+es
+las muchachas
+יפ
+pero es correcto son dos calidades este es uno y el mismo contrato
+este es el 75
+todos estos están que como los filtramos no sé cómo este post de quienes lo ponen
+y está 37 54 y 2
+está el otro
+estos pegan porque aquel no le metió mano al contrato entonces digamos en los contratos
+los deberíamos ingresar nosotros al sistema cuando ya tenemos el contrato el cliente y el
+sistema yo creo que nosotros eso no te preocupes porque entonces ya es el contrato uno dos tres
+cuatro cinco manejo dos correlativos uno que vos puedes ver y otro que no puedes ver y
+ninguno de todos los puedes cambiar yo creo que es la pena que para la hora de generar
+contratos imprimirlo llevar a nuestro contra nuestro número nuestro lo que soy es forma
+pero veamos que si nos genera el número de contrato porque damos todo lo que ingresó acá
+quiero saber cuál es la forma más fácil para hacer eso pues cuando se encuentra todo lo que ya saben
+con estas
+con estos campos
+estado
+no, no, contratos
+sí, sí
+básicamente
+yo creo que esto
+te podría servir de
+porque sería la referencia del cliente
+de hecho yo aquí le tendría que agregar
+otra columna
+sí, que si es
+broker importador
+porque son dos cosas diferentes
+este contrato por ejemplo
+el cliente final fue Atlas
+pero el broker fue Westrade
+aquí
+Serengeti es un importador pero ellos compran
+el café, Onyx aquí fue
+el broker pero fue para List & Weisler
+que es un tostador
+el cliente final es el que nos paga
+pero puede haber un
+intermediario, en el caso de Westrade ellos nunca
+nos pagan, ellos solo
+hacen de broker
+entonces para poder separarlo
+tener una que sea el broker y el
+cliente
+podría ser el mismo
+broker, importador, cliente
+entonces si yo solo tengo por ejemplo en el caso de Serengeti
+siempre voy a hacer Serengeti, Serengeti
+en Westrade si voy a tener a Westrade
+con un broker pero un montón de clientes
+digamos tengo Atlas
+tengo Kardex, tengo Zaronu
+tengo varios
+igual Onyx
+Onyx puede ser, aquí viene List & Weisler
+otra vez Onyx
+Westrade tiene Falcon y así
+entonces sí, separado
+tener un campo para
+broker, importador, quiero que para que
+entonces
+este es un
+se me asuma
+una plantilla amigable
+pero
+es que aquí está la información
+porque es análisis financiero
+aquí hay información de compra
+eso yo no lo tengo aquí
+porque yo vendo ahorro exportable
+entonces yo voy a tener
+solo 500 de oro
+aquí lo que está haciendo es casi que
+asignar compras
+a las empresas
+que que para mí eso es después que tampoco es necesariamente que vaya a cuadrar yo voy
+en la realidad puede ser que un café que le asignó a otro contrato para otra importación
+pero al final va a ser lo mismo porque tu promedio final
+esto no hace que para tomar excepciones de compra porque si vos ves que él asigna un precio y un margen
+yo no quiero ingresar un contrato para tener un plan de embarques
+para el uso que se quiera dar a otra que cualquiera pueda tener acceso a los
+contratos y ver el tema de venta después lo que te decía y de las compras digamos
+esto lo vemos siempre que nos vemos con Octavio o con José, no sabes quien compra
+entonces
+cuando yo valido la calidad en el laboratorio, debemos ver principalmente que esto pegue
+porque esto afecta el precio yo no sé si ustedes han hecho el ejercicio aquí si le mueves esto a 1.33
+entonces para eso es la catación para que cualquiera venga a poder dejarle una O.C. y diga yo esto lo voy a comprar a 1.32 para que pase a 1.33
+¿qué sería eso?
+el sistema general a su pago le tiene que hacer un ajuste
+entonces como enlazar las cataciones de ingreso contra los contratos de compra versus la solicitud de pago
+eso, de ahí las órdenes de tría en el que el sistema por ley, todos los ingresos de café deben ingresar a la solicitud de pago
+¿quién es el probador? ¿en qué beneficio está? y cuando ingresa la catación debe amarrar la catación a la solicitud de pago
+si, por ejemplo si es un reporte inventario lo puedo hacer por beneficio, por proveedor, por calidad
+entonces vos decís quiero ver cuánto café voy a meter en la joya
+si, está pobre ahorita no
+entonces digamos que vos puedas filtrar y decir yo quiero el inventario del beneficio de la joya
+te saca todo, que fecha ingresó, que peso, que calidad dio
+eso es lo que necesito
+eso es lo que necesito, después si quiero ver algo en lo cual todo va a ir bien
+todo bien, todo bien
+la joya, pero bueno, me sale solo la joya
+para eso sirven los ingresos y las cataciones
+entonces ya tienes el rendimiento real del ingreso
+y después obtivo las órdenes de tría que es para rebajar los inventarios
+yo agarro y empiezo a operar mi, lo empiezo a procesar, me rebaja mi inventario
+me genera un inventario en proceso
+y cuando me limpie mi limpiación de tría
+me va a dar una cuestión sobre qué van a ingresar esa información de la tría
+al sistema nuevamente
+para acá el café de proceso lo quita y te genera un inventario café oro
+donde el inventario café oro hace tener todo exportable y todo su producto
+lo que es exportable es el inventario café oro
+entonces con la carta de porte debajo es el inventario café oro y aquí va a ser
+ahí termina toda la vuelta
+empiezo acá
+entra café bodega, se cata, se procesa, se exporta
+pero durante todo ese proceso nosotros necesitamos todo eso que te digo
+ver cataciones por recibo en inventarios
+ver qué café se te dio en cada tría
+ver en esa partida aquí ver qué recibo sucede
+ver si dieron los rendimientos de lo que se recibió versus lo que se había comprado
+eso
+entonces
+eso te quería contar
+lo que hacemos para que veas que si lo debemos intercalar entre todo lo de
+porque son herramientas que nos van a servir a todo
+digamos
+por ejemplo hoy
+tuve un trigo
+cuánto café yo vendí
+en total
+cuánto café hemos comprado en total
+cuánto nos falta comprar
+cuánto café
+Roberto yo no lo tengo todavía
+pero Roberto ha tenido un trigo
+entonces hicimos también
+vendido por calidad
+cuánto habéis comprado por calidad
+cuánto café he comprado en cada tría
+o sea que eso lo deberíamos ver en el sistema
+pues que ya compraste el software es muy fácil
+verdad
+lo filtras por vendido de web o comprado de web
+lo difícil es meter la información en el sistema
+una vez que está en el sistema
+ya vamos a ver
+lo que es
+lo que es
+claro
+entonces bueno
+si ves cada quien es usuario tenemos nuestros sábanos en el cartel
+en el escándalo
+entonces
+entonces
+de todo modo lo ingresamos
+entonces ingresar a un sistema para ver
+es difícil pero es la parte difícil que yo quisiera hacer
+porque la carga es una sola vez
+y de repente queda funcionando
+totalmente
+Roberto
+la agua es de como de otro lado
+no de este lado
+Roberto
+si
+está como de otro lado
+le podrías compartir aquí unos cuadritos
+que si no son de las tontas
+pero son 30
+si si
+los comienzos pues
+Miren eso sería
+y cualquier uno de ustedes
+igual yo estoy ahí estoy guapo
+te cuento mi acuerdo del colegio era escapar
+¿Nombre?
+Ala Hernándaty
+y fíjate que el origen te va a contar
+muy bien chévere
+tu mor vino aquí desde Andorra
+tu muestras con keeps
+Merciлед pas de volver
+es cuando yo en el colegio me hablaba por teléfono de Julio
+para pedir permiso para quedarme
+yo decía Condorita por favor
+y hubo un saludo y dije
+la mamá de aquella es la Condorita
+me clavaron con nada
+entonces
+interesante
+verdad que creativos
+si
+y de hecho
+mi correo personal
+hacen
+a la madre
+verdad
+si yo tengo uno
+pero no es
+el mio te lo voy a enseñar
+este
+es este
+el mero condor
+de hecho a mi me dicen condorito
+pero conforme vamos creciendo
+se quita el rito
+el rito a la madre no es condor
+si
+si
+porque la origen fue con la dorita
+ahora ya soy el condor
+pero bueno
+ahi estamos
+por lo menos ya tenemos una luz de lo que hacemos
+de lo que necesitamos
+si necesitas algo mas a detalle
+o que vamos a un
+documento o algo
+bueno regalame tu correo
+como se llama?
+hector.gozales
+gracias
+el del corporativo
+eeeemmm
+pues
+eso Now
+las para
+más
+como
+tras las
+los
+l
+el
+por lo que
+R
+esta
+ahora
+Woo
+Gracias.
