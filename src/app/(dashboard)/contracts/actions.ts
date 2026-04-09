@@ -53,10 +53,7 @@ export async function getContracts(filters?: {
   if (filters?.month) {
     const [y, m] = filters.month.split("-").map(Number);
     if (y && m) {
-      where.createdAt = {
-        gte: new Date(y, m - 1, 1),
-        lt: new Date(y, m, 1),
-      };
+      where.shipment = { year: y, month: m };
     }
   }
 
