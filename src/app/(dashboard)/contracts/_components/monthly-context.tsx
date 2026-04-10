@@ -27,26 +27,15 @@ function formatMonthLabel(month: string): string {
 
 interface MonthlyContextProps {
   stats: MonthlyContextStats;
-  currentMargin?: number;
-  currentRevenue?: number;
 }
 
-export function MonthlyContext({
-  stats,
-  currentMargin,
-  currentRevenue,
-}: MonthlyContextProps) {
+export function MonthlyContext({ stats }: MonthlyContextProps) {
   const marginColor =
     stats.avgMargin >= 0.12
       ? "text-emerald-600 dark:text-emerald-400"
       : stats.avgMargin >= 0.08
       ? "text-amber-600 dark:text-amber-400"
       : "text-red-600 dark:text-red-400";
-
-  const currentMarginDelta =
-    currentMargin != null && !isNaN(currentMargin) && stats.avgMargin > 0
-      ? currentMargin - stats.avgMargin
-      : null;
 
   return (
     <Card>
@@ -88,23 +77,6 @@ export function MonthlyContext({
             </p>
           </div>
         </div>
-
-        {/* Delta indicator */}
-        {currentMarginDelta != null && (
-          <div
-            className={`p-2 rounded text-xs text-center ${
-              currentMarginDelta >= 0
-                ? "bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400"
-                : "bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400"
-            }`}
-          >
-            Este contrato {currentMarginDelta >= 0 ? "supera" : "está debajo de"}{" "}
-            el margen del mes por{" "}
-            <span className="font-mono font-semibold">
-              {formatPercent(Math.abs(currentMarginDelta))}
-            </span>
-          </div>
-        )}
 
         {/* Peer contracts */}
         {stats.contracts.length > 0 && (

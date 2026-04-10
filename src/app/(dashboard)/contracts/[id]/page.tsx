@@ -237,11 +237,7 @@ export default async function ContractDetailPage({
           />
 
           {/* 2 — Contexto del Mes */}
-          <MonthlyContext
-            stats={monthlyContext}
-            currentMargin={contractMargin}
-            currentRevenue={toNum(contract.totalPagoQTZ)}
-          />
+          <MonthlyContext stats={monthlyContext} />
 
           {/* 3 — Progreso */}
           <Card>

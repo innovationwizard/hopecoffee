@@ -719,15 +719,7 @@ export function ContractForm({
               rendimiento={watchedValues.rendimiento ?? 1.32}
             />
             {monthlyContext && (
-              <MonthlyContext
-                stats={monthlyContext}
-                currentMargin={
-                  calc && !calc.facturacionKgs.isZero() && !calc.facturacionKgs.isNaN()
-                    ? calc.utilidadSinCostoFinanciero.div(calc.facturacionKgs).toNumber() || 0
-                    : undefined
-                }
-                currentRevenue={calc ? (calc.totalPagoQTZ.toNumber() || 0) : undefined}
-              />
+              <MonthlyContext stats={monthlyContext} />
             )}
           </div>
         </div>
