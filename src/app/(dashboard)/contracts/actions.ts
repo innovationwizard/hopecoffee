@@ -90,7 +90,14 @@ export async function getContract(id: string) {
           id: true, name: true, month: true, year: true,
           margenBruto: true,
           totalFacturacionKgs: true,
+          totalSacos69: true,
+          totalMateriaPrima: true,
+          totalSubproducto: true,
           _count: { select: { containers: true } },
+          // Pergamino totals from MP entries
+          materiaPrima: { select: { pergamino: true } },
+          // Subproducto oro totals
+          subproductos: { select: { totalOro: true } },
         },
       },
       materiaPrimaAllocations: {

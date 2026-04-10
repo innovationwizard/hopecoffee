@@ -7,7 +7,6 @@ import { StatusBadge } from "@/components/ui/status-badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   formatUSD,
-  formatGTQ,
   formatNumber,
   formatDate,
   formatRegion,
@@ -214,33 +213,48 @@ export default async function ContractDetailPage({
         {/* Right panel: 1) This Contract  2) Monthly Context  3) Progress  4) Actions */}
         <div className="space-y-4">
           {/* 1 — Este Contrato */}
-          <ContractSummaryCard
-            totalPagoQTZ={toNum(contract.totalPagoQTZ)}
-            precioBolsaDif={toNum(contract.precioBolsaDif)}
-            facturacionKgs={toNum(contract.facturacionKgs)}
-            gastosExport={toNum(contract.gastosExport)}
-            costoFinanciero={toNum(contract.costoFinanciero)}
-            totalQQPergamino={contract.materiaPrimaAllocations.reduce(
-              (sum, a) => sum + toNum(a.materiaPrima.pergamino), 0
-            )}
-            totalCompraPergamino={contract.materiaPrimaAllocations.reduce(
-              (sum, a) => sum + toNum(a.materiaPrima.totalMP), 0
-            )}
-            totalQQSubproducto={toNum(contract.subproductos)}
-            totalVentSubproducto={
-              toNum(contract.subproductos) * toNum(contract.precioSubproducto)
-            }
-            margenBrutoContrato={contractMargin}
-            margenBrutoPonderado={
-              contract.shipment ? toNum(contract.shipment.margenBruto) : null
-            }
-            facturacionAcumulada={
-              contract.shipment ? toNum(contract.shipment.totalFacturacionKgs) : null
-            }
-            contenedoresVendidos={
-              contract.shipment ? contract.shipment._count.containers : null
-            }
-          />
+          {(() => {
+            const s = contract.shipment;
+            const shipmentSacos = s ? toNum(s.totalSacos69) : 0;
+            const contractSacos = toNum(contract.sacos69kg);
+            const sacosShare = shipmentSacos > 0 ? contractSacos / shipmentSacos : 0;
+
+            // Pergamino: from allocations if available, else from shipment MP entries prorated
+            const hasMPAlloc = contract.materiaPrimaAllocations.length > 0;
+            const qqPergamino = hasMPAlloc
+              ? contract.materiaPrimaAllocations.reduce((sum, a) => sum + toNum(a.materiaPrima.pergamino), 0)
+              : s ? s.materiaPrima.reduce((sum, mp) => sum + toNum(mp.pergamino), 0) * sacosShare : 0;
+            const compraPergamino = hasMPAlloc
+              ? contract.materiaPrimaAllocations.reduce((sum, a) => sum + toNum(a.materiaPrima.totalMP), 0)
+              : s ? toNum(s.totalMateriaPrima) * sacosShare : 0;
+
+            // Subproducto: from contract fields if available, else from shipment prorated
+            const hasSubContract = toNum(contract.subproductos) > 0;
+            const qqSubproducto = hasSubContract
+              ? toNum(contract.subproductos)
+              : s ? s.subproductos.reduce((sum, sub) => sum + toNum(sub.totalOro), 0) * sacosShare : 0;
+            const ventSubproducto = hasSubContract
+              ? toNum(contract.subproductos) * toNum(contract.precioSubproducto)
+              : s ? toNum(s.totalSubproducto) * sacosShare : 0;
+
+            return (
+              <ContractSummaryCard
+                totalPagoQTZ={toNum(contract.totalPagoQTZ)}
+                precioBolsaDif={toNum(contract.precioBolsaDif)}
+                facturacionKgs={toNum(contract.facturacionKgs)}
+                gastosExport={toNum(contract.gastosExport)}
+                costoFinanciero={toNum(contract.costoFinanciero)}
+                totalQQPergamino={qqPergamino}
+                totalCompraPergamino={compraPergamino}
+                totalQQSubproducto={qqSubproducto}
+                totalVentSubproducto={ventSubproducto}
+                margenBrutoContrato={contractMargin}
+                margenBrutoPonderado={s ? toNum(s.margenBruto) : null}
+                facturacionAcumulada={s ? toNum(s.totalFacturacionKgs) : null}
+                contenedoresVendidos={s ? s._count.containers : null}
+              />
+            );
+          })()}
 
           {/* 2 — Contexto del Mes */}
           <MonthlyContext stats={monthlyContext} />
