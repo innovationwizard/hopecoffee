@@ -17,6 +17,7 @@ import { ContractStatusChanger } from "../_components/contract-status-changer";
 import { ContractProgress } from "../_components/contract-progress";
 import { ContractSummaryCard } from "../_components/contract-summary-card";
 import { MonthlyContext } from "../_components/monthly-context";
+import { CustomContext } from "../_components/custom-context";
 import { PriceHistory } from "../_components/price-history";
 import { LotAllocationsSection } from "../_components/lot-allocations-section";
 import { getContractLotAllocations, getAvailableOroLots } from "../lot-actions";
@@ -244,7 +245,10 @@ export default async function ContractDetailPage({
           {/* 2 — Contexto del Mes */}
           <MonthlyContext stats={monthlyContext} />
 
-          {/* 3 — Progreso */}
+          {/* 3 — Contexto Personalizado */}
+          <CustomContext stats={monthlyContext} />
+
+          {/* 4 — Progreso */}
           <Card>
             <CardHeader>
               <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">
@@ -263,7 +267,7 @@ export default async function ContractDetailPage({
             </CardContent>
           </Card>
 
-          {/* 4 — Acciones */}
+          {/* 5 — Acciones */}
           <Card>
             <CardHeader>
               <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">

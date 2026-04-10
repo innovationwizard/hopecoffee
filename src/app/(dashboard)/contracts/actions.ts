@@ -411,6 +411,8 @@ export interface MonthlyContextStats {
     clientName: string;
     sacos69kg: number;
     totalPagoQTZ: number;
+    facturacionKgs: number;
+    utilidadSinCF: number;
     margin: number;
     status: string;
   }[];
@@ -486,6 +488,8 @@ export async function getMonthlyContext(
         clientName: c.client.name,
         sacos69kg: toNum(c.sacos69kg),
         totalPagoQTZ: toNum(c.totalPagoQTZ),
+        facturacionKgs: factKgs,
+        utilidadSinCF: utilidad,
         margin: factKgs > 0 ? utilidad / factKgs : 0,
         status: c.status,
       };
