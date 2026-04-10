@@ -52,13 +52,21 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 export function CalculationPreview({
   calc,
   tipoFacturacion,
-  gastosPerSaco = 0,
-  costoFinanciero = 0,
-  precioPromedioInv = 0,
-  subproductosQty = 0,
-  precioSubproducto = 0,
-  rendimiento = 1.32,
+  gastosPerSaco: _gastosPerSaco = 0,
+  costoFinanciero: _costoFinanciero = 0,
+  precioPromedioInv: _precioPromedioInv = 0,
+  subproductosQty: _subproductosQty = 0,
+  precioSubproducto: _precioSubproducto = 0,
+  rendimiento: _rendimiento = 1.32,
 }: CalcPreviewProps) {
+  // Sanitize NaN from empty number inputs
+  const n = (v: number) => (isNaN(v) || v == null ? 0 : v);
+  const gastosPerSaco = n(_gastosPerSaco);
+  const costoFinanciero = n(_costoFinanciero);
+  const precioPromedioInv = n(_precioPromedioInv);
+  const subproductosQty = n(_subproductosQty);
+  const precioSubproducto = n(_precioSubproducto);
+  const rendimiento = n(_rendimiento) || 1.32;
   if (!calc) {
     return (
       <Card>
@@ -76,13 +84,13 @@ export function CalculationPreview({
     );
   }
 
-  const sacos46 = calc.sacos46kg.toNumber();
-  const precioBolsaDif = calc.precioBolsaDif.toNumber();
-  const facturacionTotal = tipoFacturacion === "LIBRAS_ESPANOLAS"
+  const sacos46 = n(calc.sacos46kg.toNumber());
+  const precioBolsaDif = n(calc.precioBolsaDif.toNumber());
+  const facturacionTotal = n(tipoFacturacion === "LIBRAS_ESPANOLAS"
     ? calc.facturacionKgs.toNumber()
-    : calc.facturacionLbs.toNumber();
-  const totalGastosExport = calc.gastosExportacion.toNumber();
-  const totalGastosFinancieros = costoFinanciero;
+    : calc.facturacionLbs.toNumber());
+  const totalGastosExport = n(calc.gastosExportacion.toNumber());
+  const totalGastosFinancieros = n(costoFinanciero);
 
   // Inventory: quintales pergamino = sacos46 * rendimiento
   const quintalesPergamino = sacos46 * rendimiento;
@@ -98,7 +106,7 @@ export function CalculationPreview({
   const margenBruto = ingresoVenta > 0 ? utilidadBruta / ingresoVenta : 0;
 
   // Total pago QTZ
-  const totalPagoQTZ = calc.totalPagoQTZ.toNumber();
+  const totalPagoQTZ = n(calc.totalPagoQTZ.toNumber());
 
   return (
     <Card>
