@@ -44,7 +44,7 @@ export function MonthlyContext({
       : "text-red-600 dark:text-red-400";
 
   const currentMarginDelta =
-    currentMargin != null && stats.avgMargin > 0
+    currentMargin != null && !isNaN(currentMargin) && stats.avgMargin > 0
       ? currentMargin - stats.avgMargin
       : null;
 
