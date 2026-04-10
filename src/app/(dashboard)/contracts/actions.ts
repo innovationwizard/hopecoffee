@@ -405,6 +405,12 @@ export interface MonthlyContextStats {
   totalSacos69kg: number;
   totalRevenue: number;
   avgMargin: number;
+  // Shipment-level P&L totals (for prorating in custom context)
+  totalFacturacionQTZ: number;
+  totalMateriaPrima: number;
+  totalISR: number;
+  totalComision: number;
+  totalSubproducto: number;
   contracts: {
     id: string;
     contractNumber: string;
@@ -466,6 +472,10 @@ export async function getMonthlyContext(
   const totalSacos69kg = toNum(contractAgg._sum.sacos69kg);
   const totalRevenue = toNum(contractAgg._sum.totalPagoQTZ);
   const totalFacturacionQTZ = toNum(costAgg._sum.totalFacturacionQTZ);
+  const totalMateriaPrima = toNum(costAgg._sum.totalMateriaPrima);
+  const totalISR = toNum(costAgg._sum.totalISR);
+  const totalComision = toNum(costAgg._sum.totalComision);
+  const totalSubproducto = toNum(costAgg._sum.totalSubproducto);
   const utilidadBruta = toNum(costAgg._sum.utilidadBruta);
 
   // Margin = utilidadBruta / gross billing (facturacionKgs × tipoCambio), matching Excel SSOT
@@ -479,6 +489,11 @@ export async function getMonthlyContext(
     totalSacos69kg,
     totalRevenue,
     avgMargin,
+    totalFacturacionQTZ,
+    totalMateriaPrima,
+    totalISR,
+    totalComision,
+    totalSubproducto,
     contracts: peers.map((c) => {
       const factKgs = toNum(c.facturacionKgs);
       const utilidad = toNum(c.utilidadSinCF);

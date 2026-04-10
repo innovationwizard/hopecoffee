@@ -47,18 +47,21 @@ export function CustomContext({ stats }: CustomContextProps) {
     const selected = stats.contracts.filter((c) => checked[c.id]);
     const count = selected.length;
     const totalRevenue = selected.reduce((s, c) => s + c.totalPagoQTZ, 0);
-    const totalFactKgs = selected.reduce(
-      (s, c) => s + (c.facturacionKgs ?? 0),
-      0
-    );
-    const totalUtilidad = selected.reduce(
-      (s, c) => s + (c.utilidadSinCF ?? 0),
-      0
-    );
     const totalSacos = selected.reduce((s, c) => s + c.sacos69kg, 0);
-    const margin = totalFactKgs > 0 ? totalUtilidad / totalFactKgs : 0;
+
+    // Prorate shipment-level P&L costs by selected contracts' share of total revenue
+    const share = stats.totalRevenue > 0 ? totalRevenue / stats.totalRevenue : 0;
+    const mp = stats.totalMateriaPrima * share;
+    const isr = stats.totalISR * share;
+    const comision = stats.totalComision * share;
+    const subproducto = stats.totalSubproducto * share;
+    const facturacionQTZ = stats.totalFacturacionQTZ * share;
+
+    const utilidadBruta = totalRevenue - mp - isr - comision + subproducto;
+    const margin = facturacionQTZ > 0 ? utilidadBruta / facturacionQTZ : 0;
+
     return { count, totalRevenue, totalSacos, margin };
-  }, [stats.contracts, checked]);
+  }, [stats, checked]);
 
   const marginColor =
     agg.margin >= 0.12
