@@ -87,7 +87,7 @@ export async function getContract(id: string) {
       client: true,
       shipment: {
         select: {
-          id: true, name: true,
+          id: true, name: true, month: true, year: true,
           margenBruto: true,
           totalFacturacionKgs: true,
           _count: { select: { containers: true } },
@@ -417,8 +417,7 @@ export interface MonthlyContextStats {
 }
 
 export async function getMonthlyContext(
-  referenceDate?: Date | null,
-  excludeId?: string
+  referenceDate?: Date | null
 ): Promise<MonthlyContextStats> {
   await requireAuth();
 
@@ -430,10 +429,6 @@ export async function getMonthlyContext(
   const contractWhere = {
     shipment: shipmentWhere,
     status: { not: "CANCELADO" as const },
-  };
-  const peerWhere = {
-    ...contractWhere,
-    ...(excludeId ? { id: { not: excludeId } } : {}),
   };
 
   const [contractAgg, costAgg, peers] = await Promise.all([
@@ -455,14 +450,14 @@ export async function getMonthlyContext(
       },
     }),
     prisma.contract.findMany({
-      where: peerWhere,
+      where: contractWhere,
       select: {
         id: true, contractNumber: true, sacos69kg: true,
         totalPagoQTZ: true, facturacionKgs: true, utilidadSinCF: true,
         status: true, client: { select: { name: true } },
       },
       orderBy: { createdAt: "desc" },
-      take: 20,
+      take: 50,
     }),
   ]);
 

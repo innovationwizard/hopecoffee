@@ -31,8 +31,13 @@ export default async function ContractDetailPage({
   const contract = await getContract(id);
   if (!contract) notFound();
 
+  // Use shipment month/year for monthly context (business month, not createdAt)
+  const shipmentRef = contract.shipment
+    ? new Date(contract.shipment.year, contract.shipment.month - 1, 1)
+    : null;
+
   const [monthlyContext, lotAllocations, availableOroLots] = await Promise.all([
-    getMonthlyContext(contract.createdAt, id),
+    getMonthlyContext(shipmentRef),
     getContractLotAllocations(id),
     getAvailableOroLots(),
   ]);

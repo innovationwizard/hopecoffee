@@ -20,7 +20,10 @@ export default async function EditContractPage({
 
   if (!contract) notFound();
 
-  const monthlyContext = await getMonthlyContext(contract.createdAt, id);
+  const shipmentRef = contract.shipment
+    ? new Date(contract.shipment.year, contract.shipment.month - 1, 1)
+    : null;
+  const monthlyContext = await getMonthlyContext(shipmentRef);
 
   return (
     <>

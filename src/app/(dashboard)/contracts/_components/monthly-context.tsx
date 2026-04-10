@@ -82,7 +82,7 @@ export function MonthlyContext({ stats }: MonthlyContextProps) {
         {stats.contracts.length > 0 && (
           <div>
             <p className="text-[10px] uppercase tracking-wide text-gray-400 mb-1.5">
-              Otros contratos este mes
+              Contratos del mes
             </p>
             <div className="space-y-1 max-h-48 overflow-y-auto">
               {stats.contracts.map((c) => (
@@ -123,7 +123,7 @@ export function MonthlyContext({ stats }: MonthlyContextProps) {
 
         {stats.contracts.length === 0 && (
           <p className="text-xs text-gray-400 text-center py-2">
-            No hay otros contratos este mes.
+            No hay contratos este mes.
           </p>
         )}
 
