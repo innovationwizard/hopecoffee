@@ -119,6 +119,13 @@ export function ContractForm({
   const [cfTasa, setCfTasa] = useState(0.08);
   const [cfMeses, setCfMeses] = useState(2);
 
+  // ISR — percentage or fixed amount (local state)
+  const [isrInputMode, setIsrInputMode] = useState<"pct" | "monto">(
+    initialData?.isrAmount ? "monto" : "pct"
+  );
+  const [isrPct, setIsrPct] = useState((initialData?.isrRate ?? 0) * 100);
+  const [isrMonto, setIsrMonto] = useState(initialData?.isrAmount ?? 0);
+
   const gastosPerSaco = useMemo(() => {
     return Object.values(exportCosts).reduce((sum, v) => sum + (v || 0), 0);
   }, [exportCosts]);
@@ -215,6 +222,8 @@ export function ContractForm({
         montoCredito: effectiveMontoCredito || undefined,
         cfTasaAnual: cfTasa || undefined,
         cfMeses: cfMeses || undefined,
+        isrRate: isrInputMode === "pct" && isrPct > 0 ? isrPct / 100 : null,
+        isrAmount: isrInputMode === "monto" && isrMonto > 0 ? isrMonto : null,
         gastosPerSaco: gastosPerSaco,
         exportTrillaPerQQ: exportCosts.trillaPerQQ || null,
         exportSacoYute: exportCosts.sacoYute || null,
@@ -608,6 +617,77 @@ export function ContractForm({
                   </span>
                 </div>
               </div>
+            </CardContent>
+          </Card>
+
+          {/* ── Section 4: ISR ── */}
+          <Card>
+            <CardHeader>
+              <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+                ISR (Impuesto Sobre la Renta)
+              </h3>
+            </CardHeader>
+            <CardContent>
+              <div className="flex gap-1 mb-4 bg-slate-100 dark:bg-orion-800 rounded-lg p-1 w-fit">
+                <button
+                  type="button"
+                  onClick={() => setIsrInputMode("pct")}
+                  className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
+                    isrInputMode === "pct"
+                      ? "bg-white dark:bg-orion-700 text-slate-900 dark:text-white shadow-sm"
+                      : "text-slate-500 dark:text-slate-400"
+                  }`}
+                >
+                  Porcentaje (%)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsrInputMode("monto")}
+                  className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
+                    isrInputMode === "monto"
+                      ? "bg-white dark:bg-orion-700 text-slate-900 dark:text-white shadow-sm"
+                      : "text-slate-500 dark:text-slate-400"
+                  }`}
+                >
+                  Monto Fijo (Q)
+                </button>
+              </div>
+
+              <div className="grid grid-cols-3 gap-4">
+                {isrInputMode === "pct" ? (
+                  <div>
+                    <label className="block text-[10px] font-medium text-slate-500 dark:text-slate-400 mb-1">
+                      Tasa ISR (%)
+                    </label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      value={isrPct || ""}
+                      onChange={(e) => setIsrPct(parseFloat(e.target.value) || 0)}
+                      placeholder="6"
+                      className="w-full px-2 py-1.5 text-xs font-mono border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                    />
+                  </div>
+                ) : (
+                  <div>
+                    <label className="block text-[10px] font-medium text-slate-500 dark:text-slate-400 mb-1">
+                      Monto ISR (Q)
+                    </label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      value={isrMonto || ""}
+                      onChange={(e) => setIsrMonto(parseFloat(e.target.value) || 0)}
+                      placeholder="0"
+                      className="w-full px-2 py-1.5 text-xs font-mono border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                    />
+                  </div>
+                )}
+              </div>
+
+              <p className="mt-3 text-[10px] text-slate-400">
+                Sujeto a incentivos fiscales. Use porcentaje sobre materia prima o monto fijo según régimen fiscal del contrato.
+              </p>
             </CardContent>
           </Card>
 

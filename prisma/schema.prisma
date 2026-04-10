@@ -12,8 +12,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 // ============================================================================
@@ -265,6 +266,10 @@ model Contract {
   cfTasaAnual     Decimal?        @db.Decimal(6, 4)  // Annual interest rate (default 0.08)
   cfMeses         Int?                                // Financing months (default 2)
 
+  // ISR — Impuesto Sobre la Renta (subject to fiscal incentives per contract)
+  isrRate         Decimal?        @db.Decimal(6, 4)  // Percentage as decimal (e.g. 0.06 = 6%)
+  isrAmount       Decimal?        @db.Decimal(14, 2) // Fixed amount override in QTZ (takes precedence over rate)
+
   // Harvest year
   cosecha         String?         // "25/26", "26/27"
 
@@ -359,9 +364,11 @@ model Shipment {
   totalUtilidadSinCF  Decimal? @db.Decimal(14, 2)
   totalPagoQTZ        Decimal? @db.Decimal(14, 2)
 
-  // Materia Prima aggregates
+  // P&L aggregates
+  totalFacturacionQTZ Decimal? @db.Decimal(14, 2) // facturacionKgs × tipoCambio per contract
   totalMateriaPrima   Decimal? @db.Decimal(14, 2)
-  totalComision       Decimal? @db.Decimal(14, 2)
+  totalISR            Decimal? @db.Decimal(14, 2) // ISR retention on materia prima (6%)
+  totalComision       Decimal? @db.Decimal(14, 2) // Comision in QTZ (USD × tipoCambio per contract)
   totalSubproducto    Decimal? @db.Decimal(14, 2)
   utilidadBruta       Decimal? @db.Decimal(14, 2)
   margenBruto         Decimal? @db.Decimal(8, 6) // Percentage as decimal

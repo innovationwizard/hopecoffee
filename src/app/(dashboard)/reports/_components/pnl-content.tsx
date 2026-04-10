@@ -38,6 +38,7 @@ function aggregateByMonth(rows: PnlRow[]): PnlRow[] {
       existing.totalSubproducto += r.totalSubproducto;
       existing.ingresoTotal += r.ingresoTotal;
       existing.totalMateriaPrima += r.totalMateriaPrima;
+      existing.totalISR += r.totalISR;
       existing.totalGastosExport += r.totalGastosExport;
       existing.totalCostoFinanc += r.totalCostoFinanc;
       existing.totalComision += r.totalComision;
@@ -185,6 +186,7 @@ export function PnlContent({ data }: { data: PnlRow[] }) {
                   <th className="text-right">+ Subproductos</th>
                   <th className="text-right font-bold">= Ingreso Total</th>
                   <th className="text-right">Materia Prima</th>
+                  <th className="text-right">ISR</th>
                   <th className="text-right">Gastos Export</th>
                   <th className="text-right">Costo Financiero</th>
                   <th className="text-right">Comisiones</th>
@@ -208,6 +210,9 @@ export function PnlContent({ data }: { data: PnlRow[] }) {
                     </td>
                     <td className="text-right font-mono text-red-600">
                       {formatGTQ(r.totalMateriaPrima)}
+                    </td>
+                    <td className="text-right font-mono text-red-600">
+                      {formatGTQ(r.totalISR)}
                     </td>
                     <td className="text-right font-mono text-red-600">
                       {formatGTQ(r.totalGastosExport)}
@@ -249,6 +254,11 @@ export function PnlContent({ data }: { data: PnlRow[] }) {
                   <td className="text-right font-mono text-red-600">
                     {formatGTQ(
                       rows.reduce((s, r) => s + r.totalMateriaPrima, 0)
+                    )}
+                  </td>
+                  <td className="text-right font-mono text-red-600">
+                    {formatGTQ(
+                      rows.reduce((s, r) => s + r.totalISR, 0)
                     )}
                   </td>
                   <td className="text-right font-mono text-red-600">

@@ -68,7 +68,8 @@ export interface SubproductoCalculation {
 export interface ShipmentMarginResult {
   totalFacturacionQTZ: Decimal;
   totalMateriaPrima: Decimal;
-  totalComision: Decimal;
+  totalISR: Decimal;
+  totalComision: Decimal; // in QTZ
   totalSubproducto: Decimal;
   utilidadBruta: Decimal;
   margenBruto: Decimal; // percentage as decimal
@@ -270,36 +271,38 @@ export function calculateSubproducto(
  * Calculate gross margin for a shipment (all contracts + materia prima + subproductos).
  *
  * Excel mapping (bottom section of each monthly sheet):
- *   utilidadBruta = totalPagoQTZ - materiaPrima + subproducto - comision
- *   margenBruto   = utilidadBruta / totalPagoQTZ
+ *   utilidadBruta  = totalPagoQTZ - materiaPrima - ISR - comisionQTZ + subproducto
+ *   margenBruto    = utilidadBruta / totalFacturacionQTZ
  *
- * Sign convention in Excel:
- *   - Materia Prima is NEGATIVE (cost)
- *   - Comision is NEGATIVE (cost)
- *   - Subproducto is POSITIVE (revenue)
- *   - Total Pago QTZ is POSITIVE (revenue)
+ * All values in QTZ. ISR is a stored/editable field (not auto-computed — the Excel
+ * has it as a hardcoded value, selectively applied per shipment).
+ * Denominator is gross billing (facturacionKgs × tipoCambio) matching the Excel SSOT.
  */
 export function calculateShipmentMargin(
+  totalFacturacionQTZ: Decimal,
   totalPagoQTZ: Decimal,
   totalMateriaPrima: Decimal,
-  totalComision: Decimal,
+  totalISR: Decimal,
+  totalComisionQTZ: Decimal,
   totalSubproducto: Decimal
 ): ShipmentMarginResult {
-  // utilidadBruta = revenue - costs + by-product revenue - commissions
+  // utilidadBruta = revenue - costs - ISR - commissions + by-product revenue
   const utilidadBruta = totalPagoQTZ
     .minus(totalMateriaPrima)
-    .plus(totalSubproducto)
-    .minus(totalComision);
+    .minus(totalISR)
+    .minus(totalComisionQTZ)
+    .plus(totalSubproducto);
 
-  // Margin as percentage (guard against division by zero)
-  const margenBruto = totalPagoQTZ.isZero()
+  // Margin denominator is gross billing (facturacionKgs × tipoCambio)
+  const margenBruto = totalFacturacionQTZ.isZero()
     ? new Decimal(0)
-    : utilidadBruta.div(totalPagoQTZ);
+    : utilidadBruta.div(totalFacturacionQTZ);
 
   return {
-    totalFacturacionQTZ: totalPagoQTZ,
+    totalFacturacionQTZ,
     totalMateriaPrima,
-    totalComision,
+    totalISR,
+    totalComision: totalComisionQTZ,
     totalSubproducto,
     utilidadBruta,
     margenBruto,

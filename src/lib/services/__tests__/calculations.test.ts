@@ -244,23 +244,36 @@ describe("calculateSubproducto", () => {
 });
 
 describe("calculateShipmentMargin", () => {
-  it("computes gross margin correctly", () => {
+  it("computes gross margin matching Excel SSOT (P40129 Enero)", () => {
+    // From Enero.xlsx Bloque 2: facturacionKgs=171600 USD, tipoCambio=7.65
+    const totalFacturacionQTZ = new Decimal(171600).mul(7.65); // Q 1,312,740
+    const totalPagoQTZ = new Decimal("1225590.81");
+    const totalMateriaPrima = new Decimal("1092736.25");
+    const totalISR = new Decimal("65764.16"); // hardcoded in Excel SSOT
+    const totalComisionQTZ = new Decimal("9466.88"); // already in QTZ
+    const totalSubproducto = new Decimal(0);
+
     const result = calculateShipmentMargin(
-      new Decimal(3497659),
-      new Decimal(3338117),
-      new Decimal(28917),
-      new Decimal(0)
+      totalFacturacionQTZ,
+      totalPagoQTZ,
+      totalMateriaPrima,
+      totalISR,
+      totalComisionQTZ,
+      totalSubproducto
     );
-    const expectedUtilidad = 3497659 - 3338117 + 0 - 28917;
-    expect(result.utilidadBruta.toNumber()).toBe(expectedUtilidad);
-    expect(result.margenBruto.toNumber()).toBeCloseTo(
-      expectedUtilidad / 3497659,
-      4
-    );
+
+    // utilidadBruta = pago - MP - ISR - comision + subproducto
+    // = 1,225,590.81 - 1,092,736.25 - 65,764.16 - 9,466.88 + 0 = 57,623.52
+    expect(result.utilidadBruta.toNumber()).toBeCloseTo(57623.52, 0);
+
+    // margin = utilidadBruta / totalFacturacionQTZ = 57,623.52 / 1,312,740 ≈ 4.39%
+    expect(result.margenBruto.toNumber()).toBeCloseTo(0.0439, 3);
   });
 
   it("handles zero revenue without division error", () => {
     const result = calculateShipmentMargin(
+      new Decimal(0),
+      new Decimal(0),
       new Decimal(0),
       new Decimal(0),
       new Decimal(0),

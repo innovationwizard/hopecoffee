@@ -166,6 +166,7 @@ export default async function ShipmentDetailPage({
             <MarginCard
               totalPagoQTZ={toNum(shipment.totalPagoQTZ)}
               totalMateriaPrima={toNum(shipment.totalMateriaPrima)}
+              totalISR={toNum(shipment.totalISR)}
               totalComision={toNum(shipment.totalComision)}
               totalSubproducto={toNum(shipment.totalSubproducto)}
               utilidadBruta={toNum(shipment.utilidadBruta)}

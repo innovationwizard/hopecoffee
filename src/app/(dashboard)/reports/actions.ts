@@ -357,6 +357,7 @@ export interface PnlRow {
   totalSubproducto: number;
   ingresoTotal: number;
   totalMateriaPrima: number;
+  totalISR: number;
   totalGastosExport: number;
   totalCostoFinanc: number;
   totalComision: number;
@@ -376,8 +377,10 @@ export async function getPnlData(): Promise<PnlRow[]> {
       month: true,
       year: true,
       totalPagoQTZ: true,
+      totalFacturacionQTZ: true,
       totalSubproducto: true,
       totalMateriaPrima: true,
+      totalISR: true,
       totalGastosExport: true,
       totalCostoFinanc: true,
       totalComision: true,
@@ -387,15 +390,17 @@ export async function getPnlData(): Promise<PnlRow[]> {
 
   return shipments.map((s) => {
     const totalPagoQTZ = toNum(s.totalPagoQTZ);
+    const totalFacturacionQTZ = toNum(s.totalFacturacionQTZ);
     const totalSubproducto = toNum(s.totalSubproducto);
     const ingresoTotal = totalPagoQTZ + totalSubproducto;
     const totalMateriaPrima = toNum(s.totalMateriaPrima);
+    const totalISR = toNum(s.totalISR);
     const totalGastosExport = toNum(s.totalGastosExport);
     const totalCostoFinanc = toNum(s.totalCostoFinanc);
     const totalComision = toNum(s.totalComision);
-    const costoTotal = totalMateriaPrima + totalGastosExport + totalCostoFinanc + totalComision;
+    const costoTotal = totalMateriaPrima + totalISR + totalGastosExport + totalCostoFinanc + totalComision;
     const utilidadBruta = toNum(s.utilidadBruta);
-    const margenBruto = ingresoTotal > 0 ? utilidadBruta / ingresoTotal : 0;
+    const margenBruto = totalFacturacionQTZ > 0 ? utilidadBruta / totalFacturacionQTZ : 0;
 
     return {
       key: s.id,
@@ -406,6 +411,7 @@ export async function getPnlData(): Promise<PnlRow[]> {
       totalSubproducto,
       ingresoTotal,
       totalMateriaPrima,
+      totalISR,
       totalGastosExport,
       totalCostoFinanc,
       totalComision,

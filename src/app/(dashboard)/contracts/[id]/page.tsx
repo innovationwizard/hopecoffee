@@ -15,6 +15,7 @@ import {
 } from "@/lib/utils/format";
 import { ContractStatusChanger } from "../_components/contract-status-changer";
 import { ContractProgress } from "../_components/contract-progress";
+import { ContractSummaryCard } from "../_components/contract-summary-card";
 import { MonthlyContext } from "../_components/monthly-context";
 import { PriceHistory } from "../_components/price-history";
 import { LotAllocationsSection } from "../_components/lot-allocations-section";
@@ -204,20 +205,45 @@ export default async function ContractDetailPage({
           </CollapsibleSection>
         </div>
 
-        {/* Right: Total + Progress + Actions */}
+        {/* Right panel: 1) This Contract  2) Monthly Context  3) Progress  4) Actions */}
         <div className="space-y-4">
-          <Card>
-            <CardContent className="py-6 text-center">
-              <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">
-                Total Pago
-              </p>
-              <p className="text-2xl font-bold font-mono text-emerald-700 dark:text-emerald-400 mt-1">
-                {formatGTQ(toNum(contract.totalPagoQTZ))}
-              </p>
-            </CardContent>
-          </Card>
+          {/* 1 — Este Contrato */}
+          <ContractSummaryCard
+            totalPagoQTZ={toNum(contract.totalPagoQTZ)}
+            precioBolsaDif={toNum(contract.precioBolsaDif)}
+            facturacionKgs={toNum(contract.facturacionKgs)}
+            gastosExport={toNum(contract.gastosExport)}
+            costoFinanciero={toNum(contract.costoFinanciero)}
+            totalQQPergamino={contract.materiaPrimaAllocations.reduce(
+              (sum, a) => sum + toNum(a.materiaPrima.pergamino), 0
+            )}
+            totalCompraPergamino={contract.materiaPrimaAllocations.reduce(
+              (sum, a) => sum + toNum(a.materiaPrima.totalMP), 0
+            )}
+            totalQQSubproducto={toNum(contract.subproductos)}
+            totalVentSubproducto={
+              toNum(contract.subproductos) * toNum(contract.precioSubproducto)
+            }
+            margenBrutoContrato={contractMargin}
+            margenBrutoPonderado={
+              contract.shipment ? toNum(contract.shipment.margenBruto) : null
+            }
+            facturacionAcumulada={
+              contract.shipment ? toNum(contract.shipment.totalFacturacionKgs) : null
+            }
+            contenedoresVendidos={
+              contract.shipment ? contract.shipment._count.containers : null
+            }
+          />
 
-          {/* Progress tracker */}
+          {/* 2 — Contexto del Mes */}
+          <MonthlyContext
+            stats={monthlyContext}
+            currentMargin={contractMargin}
+            currentRevenue={toNum(contract.totalPagoQTZ)}
+          />
+
+          {/* 3 — Progreso */}
           <Card>
             <CardHeader>
               <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">
@@ -236,6 +262,7 @@ export default async function ContractDetailPage({
             </CardContent>
           </Card>
 
+          {/* 4 — Acciones */}
           <Card>
             <CardHeader>
               <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">
@@ -249,12 +276,6 @@ export default async function ContractDetailPage({
               />
             </CardContent>
           </Card>
-
-          <MonthlyContext
-            stats={monthlyContext}
-            currentMargin={contractMargin}
-            currentRevenue={toNum(contract.totalPagoQTZ)}
-          />
         </div>
       </div>
     </>

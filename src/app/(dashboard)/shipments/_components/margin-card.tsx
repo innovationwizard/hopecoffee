@@ -8,6 +8,7 @@ import {
 export function MarginCard({
   totalPagoQTZ,
   totalMateriaPrima,
+  totalISR,
   totalComision,
   totalSubproducto,
   utilidadBruta,
@@ -15,6 +16,7 @@ export function MarginCard({
 }: {
   totalPagoQTZ: number;
   totalMateriaPrima: number;
+  totalISR: number;
   totalComision: number;
   totalSubproducto: number;
   utilidadBruta: number;
@@ -23,6 +25,7 @@ export function MarginCard({
   const lines = [
     { label: "Total Pago QTZ", value: totalPagoQTZ, sign: "+" },
     { label: "− Materia Prima", value: -totalMateriaPrima, sign: "−" },
+    { label: "− ISR", value: -totalISR, sign: "−" },
     { label: "− Comisión", value: -totalComision, sign: "−" },
     { label: "+ Subproducto", value: totalSubproducto, sign: "+" },
   ];

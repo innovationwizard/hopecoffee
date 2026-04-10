@@ -44,7 +44,7 @@ function getNavItems(role: UserRole) {
     { href: "/purchase-orders", label: "Ordenes de Compra", icon: ShoppingCart },
     { href: "/suppliers", label: "Proveedores", icon: Users },
     { href: "/quality-lab", label: "Laboratorio", icon: FlaskConical },
-    { href: "/milling", label: "Tria", icon: Factory },
+    { href: "/milling", label: "Trilla", icon: Factory },
     { href: "/shipments", label: "Embarques", icon: Ship },
     { href: "/farms", label: "Fincas", icon: TreePine },
     { href: "/reports", label: "Reportes", icon: BarChart3 },
@@ -59,7 +59,7 @@ function getNavItems(role: UserRole) {
     { href: "/suppliers", label: "Proveedores", icon: Users },
     { href: "/purchase-orders", label: "Ordenes de Compra", icon: ShoppingCart },
     { href: "/quality-lab", label: "Laboratorio", icon: FlaskConical },
-    { href: "/milling", label: "Tria", icon: Factory },
+    { href: "/milling", label: "Trilla", icon: Factory },
     { href: "/farms", label: "Fincas", icon: TreePine },
   ];
 

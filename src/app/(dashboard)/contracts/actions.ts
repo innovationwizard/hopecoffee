@@ -85,7 +85,14 @@ export async function getContract(id: string) {
     where: { id },
     include: {
       client: true,
-      shipment: { select: { id: true, name: true } },
+      shipment: {
+        select: {
+          id: true, name: true,
+          margenBruto: true,
+          totalFacturacionKgs: true,
+          _count: { select: { containers: true } },
+        },
+      },
       materiaPrimaAllocations: {
         include: { materiaPrima: true },
       },
@@ -184,6 +191,8 @@ export async function createContract(data: ContractCreateInput) {
       montoCredito: validated.montoCredito ?? null,
       cfTasaAnual: validated.cfTasaAnual ?? null,
       cfMeses: validated.cfMeses ?? null,
+      isrRate: validated.isrRate ?? null,
+      isrAmount: validated.isrAmount ?? null,
       cosecha: validated.cosecha ?? null,
       posicionNY: validated.posicionNY ?? null,
       fechaEmbarque: validated.fechaEmbarque ?? null,
@@ -230,7 +239,7 @@ export async function createContract(data: ContractCreateInput) {
 
 const FINANCIAL_FIELDS = [
   "precioBolsa", "diferencial", "comisionCompra", "comisionVenta",
-  "montoCredito", "cfTasaAnual", "cfMeses", "tipoCambio",
+  "montoCredito", "cfTasaAnual", "cfMeses", "tipoCambio", "isrRate", "isrAmount",
   "gastosPerSaco", "exportTrillaPerQQ", "exportSacoYute", "exportEstampado",
   "exportBolsaGrainPro", "exportFitoSanitario", "exportImpuestoAnacafe1",
   "exportImpuestoAnacafe2", "exportInspeccionOirsa", "exportFumigacion",
@@ -415,24 +424,38 @@ export async function getMonthlyContext(
 
   const ref = referenceDate ?? new Date();
   const year = ref.getFullYear();
-  const month = ref.getMonth();
-  const startOfMonth = new Date(year, month, 1);
-  const endOfMonth = new Date(year, month + 1, 0, 23, 59, 59, 999);
+  const month = ref.getMonth() + 1; // 1-12 matching Shipment.month
 
-  const monthWhere = {
-    createdAt: { gte: startOfMonth, lte: endOfMonth },
+  const shipmentWhere = { month, year };
+  const contractWhere = {
+    shipment: shipmentWhere,
     status: { not: "CANCELADO" as const },
+  };
+  const peerWhere = {
+    ...contractWhere,
     ...(excludeId ? { id: { not: excludeId } } : {}),
   };
 
-  const [agg, peers] = await Promise.all([
+  const [contractAgg, costAgg, peers] = await Promise.all([
     prisma.contract.aggregate({
-      where: monthWhere,
-      _sum: { sacos69kg: true, totalPagoQTZ: true, facturacionKgs: true, utilidadSinCF: true },
+      where: contractWhere,
+      _sum: { sacos69kg: true, totalPagoQTZ: true },
       _count: true,
     }),
+    // P&L costs from shipment-level aggregates (already recalculated with ISR, comision in QTZ)
+    prisma.shipment.aggregate({
+      where: shipmentWhere,
+      _sum: {
+        totalFacturacionQTZ: true,
+        totalMateriaPrima: true,
+        totalISR: true,
+        totalComision: true,
+        totalSubproducto: true,
+        utilidadBruta: true,
+      },
+    }),
     prisma.contract.findMany({
-      where: monthWhere,
+      where: peerWhere,
       select: {
         id: true, contractNumber: true, sacos69kg: true,
         totalPagoQTZ: true, facturacionKgs: true, utilidadSinCF: true,
@@ -443,17 +466,19 @@ export async function getMonthlyContext(
     }),
   ]);
 
-  const totalSacos69kg = toNum(agg._sum.sacos69kg);
-  const totalRevenue = toNum(agg._sum.totalPagoQTZ);
-  const totalFactKgs = toNum(agg._sum.facturacionKgs);
-  const totalUtilidad = toNum(agg._sum.utilidadSinCF);
-  const avgMargin = totalFactKgs > 0 ? totalUtilidad / totalFactKgs : 0;
+  const totalSacos69kg = toNum(contractAgg._sum.sacos69kg);
+  const totalRevenue = toNum(contractAgg._sum.totalPagoQTZ);
+  const totalFacturacionQTZ = toNum(costAgg._sum.totalFacturacionQTZ);
+  const utilidadBruta = toNum(costAgg._sum.utilidadBruta);
 
-  const monthStr = `${year}-${String(month + 1).padStart(2, "0")}`;
+  // Margin = utilidadBruta / gross billing (facturacionKgs × tipoCambio), matching Excel SSOT
+  const avgMargin = totalFacturacionQTZ > 0 ? utilidadBruta / totalFacturacionQTZ : 0;
+
+  const monthStr = `${year}-${String(month).padStart(2, "0")}`;
 
   return {
     month: monthStr,
-    contractCount: agg._count,
+    contractCount: contractAgg._count,
     totalSacos69kg,
     totalRevenue,
     avgMargin,

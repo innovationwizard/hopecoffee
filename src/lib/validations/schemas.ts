@@ -89,6 +89,9 @@ export const ContractCreateSchema = z.object({
   montoCredito: z.number().min(0).optional().nullable(),
   cfTasaAnual: z.number().min(0).max(1).optional().nullable(),
   cfMeses: z.number().int().min(0).max(60).optional().nullable(),
+  // ISR — percentage (decimal, e.g. 0.06) or fixed QTZ amount
+  isrRate: z.number().min(0).max(1).optional().nullable(),
+  isrAmount: z.number().min(0).optional().nullable(),
   cosecha: z.string().regex(/^\d{2}\/\d{2}$/, "Formato: YY/YY").optional().nullable(),
   posicionNY: z.coerce.date().optional().nullable(),
   fechaEmbarque: z.coerce.date().optional().nullable(),
