@@ -6,14 +6,46 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { formatNumber, formatDate } from "@/lib/utils/format";
 import { createContainer, deleteContainer } from "../container-actions";
-import type { Container } from "@prisma/client";
+import { ContainerLotsSection } from "./container-lots-section";
+
+interface ContainerWithLots {
+  id: string;
+  containerNum: string | null;
+  blNumber: string | null;
+  sealNumber: string | null;
+  weightKg: unknown;
+  vessel: string | null;
+  port: string | null;
+  eta: Date | string | null;
+  containerLots: {
+    id: string;
+    quantityQQ: unknown;
+    lot: {
+      id: string;
+      lotNumber: string;
+      stage: string;
+      quantityQQ: unknown;
+      supplier: { id: string; name: string } | null;
+    };
+  }[];
+}
+
+interface AvailableLot {
+  id: string;
+  lotNumber: string;
+  quantityQQ: number;
+  qualityGrade: string | null;
+  supplier: { id: string; name: string } | null;
+}
 
 export function ContainersSection({
   shipmentId,
   containers,
+  availableOroLots,
 }: {
   shipmentId: string;
-  containers: Container[];
+  containers: ContainerWithLots[];
+  availableOroLots: AvailableLot[];
 }) {
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -34,46 +66,72 @@ export function ContainersSection({
   return (
     <div className="space-y-3">
       {containers.length > 0 ? (
-        <div className="overflow-x-auto">
-          <table className="dense-table w-full">
-            <thead>
-              <tr>
-                <th>Contenedor</th>
-                <th>B/L</th>
-                <th>Sello</th>
-                <th className="text-right">Peso (kg)</th>
-                <th>Naviera</th>
-                <th>Puerto</th>
-                <th>ETA</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {containers.map((c) => (
-                <tr key={c.id}>
-                  <td className="font-mono">{c.containerNum ?? "—"}</td>
-                  <td className="font-mono">{c.blNumber ?? "—"}</td>
-                  <td className="font-mono">{c.sealNumber ?? "—"}</td>
-                  <td className="text-right font-mono">
-                    {c.weightKg ? formatNumber(Number(c.weightKg), 0) : "—"}
-                  </td>
-                  <td>{c.vessel ?? "—"}</td>
-                  <td>{c.port ?? "—"}</td>
-                  <td>{c.eta ? formatDate(c.eta) : "—"}</td>
-                  <td>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleDelete(c.id)}
-                      loading={loading}
-                    >
-                      x
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="space-y-3">
+          {containers.map((c) => (
+            <div
+              key={c.id}
+              className="border border-gray-100 dark:border-gray-800 rounded-lg p-3"
+            >
+              <div className="flex items-start justify-between">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-1 text-sm flex-1">
+                  <div>
+                    <span className="text-xs text-gray-500">Contenedor</span>
+                    <p className="font-mono">{c.containerNum ?? "—"}</p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500">B/L</span>
+                    <p className="font-mono">{c.blNumber ?? "—"}</p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500">Sello</span>
+                    <p className="font-mono">{c.sealNumber ?? "—"}</p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500">Peso (kg)</span>
+                    <p className="font-mono">
+                      {c.weightKg ? formatNumber(Number(c.weightKg), 0) : "—"}
+                    </p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500">Naviera</span>
+                    <p>{c.vessel ?? "—"}</p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500">Puerto</span>
+                    <p>{c.port ?? "—"}</p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500">ETA</span>
+                    <p>{c.eta ? formatDate(c.eta) : "—"}</p>
+                  </div>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => handleDelete(c.id)}
+                  loading={loading}
+                >
+                  x
+                </Button>
+              </div>
+              <ContainerLotsSection
+                containerId={c.id}
+                containerNum={c.containerNum ?? c.id.slice(-6)}
+                initialLots={c.containerLots.map((cl) => ({
+                  id: cl.id,
+                  quantityQQ: Number(cl.quantityQQ),
+                  lot: {
+                    id: cl.lot.id,
+                    lotNumber: cl.lot.lotNumber,
+                    stage: cl.lot.stage,
+                    quantityQQ: Number(cl.lot.quantityQQ),
+                    supplier: cl.lot.supplier,
+                  },
+                }))}
+                availableLots={availableOroLots}
+              />
+            </div>
+          ))}
         </div>
       ) : (
         <p className="text-sm text-gray-400">No hay contenedores registrados.</p>

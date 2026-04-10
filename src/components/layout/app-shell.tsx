@@ -20,24 +20,57 @@ import {
   ChevronDown,
   Sun,
   Moon,
+  ScrollText,
+  ShoppingCart,
+  FlaskConical,
+  Factory,
 } from "lucide-react";
 import type { Session } from "@/lib/services/auth";
+import type { UserRole } from "@prisma/client";
 import { SidebarLink } from "./sidebar-link";
 
-const NAV_ITEMS = [
-  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/contracts", label: "Contratos", icon: FileText },
-  { href: "/shipments", label: "Embarques", icon: Ship },
-  { href: "/inventory", label: "Inventario", icon: Package },
-  { href: "/suppliers", label: "Proveedores", icon: Users },
-  { href: "/farms", label: "Fincas", icon: TreePine },
-  { href: "/reports", label: "Reportes", icon: BarChart3 },
-];
+const ROLE_LABELS: Record<UserRole, string> = {
+  ADMIN: "Administrador",
+  FIELD_OPERATOR: "Operaciones",
+  FINANCIAL_OPERATOR: "Finanzas",
+  VIEWER: "Consulta",
+};
+
+function getNavItems(role: UserRole) {
+  const FIELD_PRIMARY = [
+    { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+    { href: "/contracts", label: "Contratos", icon: FileText },
+    { href: "/inventory", label: "Inventario", icon: Package },
+    { href: "/purchase-orders", label: "Ordenes de Compra", icon: ShoppingCart },
+    { href: "/suppliers", label: "Proveedores", icon: Users },
+    { href: "/quality-lab", label: "Laboratorio", icon: FlaskConical },
+    { href: "/milling", label: "Tria", icon: Factory },
+    { href: "/shipments", label: "Embarques", icon: Ship },
+    { href: "/farms", label: "Fincas", icon: TreePine },
+    { href: "/reports", label: "Reportes", icon: BarChart3 },
+  ];
+
+  const FINANCIAL_PRIMARY = [
+    { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+    { href: "/contracts", label: "Contratos", icon: FileText },
+    { href: "/shipments", label: "Embarques", icon: Ship },
+    { href: "/reports", label: "Reportes", icon: BarChart3 },
+    { href: "/inventory", label: "Inventario", icon: Package },
+    { href: "/suppliers", label: "Proveedores", icon: Users },
+    { href: "/purchase-orders", label: "Ordenes de Compra", icon: ShoppingCart },
+    { href: "/quality-lab", label: "Laboratorio", icon: FlaskConical },
+    { href: "/milling", label: "Tria", icon: Factory },
+    { href: "/farms", label: "Fincas", icon: TreePine },
+  ];
+
+  if (role === "FINANCIAL_OPERATOR") return FINANCIAL_PRIMARY;
+  return FIELD_PRIMARY;
+}
 
 const SETTINGS_ITEMS = [
-  { href: "/settings/export-costs", label: "Costos Exportación" },
+  { href: "/settings/facilities", label: "Instalaciones" },
+  { href: "/settings/export-costs", label: "Costos Exportacion" },
   { href: "/settings/exchange-rates", label: "Tipo de Cambio" },
-  { href: "/settings/audit-log", label: "Auditoría" },
   { href: "/settings/users", label: "Usuarios", adminOnly: true },
 ];
 
@@ -62,11 +95,14 @@ export function AppShell({
     router.refresh();
   }
 
-  const roleBadgeColor = {
+  const roleBadgeColor: Record<string, string> = {
     ADMIN: "bg-orion-100 text-orion-700 dark:bg-orion-800/50 dark:text-orion-300",
-    OPERATOR: "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300",
+    FIELD_OPERATOR: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300",
+    FINANCIAL_OPERATOR: "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300",
     VIEWER: "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400",
   };
+
+  const navItems = getNavItems(session.role);
 
   const sidebar = (
     <nav className="flex flex-col h-full">
@@ -86,7 +122,7 @@ export function AppShell({
       </div>
 
       <div className="flex-1 overflow-y-auto py-2 px-2 space-y-0.5">
-        {NAV_ITEMS.map((item) => (
+        {navItems.map((item) => (
           <SidebarLink
             key={item.href}
             href={item.href}
@@ -96,6 +132,17 @@ export function AppShell({
             onClick={() => setMobileOpen(false)}
           />
         ))}
+
+        {/* Audit log — visible to operators and admin */}
+        {session.role !== "VIEWER" && (
+          <SidebarLink
+            href="/audit-log"
+            label="Auditoria"
+            icon={ScrollText}
+            active={pathname.startsWith("/audit-log")}
+            onClick={() => setMobileOpen(false)}
+          />
+        )}
 
         <div>
           <button
@@ -150,9 +197,9 @@ export function AppShell({
               {session.name}
             </p>
             <span
-              className={`inline-block text-[10px] font-mono px-1.5 py-0.5 rounded ${roleBadgeColor[session.role]}`}
+              className={`inline-block text-[10px] font-mono px-1.5 py-0.5 rounded ${roleBadgeColor[session.role] ?? roleBadgeColor.VIEWER}`}
             >
-              {session.role}
+              {ROLE_LABELS[session.role] ?? session.role}
             </span>
           </div>
           <button

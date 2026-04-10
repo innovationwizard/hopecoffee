@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
-import { requireAuth, requireRole } from "@/lib/services/auth";
+import { requireAuth, requirePermission } from "@/lib/services/auth";
 import { createAuditLog } from "@/lib/services/audit";
 import { recalculateShipment } from "@/lib/services/shipment-aggregation";
 import { ShipmentCreateSchema } from "@/lib/validations/schemas";
@@ -26,13 +26,31 @@ export async function getShipment(id: string) {
       contracts: { include: { client: true }, orderBy: { contractNumber: "asc" } },
       materiaPrima: { orderBy: { createdAt: "asc" } },
       subproductos: { orderBy: { createdAt: "asc" } },
-      containers: { orderBy: { createdAt: "asc" } },
+      containers: {
+        orderBy: { createdAt: "asc" },
+        include: {
+          containerLots: {
+            include: {
+              lot: {
+                select: {
+                  id: true,
+                  lotNumber: true,
+                  stage: true,
+                  quantityQQ: true,
+                  supplier: { select: { id: true, name: true } },
+                },
+              },
+            },
+            orderBy: { lot: { lotNumber: "asc" } },
+          },
+        },
+      },
     },
   });
 }
 
 export async function createShipment(data: ShipmentCreateInput) {
-  const session = await requireRole("OPERATOR");
+  const session = await requirePermission("shipment:write");
   const validated = ShipmentCreateSchema.parse(data);
 
   const shipment = await prisma.shipment.create({
@@ -55,7 +73,7 @@ export async function createShipment(data: ShipmentCreateInput) {
 export async function updateShipment(
   data: ShipmentCreateInput & { id: string }
 ) {
-  const session = await requireRole("OPERATOR");
+  const session = await requirePermission("shipment:write");
   const { id, ...rest } = data;
   const validated = ShipmentCreateSchema.parse(rest);
 
@@ -81,7 +99,7 @@ export async function updateShipment(
 }
 
 export async function deleteShipment(id: string) {
-  const session = await requireRole("ADMIN");
+  const session = await requirePermission("shipment:delete");
 
   await prisma.shipment.delete({ where: { id } });
 
@@ -94,7 +112,7 @@ export async function assignContractToShipment(
   contractId: string,
   shipmentId: string
 ) {
-  const session = await requireRole("OPERATOR");
+  const session = await requirePermission("shipment:assign_contract");
 
   const contract = await prisma.contract.findUniqueOrThrow({
     where: { id: contractId },
@@ -129,7 +147,7 @@ export async function assignContractToShipment(
 }
 
 export async function unassignContractFromShipment(contractId: string) {
-  const session = await requireRole("OPERATOR");
+  const session = await requirePermission("shipment:assign_contract");
 
   const contract = await prisma.contract.findUniqueOrThrow({
     where: { id: contractId },

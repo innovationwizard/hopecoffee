@@ -20,7 +20,7 @@ export function UserCreateForm() {
         name: fd.get("name") as string,
         email: fd.get("email") as string,
         password: fd.get("password") as string,
-        role: fd.get("role") as "ADMIN" | "OPERATOR" | "VIEWER",
+        role: fd.get("role") as "ADMIN" | "FIELD_OPERATOR" | "FINANCIAL_OPERATOR" | "VIEWER",
       });
       toast.success("Usuario creado");
       e.currentTarget.reset();
@@ -50,9 +50,10 @@ export function UserCreateForm() {
         label="Rol"
         name="role"
         options={[
-          { value: "VIEWER", label: "Viewer" },
-          { value: "OPERATOR", label: "Operator" },
-          { value: "ADMIN", label: "Admin" },
+          { value: "VIEWER", label: "Consulta" },
+          { value: "FIELD_OPERATOR", label: "Operaciones" },
+          { value: "FINANCIAL_OPERATOR", label: "Finanzas" },
+          { value: "ADMIN", label: "Administrador" },
         ]}
       />
       <Button type="submit" size="sm" loading={loading} className="w-full">

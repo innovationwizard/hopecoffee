@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
-import { requireRole } from "@/lib/services/auth";
+import { requirePermission } from "@/lib/services/auth";
 import { createAuditLog } from "@/lib/services/audit";
 import { recalculateShipment } from "@/lib/services/shipment-aggregation";
 import { calculateSubproducto } from "@/lib/services/calculations";
@@ -10,7 +10,7 @@ import { SubproductoCreateSchema } from "@/lib/validations/schemas";
 import type { SubproductoCreateInput } from "@/lib/validations/schemas";
 
 export async function createSubproducto(data: SubproductoCreateInput) {
-  const session = await requireRole("OPERATOR");
+  const session = await requirePermission("subproducto:write");
   const validated = SubproductoCreateSchema.parse(data);
 
   const calc = calculateSubproducto({
@@ -46,7 +46,7 @@ export async function createSubproducto(data: SubproductoCreateInput) {
 }
 
 export async function deleteSubproducto(id: string) {
-  const session = await requireRole("OPERATOR");
+  const session = await requirePermission("subproducto:write");
 
   const sub = await prisma.subproducto.findUniqueOrThrow({ where: { id } });
 

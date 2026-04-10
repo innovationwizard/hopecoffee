@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { verifyToken } from "@/lib/services/auth";
 
 const PUBLIC_ROUTES = ["/login"];
-const ADMIN_ROUTES = ["/settings/users", "/import"];
+const ADMIN_ONLY_ROUTES = ["/settings/users", "/import"];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -24,7 +24,7 @@ export async function middleware(request: NextRequest) {
   }
 
   if (
-    ADMIN_ROUTES.some((r) => pathname.startsWith(r)) &&
+    ADMIN_ONLY_ROUTES.some((r) => pathname.startsWith(r)) &&
     session.role !== "ADMIN"
   ) {
     return NextResponse.redirect(new URL("/dashboard", request.url));

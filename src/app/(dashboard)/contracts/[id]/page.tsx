@@ -17,6 +17,9 @@ import { ContractStatusChanger } from "../_components/contract-status-changer";
 import { ContractProgress } from "../_components/contract-progress";
 import { MonthlyContext } from "../_components/monthly-context";
 import { PriceHistory } from "../_components/price-history";
+import { LotAllocationsSection } from "../_components/lot-allocations-section";
+import { getContractLotAllocations, getAvailableOroLots } from "../lot-actions";
+import { CollapsibleSection } from "@/components/ui/collapsible-section";
 
 export default async function ContractDetailPage({
   params,
@@ -27,7 +30,11 @@ export default async function ContractDetailPage({
   const contract = await getContract(id);
   if (!contract) notFound();
 
-  const monthlyContext = await getMonthlyContext(contract.createdAt, id);
+  const [monthlyContext, lotAllocations, availableOroLots] = await Promise.all([
+    getMonthlyContext(contract.createdAt, id),
+    getContractLotAllocations(id),
+    getAvailableOroLots(),
+  ]);
 
   const contractMargin =
     toNum(contract.facturacionKgs) > 0
@@ -43,7 +50,9 @@ export default async function ContractDetailPage({
   //         undefined  = locally computed from other contract fields
   const fields: { label: string; value: string | number; source?: "external" | "app" }[] = [
     { label: "Cliente", value: contract.client.name, source: "external" },
+    { label: "Correlativo", value: contract.officialCorrelative ?? "—", source: "app" },
     { label: "Contrato", value: contract.contractNumber, source: "external" },
+    { label: "Nombre COO", value: contract.cooContractName ?? "—", source: "external" },
     { label: "Tipo Facturación", value: tipoFactLabel, source: "external" },
     { label: "Posición Bolsa", value: contract.posicionBolsa ?? "—", source: "external" },
     { label: "Cosecha", value: contract.cosecha ?? "—", source: "external" },
@@ -72,10 +81,10 @@ export default async function ContractDetailPage({
   return (
     <>
       <PageHeader
-        title={contract.contractNumber}
+        title={contract.officialCorrelative ?? contract.contractNumber}
         breadcrumbs={[
           { label: "Contratos", href: "/contracts" },
-          { label: contract.contractNumber },
+          { label: contract.officialCorrelative ?? contract.contractNumber },
         ]}
         action={
           <div className="flex gap-2">
@@ -165,6 +174,34 @@ export default async function ContractDetailPage({
               </CardContent>
             </Card>
           )}
+
+          {/* Lot Allocations */}
+          <CollapsibleSection
+            title="Lotes Asignados"
+            badge={lotAllocations.length}
+          >
+            <LotAllocationsSection
+              contractId={id}
+              initialAllocations={lotAllocations.map((a) => ({
+                id: a.id,
+                quantityQQ: Number(a.quantityQQ),
+                lot: {
+                  id: a.lot.id,
+                  lotNumber: a.lot.lotNumber,
+                  stage: a.lot.stage,
+                  quantityQQ: Number(a.lot.quantityQQ),
+                  supplier: a.lot.supplier,
+                },
+              }))}
+              availableLots={availableOroLots.map((l) => ({
+                id: l.id,
+                lotNumber: l.lotNumber,
+                quantityQQ: Number(l.quantityQQ),
+                qualityGrade: l.qualityGrade,
+                supplier: l.supplier,
+              }))}
+            />
+          </CollapsibleSection>
         </div>
 
         {/* Right: Total + Progress + Actions */}

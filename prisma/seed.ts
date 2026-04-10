@@ -13,15 +13,15 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("🌱 Seeding database...\n");
 
-  // ── Admin User ──
-  const adminPassword = await hash("HopeCoffee2026", 12);
+  // ── Users ──
+  const defaultPassword = await hash("HopeCoffee2026", 12);
   const admin = await prisma.user.upsert({
     where: { email: "octavio@hopecoffee.com" },
     update: {},
     create: {
       email: "octavio@hopecoffee.com",
-      name: "Administrador",
-      passwordHash: adminPassword,
+      name: "Octavio",
+      passwordHash: defaultPassword,
       role: UserRole.ADMIN,
     },
   });

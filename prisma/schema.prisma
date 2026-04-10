@@ -21,9 +21,10 @@ datasource db {
 // ============================================================================
 
 enum UserRole {
-  ADMIN    // Full access: CRUD all entities, manage users, system settings
-  OPERATOR // Operational access: CRUD contracts/shipments/inventory, no user mgmt
-  VIEWER   // Read-only access: dashboards, reports, exports
+  ADMIN               // Full access: CRUD all entities, manage users, system settings
+  FIELD_OPERATOR      // COO/Sales: sourcing, quality, inventory, contract creation
+  FINANCIAL_OPERATOR  // CFO: pricing, margins, financial costs, P&L optimization
+  VIEWER              // Read-only access: dashboards, reports, exports
 }
 
 model User {
@@ -123,7 +124,8 @@ model Client {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  contracts Contract[]
+  contracts      Contract[]
+  shipmentParties ShipmentParty[]
 
   @@map("clients")
 }
@@ -142,6 +144,7 @@ model Supplier {
 
   purchaseOrders   PurchaseOrder[]
   accountEntries   SupplierAccountEntry[]
+  lots             Lot[]
 
   @@map("suppliers")
 }
@@ -194,13 +197,54 @@ enum PosicionBolsa {
   DEC // Diciembre
 }
 
+enum FacilityType {
+  BENEFICIO  // Dry mill processing
+  BODEGA     // Warehouse/storage
+  PATIO      // Drying yard
+}
+
+enum LotStage {
+  PERGAMINO_BODEGA  // Received, in warehouse
+  EN_PROCESO        // Being milled
+  ORO_EXPORTABLE    // Gold coffee ready for export
+  EXPORTADO         // Shipped in a container
+  SUBPRODUCTO       // By-product (segunda, cascarilla)
+}
+
+enum MillingOrderStatus {
+  PENDIENTE    // Scheduled
+  EN_PROCESO   // In progress
+  COMPLETADO   // Finished
+}
+
+enum MillingOutputType {
+  ORO_EXPORTABLE  // Exportable green/gold coffee
+  SEGUNDA         // Second-grade by-product
+  CASCARILLA      // Husk by-product
+  MERMA           // Loss/shrinkage
+}
+
+enum ShipmentPartyRole {
+  BROKER    // Trade intermediary
+  IMPORTER  // Importing company
+  BUYER     // End buyer
+}
+
+enum YieldAdjustmentStatus {
+  PENDIENTE  // Awaiting COO review
+  APLICADO   // Applied to supplier payment
+  RECHAZADO  // Rejected by COO
+}
+
 model Contract {
-  id              String          @id @default(cuid())
-  contractNumber  String          @unique // P40129, P40028, etc. or "Pendiente"/"No asignado"
-  clientId        String
-  shipmentId      String?
-  status          ContractStatus  @default(NEGOCIACION)
-  regions         CoffeeRegion[]  // Can span multiple regions
+  id                  String          @id @default(cuid())
+  contractNumber      String          @unique // P40129, P40028, etc. — CFO's reference
+  officialCorrelative String?         @unique // Auto: HC-{YEAR}-{SEQ} — canonical company-wide ID
+  cooContractName     String?         // COO's field reference (e.g., "Serengeti Enero EP")
+  clientId            String
+  shipmentId          String?
+  status              ContractStatus  @default(NEGOCIACION)
+  regions             CoffeeRegion[]  // Can span multiple regions
 
   // Coffee specs
   puntaje         Int             // Cupping score: 81-85+
@@ -277,6 +321,7 @@ model Contract {
 
   materiaPrimaAllocations MateriaPrimaAllocation[]
   priceSnapshots          ContractPriceSnapshot[]
+  lotAllocations          ContractLotAllocation[]
 
   @@index([clientId])
   @@index([shipmentId])
@@ -331,6 +376,7 @@ model Shipment {
   containers       Container[]
   materiaPrima     MateriaPrima[]
   subproductos     Subproducto[]
+  parties          ShipmentParty[]
 
   @@unique([month, year, name])
   @@index([year, month])
@@ -450,9 +496,14 @@ model SupplierAccountEntry {
   pergamino    Decimal  @db.Decimal(10, 2) // Weight in qq
   precio       Decimal  @db.Decimal(10, 2) // Price per qq
   total        Decimal  @db.Decimal(14, 2) // pergamino × precio
+  lotId        String?  // Links receipt to created lot
+  facilityId   String?  // Receiving facility
+  qualityGrade String?  // Preliminary grade before cupping
   createdAt    DateTime @default(now())
 
-  supplier Supplier @relation(fields: [supplierId], references: [id])
+  supplier Supplier  @relation(fields: [supplierId], references: [id])
+  lot      Lot?      @relation(fields: [lotId], references: [id])
+  facility Facility? @relation(fields: [facilityId], references: [id])
 
   @@index([supplierId, orderCode])
   @@index([date])
@@ -499,7 +550,8 @@ model Container {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  shipment Shipment @relation(fields: [shipmentId], references: [id])
+  shipment      Shipment       @relation(fields: [shipmentId], references: [id])
+  containerLots ContainerLot[]
 
   @@index([shipmentId])
   @@map("containers")
@@ -525,4 +577,250 @@ model ContractPriceSnapshot {
 
   @@index([contractId, snapshotAt])
   @@map("contract_price_snapshots")
+}
+
+// ============================================================================
+// FACILITY MANAGEMENT (Physical locations within La Joya)
+// ============================================================================
+
+model Facility {
+  id        String       @id @default(cuid())
+  name      String       @unique // "Beneficio", "Bodega", "Patio"
+  code      String       @unique // "BEN", "BOD", "PAT"
+  type      FacilityType
+  capacity  Decimal?     @db.Decimal(10, 2) // Max QQ capacity (nullable)
+  isActive  Boolean      @default(true)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  lots                  Lot[]
+  millingOrders         MillingOrder[]
+  supplierAccountEntries SupplierAccountEntry[]
+
+  @@map("facilities")
+}
+
+// ============================================================================
+// LOT TRACKING (Trackable unit of coffee through processing)
+// ============================================================================
+
+model Lot {
+  id                   String    @id @default(cuid())
+  lotNumber            String    @unique // Auto: LOT-{YEAR}-{SEQ}
+  supplierId           String?
+  facilityId           String?
+  purchaseOrderId      String?
+  stage                LotStage  @default(PERGAMINO_BODEGA)
+  quantityQQ           Decimal   @db.Decimal(10, 2) // Current quantity in quintales
+  qualityGrade         String?   // Preliminary grade
+  cuppingScore         Decimal?  @db.Decimal(5, 2)  // SCA total score (set after cupping)
+  receptionDate        DateTime?
+  sourceAccountEntryId String?   // Links to SupplierAccountEntry
+  contractedYield      Decimal?  @db.Decimal(8, 6)  // Expected rendimiento from PO
+  actualYield          Decimal?  @db.Decimal(8, 6)  // Measured rendimiento from cupping
+  costPerQQ            Decimal?  @db.Decimal(10, 2) // For cost-based inventory valuation
+  parentLotId          String?   // Traceability: which lot was this derived from
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  supplier     Supplier?  @relation(fields: [supplierId], references: [id])
+  facility     Facility?  @relation(fields: [facilityId], references: [id])
+  parentLot    Lot?       @relation("LotLineage", fields: [parentLotId], references: [id])
+  childLots    Lot[]      @relation("LotLineage")
+
+  cuppingRecords         CuppingRecord[]
+  millingInputs          MillingInput[]
+  millingOutputs         MillingOutput[]
+  contractLotAllocations ContractLotAllocation[]
+  containerLots          ContainerLot[]
+  sourceAccountEntries   SupplierAccountEntry[]
+
+  @@index([supplierId])
+  @@index([facilityId])
+  @@index([stage])
+  @@index([receptionDate])
+  @@map("lots")
+}
+
+// ============================================================================
+// QUALITY LAB (SCA Cupping Protocol)
+// ============================================================================
+
+model CuppingRecord {
+  id              String   @id @default(cuid())
+  lotId           String
+  catadorUserId   String?  // Who performed the cupping
+  date            DateTime
+
+  // SCA 10-attribute scores (each 6.00-10.00)
+  fragrance       Decimal  @db.Decimal(4, 2)
+  flavor          Decimal  @db.Decimal(4, 2)
+  aftertaste      Decimal  @db.Decimal(4, 2)
+  acidity         Decimal  @db.Decimal(4, 2)
+  body            Decimal  @db.Decimal(4, 2)
+  balance         Decimal  @db.Decimal(4, 2)
+  uniformity      Decimal  @db.Decimal(4, 2)
+  cleanCup        Decimal  @db.Decimal(4, 2)
+  sweetness       Decimal  @db.Decimal(4, 2)
+  overall         Decimal  @db.Decimal(4, 2)
+  totalScore      Decimal  @db.Decimal(5, 2)  // Sum of 10 attributes
+
+  // Physical analysis
+  moisturePercent Decimal? @db.Decimal(4, 2)  // Target 10.5-12.5%
+  defectCount     Int?                         // Per 350g sample
+  screenSize      String?                      // e.g., "15/16", "17/18"
+  waterActivity   Decimal? @db.Decimal(3, 2)  // Target <0.65 aw
+
+  yieldMeasured   Decimal? @db.Decimal(8, 6)  // Rendimiento real
+  purchaseOrderId String?  // For reconciliation with PO
+  notes           String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  lot              Lot               @relation(fields: [lotId], references: [id])
+  yieldAdjustments YieldAdjustment[]
+
+  @@index([lotId])
+  @@index([date])
+  @@map("cupping_records")
+}
+
+model YieldAdjustment {
+  id                       String                @id @default(cuid())
+  cuppingRecordId          String
+  supplierAccountEntryId   String?
+  contractedYield          Decimal               @db.Decimal(8, 6)
+  actualYield              Decimal               @db.Decimal(8, 6)
+  toleranceApplied         Decimal               @db.Decimal(8, 6) // Default 0.01
+  priceAdjustmentPerQQ     Decimal               @db.Decimal(10, 2)
+  totalAdjustment          Decimal               @db.Decimal(14, 2)
+  status                   YieldAdjustmentStatus @default(PENDIENTE)
+  appliedAt                DateTime?
+  appliedByUserId          String?
+  createdAt                DateTime              @default(now())
+  updatedAt                DateTime              @updatedAt
+
+  cuppingRecord CuppingRecord @relation(fields: [cuppingRecordId], references: [id])
+
+  @@index([status])
+  @@index([cuppingRecordId])
+  @@map("yield_adjustments")
+}
+
+model YieldToleranceConfig {
+  id              String   @id @default(cuid())
+  toleranceValue  Decimal  @db.Decimal(8, 6) @default(0.01) // Default +/- 0.01
+  updatedAt       DateTime @updatedAt
+  updatedByUserId String?
+
+  @@map("yield_tolerance_config")
+}
+
+// ============================================================================
+// MILLING (Tría — Inventory Transformation)
+// ============================================================================
+
+model MillingOrder {
+  id              String             @id @default(cuid())
+  orderNumber     String             @unique // Auto: TRIA-{YEAR}-{SEQ}
+  facilityId      String?
+  date            DateTime
+  operatorUserId  String?
+  status          MillingOrderStatus @default(PENDIENTE)
+  notes           String?
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  facility Facility? @relation(fields: [facilityId], references: [id])
+  inputs   MillingInput[]
+  outputs  MillingOutput[]
+
+  @@index([date])
+  @@index([status])
+  @@map("milling_orders")
+}
+
+model MillingInput {
+  id             String  @id @default(cuid())
+  millingOrderId String
+  lotId          String
+  quantityQQ     Decimal @db.Decimal(10, 2)
+
+  millingOrder MillingOrder @relation(fields: [millingOrderId], references: [id], onDelete: Cascade)
+  lot          Lot          @relation(fields: [lotId], references: [id])
+
+  @@index([millingOrderId])
+  @@map("milling_inputs")
+}
+
+model MillingOutput {
+  id             String           @id @default(cuid())
+  millingOrderId String
+  lotId          String?          // New lot created for output (null for merma)
+  quantityQQ     Decimal          @db.Decimal(10, 2)
+  outputType     MillingOutputType
+  qualityGrade   String?
+  costPerQQ      Decimal?         @db.Decimal(10, 2) // Allocated from inputs
+
+  millingOrder MillingOrder @relation(fields: [millingOrderId], references: [id], onDelete: Cascade)
+  lot          Lot?         @relation(fields: [lotId], references: [id])
+
+  @@index([millingOrderId])
+  @@index([outputType])
+  @@map("milling_outputs")
+}
+
+// ============================================================================
+// SHIPMENT COMMERCIAL PARTIES (Per-shipment client roles)
+// ============================================================================
+
+model ShipmentParty {
+  id         String           @id @default(cuid())
+  shipmentId String
+  clientId   String
+  role       ShipmentPartyRole
+  notes      String?
+  createdAt  DateTime         @default(now())
+
+  shipment Shipment @relation(fields: [shipmentId], references: [id], onDelete: Cascade)
+  client   Client   @relation(fields: [clientId], references: [id])
+
+  @@unique([shipmentId, clientId, role])
+  @@index([shipmentId])
+  @@map("shipment_parties")
+}
+
+// ============================================================================
+// CONTRACT-TO-LOT ALLOCATION (Oro lots assigned to sales contracts)
+// ============================================================================
+
+model ContractLotAllocation {
+  id         String  @id @default(cuid())
+  contractId String
+  lotId      String
+  quantityQQ Decimal @db.Decimal(10, 2)
+  createdAt  DateTime @default(now())
+
+  contract Contract @relation(fields: [contractId], references: [id])
+  lot      Lot      @relation(fields: [lotId], references: [id])
+
+  @@unique([contractId, lotId])
+  @@map("contract_lot_allocations")
+}
+
+// ============================================================================
+// CONTAINER-TO-LOT TRACKING (Per-lot export tracking)
+// ============================================================================
+
+model ContainerLot {
+  id          String  @id @default(cuid())
+  containerId String
+  lotId       String
+  quantityQQ  Decimal @db.Decimal(10, 2)
+
+  container Container @relation(fields: [containerId], references: [id], onDelete: Cascade)
+  lot       Lot       @relation(fields: [lotId], references: [id])
+
+  @@unique([containerId, lotId])
+  @@map("container_lots")
 }

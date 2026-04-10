@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { SignJWT, jwtVerify } from "jose";
 import { hash, compare } from "bcryptjs";
 import type { UserRole } from "@prisma/client";
+import { hasPermission, type Permission } from "./permissions";
 
 const JWT_SECRET = new TextEncoder().encode(
   process.env.JWT_SECRET || "dev-secret-change-me"
@@ -11,17 +12,18 @@ const JWT_EXPIRY = process.env.JWT_EXPIRY || "24h";
 const AUTH_COOKIE = "auth-token";
 const BCRYPT_COST = 12;
 
-const ROLE_HIERARCHY: Record<UserRole, number> = {
-  ADMIN: 3,
-  OPERATOR: 2,
-  VIEWER: 1,
-};
-
 export interface Session {
   userId: string;
   email: string;
   role: UserRole;
   name: string;
+}
+
+export class AuthorizationError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "AuthorizationError";
+  }
 }
 
 export async function hashPassword(password: string): Promise<string> {
@@ -46,10 +48,18 @@ export async function signToken(payload: Session): Promise<string> {
 export async function verifyToken(token: string): Promise<Session | null> {
   try {
     const { payload } = await jwtVerify(token, JWT_SECRET);
+    let role = payload.role as UserRole;
+
+    // Transition: map legacy OPERATOR to FIELD_OPERATOR
+    // REMOVE AFTER 2026-04-12 (one JWT expiry cycle)
+    if (role === ("OPERATOR" as unknown as UserRole)) {
+      role = "FIELD_OPERATOR" as UserRole;
+    }
+
     return {
       userId: payload.userId as string,
       email: payload.email as string,
-      role: payload.role as UserRole,
+      role,
       name: payload.name as string,
     };
   } catch {
@@ -81,10 +91,28 @@ export async function requireAuth(): Promise<Session> {
   return session;
 }
 
-export async function requireRole(minimumRole: UserRole): Promise<Session> {
+/**
+ * Permission-based authorization. Checks a specific permission against the
+ * user's role. Throws AuthorizationError on denial (not redirect).
+ */
+export async function requirePermission(permission: Permission): Promise<Session> {
   const session = await requireAuth();
-  if (ROLE_HIERARCHY[session.role] < ROLE_HIERARCHY[minimumRole]) {
-    redirect("/dashboard");
+  if (!hasPermission(session.role, permission)) {
+    throw new AuthorizationError(
+      `Rol ${session.role} no tiene permiso: ${permission}`
+    );
   }
   return session;
+}
+
+/**
+ * Synchronous permission check for use inside actions that already have a session.
+ * Throws AuthorizationError on denial.
+ */
+export function requirePermissionSync(role: UserRole, permission: Permission): void {
+  if (!hasPermission(role, permission)) {
+    throw new AuthorizationError(
+      `Rol ${role} no tiene permiso: ${permission}`
+    );
+  }
 }

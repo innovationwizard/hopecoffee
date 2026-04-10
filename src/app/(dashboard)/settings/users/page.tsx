@@ -49,12 +49,20 @@ export default async function UsersPage() {
                           variant={
                             u.role === "ADMIN"
                               ? "purple"
-                              : u.role === "OPERATOR"
+                              : u.role === "FINANCIAL_OPERATOR"
                               ? "blue"
+                              : u.role === "FIELD_OPERATOR"
+                              ? "emerald"
                               : "gray"
                           }
                         >
-                          {u.role}
+                          {u.role === "FIELD_OPERATOR"
+                            ? "Operaciones"
+                            : u.role === "FINANCIAL_OPERATOR"
+                            ? "Finanzas"
+                            : u.role === "ADMIN"
+                            ? "Administrador"
+                            : "Consulta"}
                         </Badge>
                       </td>
                       <td>

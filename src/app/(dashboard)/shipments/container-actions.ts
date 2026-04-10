@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
-import { requireRole } from "@/lib/services/auth";
+import { requirePermission } from "@/lib/services/auth";
 import { createAuditLog } from "@/lib/services/audit";
 import { ContainerCreateSchema } from "@/lib/validations/schemas";
 import type { ContainerCreateInput } from "@/lib/validations/schemas";
@@ -15,7 +15,7 @@ export async function getContainers(shipmentId: string) {
 }
 
 export async function createContainer(data: ContainerCreateInput) {
-  const session = await requireRole("OPERATOR");
+  const session = await requirePermission("container:write");
   const validated = ContainerCreateSchema.parse(data);
 
   const container = await prisma.container.create({
@@ -36,7 +36,7 @@ export async function createContainer(data: ContainerCreateInput) {
 }
 
 export async function deleteContainer(id: string) {
-  const session = await requireRole("OPERATOR");
+  const session = await requirePermission("container:write");
 
   const container = await prisma.container.findUniqueOrThrow({ where: { id } });
   await prisma.container.delete({ where: { id } });

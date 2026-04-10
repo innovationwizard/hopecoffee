@@ -30,7 +30,7 @@ export const CoffeeRegionEnum = z.enum([
   "OTHER",
 ]);
 
-export const UserRoleEnum = z.enum(["ADMIN", "OPERATOR", "VIEWER"]);
+export const UserRoleEnum = z.enum(["ADMIN", "FIELD_OPERATOR", "FINANCIAL_OPERATOR", "VIEWER"]);
 
 export const TipoFacturacionEnum = z.enum([
   "LIBRAS_GUATEMALTECAS",
@@ -52,6 +52,7 @@ export const ContractCreateSchema = z.object({
     .string()
     .min(1, "Contract number is required")
     .max(20, "Contract number too long"),
+  cooContractName: z.string().max(100).optional().nullable(),
   clientId: z.string().cuid("Invalid client ID"),
   shipmentId: z.string().cuid().optional().nullable(),
   status: ContractStatusEnum.default("NEGOCIACION"),
@@ -300,6 +301,141 @@ export const ContainerCreateSchema = z.object({
 });
 
 // ---------------------------------------------------------------------------
+// FACILITY
+// ---------------------------------------------------------------------------
+
+export const FacilityTypeEnum = z.enum(["BENEFICIO", "BODEGA", "PATIO"]);
+
+export const FacilityCreateSchema = z.object({
+  name: z.string().min(1).max(100),
+  code: z.string().min(1).max(10),
+  type: FacilityTypeEnum,
+  capacity: z.number().min(0).optional().nullable(),
+  isActive: z.boolean().default(true),
+});
+
+// ---------------------------------------------------------------------------
+// LOT
+// ---------------------------------------------------------------------------
+
+export const LotStageEnum = z.enum([
+  "PERGAMINO_BODEGA",
+  "EN_PROCESO",
+  "ORO_EXPORTABLE",
+  "EXPORTADO",
+  "SUBPRODUCTO",
+]);
+
+export const LotCreateSchema = z.object({
+  supplierId: z.string().cuid().optional().nullable(),
+  facilityId: z.string().cuid().optional().nullable(),
+  purchaseOrderId: z.string().cuid().optional().nullable(),
+  stage: LotStageEnum.default("PERGAMINO_BODEGA"),
+  quantityQQ: z.number().positive().max(100000),
+  qualityGrade: z.string().max(50).optional().nullable(),
+  receptionDate: z.coerce.date().optional().nullable(),
+  sourceAccountEntryId: z.string().cuid().optional().nullable(),
+  contractedYield: z.number().positive().min(1.0).max(2.0).optional().nullable(),
+  costPerQQ: z.number().min(0).optional().nullable(),
+});
+
+// ---------------------------------------------------------------------------
+// CUPPING RECORD (SCA 10-attribute protocol)
+// ---------------------------------------------------------------------------
+
+const scaScore = z.number().min(6).max(10);
+
+export const CuppingRecordCreateSchema = z.object({
+  lotId: z.string().cuid(),
+  catadorUserId: z.string().cuid().optional().nullable(),
+  date: z.coerce.date(),
+  fragrance: scaScore,
+  flavor: scaScore,
+  aftertaste: scaScore,
+  acidity: scaScore,
+  body: scaScore,
+  balance: scaScore,
+  uniformity: scaScore,
+  cleanCup: scaScore,
+  sweetness: scaScore,
+  overall: scaScore,
+  moisturePercent: z.number().min(0).max(100).optional().nullable(),
+  defectCount: z.number().int().min(0).optional().nullable(),
+  screenSize: z.string().max(20).optional().nullable(),
+  waterActivity: z.number().min(0).max(1).optional().nullable(),
+  yieldMeasured: z.number().positive().min(1.0).max(2.0).optional().nullable(),
+  purchaseOrderId: z.string().cuid().optional().nullable(),
+  notes: z.string().max(2000).optional().nullable(),
+});
+
+// ---------------------------------------------------------------------------
+// MILLING ORDER
+// ---------------------------------------------------------------------------
+
+export const MillingOrderStatusEnum = z.enum(["PENDIENTE", "EN_PROCESO", "COMPLETADO"]);
+export const MillingOutputTypeEnum = z.enum(["ORO_EXPORTABLE", "SEGUNDA", "CASCARILLA", "MERMA"]);
+
+export const MillingOrderCreateSchema = z.object({
+  facilityId: z.string().cuid().optional().nullable(),
+  date: z.coerce.date(),
+  operatorUserId: z.string().cuid().optional().nullable(),
+  status: MillingOrderStatusEnum.default("PENDIENTE"),
+  notes: z.string().max(1000).optional().nullable(),
+});
+
+export const MillingInputSchema = z.object({
+  lotId: z.string().cuid(),
+  quantityQQ: z.number().positive().max(100000),
+});
+
+export const MillingOutputSchema = z.object({
+  lotId: z.string().cuid().optional().nullable(),
+  quantityQQ: z.number().positive().max(100000),
+  outputType: MillingOutputTypeEnum,
+  qualityGrade: z.string().max(50).optional().nullable(),
+  costPerQQ: z.number().min(0).optional().nullable(),
+});
+
+// ---------------------------------------------------------------------------
+// SHIPMENT PARTY
+// ---------------------------------------------------------------------------
+
+export const ShipmentPartyRoleEnum = z.enum(["BROKER", "IMPORTER", "BUYER"]);
+
+export const ShipmentPartyCreateSchema = z.object({
+  shipmentId: z.string().cuid(),
+  clientId: z.string().cuid(),
+  role: ShipmentPartyRoleEnum,
+  notes: z.string().max(500).optional().nullable(),
+});
+
+// ---------------------------------------------------------------------------
+// CONTRACT LOT ALLOCATION
+// ---------------------------------------------------------------------------
+
+export const ContractLotAllocationSchema = z.object({
+  contractId: z.string().cuid(),
+  lotId: z.string().cuid(),
+  quantityQQ: z.number().positive().max(100000),
+});
+
+// ---------------------------------------------------------------------------
+// CONTAINER LOT
+// ---------------------------------------------------------------------------
+
+export const ContainerLotSchema = z.object({
+  containerId: z.string().cuid(),
+  lotId: z.string().cuid(),
+  quantityQQ: z.number().positive().max(100000),
+});
+
+// ---------------------------------------------------------------------------
+// YIELD ADJUSTMENT
+// ---------------------------------------------------------------------------
+
+export const YieldAdjustmentStatusEnum = z.enum(["PENDIENTE", "APLICADO", "RECHAZADO"]);
+
+// ---------------------------------------------------------------------------
 // TYPE EXPORTS (inferred from schemas)
 // ---------------------------------------------------------------------------
 
@@ -317,3 +453,12 @@ export type UserCreateInput = z.infer<typeof UserCreateSchema>;
 export type ExchangeRateInput = z.infer<typeof ExchangeRateSchema>;
 export type ExportCostConfigInput = z.infer<typeof ExportCostConfigSchema>;
 export type ContainerCreateInput = z.infer<typeof ContainerCreateSchema>;
+export type FacilityCreateInput = z.infer<typeof FacilityCreateSchema>;
+export type LotCreateInput = z.infer<typeof LotCreateSchema>;
+export type CuppingRecordCreateInput = z.infer<typeof CuppingRecordCreateSchema>;
+export type MillingOrderCreateInput = z.infer<typeof MillingOrderCreateSchema>;
+export type MillingInputInput = z.infer<typeof MillingInputSchema>;
+export type MillingOutputInput = z.infer<typeof MillingOutputSchema>;
+export type ShipmentPartyCreateInput = z.infer<typeof ShipmentPartyCreateSchema>;
+export type ContractLotAllocationInput = z.infer<typeof ContractLotAllocationSchema>;
+export type ContainerLotInput = z.infer<typeof ContainerLotSchema>;

@@ -1,6 +1,9 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getShipment, getUnassignedContracts } from "../actions";
+import { getShipmentParties } from "../party-actions";
+import { getClients } from "../../contracts/actions";
+import { getAvailableOroLots } from "../../contracts/lot-actions";
 import { PageHeader } from "@/components/ui/page-header";
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/ui/status-badge";
@@ -10,6 +13,7 @@ import { ContractsSection } from "../_components/contracts-section";
 import { MateriaPrimaSection } from "../_components/materia-prima-section";
 import { SubproductoSection } from "../_components/subproducto-section";
 import { ContainersSection } from "../_components/containers-section";
+import { PartiesSection } from "../_components/parties-section";
 import { MarginCard } from "../_components/margin-card";
 import {
   formatGTQ,
@@ -23,9 +27,12 @@ export default async function ShipmentDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const [shipment, unassignedContracts] = await Promise.all([
+  const [shipment, unassignedContracts, parties, clients, availableOroLots] = await Promise.all([
     getShipment(id),
     getUnassignedContracts(),
+    getShipmentParties(id),
+    getClients(),
+    getAvailableOroLots(),
   ]);
 
   if (!shipment) notFound();
@@ -130,6 +137,25 @@ export default async function ShipmentDetailPage({
             <ContainersSection
               shipmentId={id}
               containers={shipment.containers}
+              availableOroLots={availableOroLots.map((l) => ({
+                id: l.id,
+                lotNumber: l.lotNumber,
+                quantityQQ: Number(l.quantityQQ),
+                qualityGrade: l.qualityGrade,
+                supplier: l.supplier,
+              }))}
+            />
+          </CollapsibleSection>
+
+          {/* Parties section */}
+          <CollapsibleSection
+            title="Partes"
+            badge={parties.length}
+          >
+            <PartiesSection
+              shipmentId={id}
+              parties={parties}
+              clients={clients.map((c) => ({ id: c.id, name: c.name }))}
             />
           </CollapsibleSection>
         </div>

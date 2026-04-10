@@ -2,9 +2,10 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
-import { requireAuth, requireRole } from "@/lib/services/auth";
+import { requireAuth, requirePermission, requirePermissionSync } from "@/lib/services/auth";
 import { createAuditLog } from "@/lib/services/audit";
 import { calculateContract } from "@/lib/services/calculations";
+import { generateContractCorrelative } from "@/lib/services/correlatives";
 import {
   ContractCreateSchema,
   ContractUpdateSchema,
@@ -45,7 +46,11 @@ export async function getContracts(filters?: {
   if (filters?.clientId) where.clientId = filters.clientId;
   if (filters?.status) where.status = filters.status as ContractStatus;
   if (filters?.search) {
-    where.contractNumber = { contains: filters.search, mode: "insensitive" };
+    where.OR = [
+      { contractNumber: { contains: filters.search, mode: "insensitive" } },
+      { officialCorrelative: { contains: filters.search, mode: "insensitive" } },
+      { cooContractName: { contains: filters.search, mode: "insensitive" } },
+    ];
   }
   if (filters?.cosecha) {
     where.cosecha = filters.cosecha;
@@ -138,7 +143,7 @@ function computeContractFields(input: {
 }
 
 export async function createContract(data: ContractCreateInput) {
-  const session = await requireRole("OPERATOR");
+  const session = await requirePermission("contract:create");
   const validated = ContractCreateSchema.parse(data);
 
   const computed = computeContractFields({
@@ -152,14 +157,19 @@ export async function createContract(data: ContractCreateInput) {
   });
 
   // Snapshot the default export cost config at creation time
-  const defaultConfig = await prisma.exportCostConfig.findFirst({
-    where: { isDefault: true },
-    select: { id: true },
-  });
+  const [defaultConfig, officialCorrelative] = await Promise.all([
+    prisma.exportCostConfig.findFirst({
+      where: { isDefault: true },
+      select: { id: true },
+    }),
+    generateContractCorrelative(),
+  ]);
 
   const contract = await prisma.contract.create({
     data: {
       contractNumber: validated.contractNumber,
+      officialCorrelative,
+      cooContractName: validated.cooContractName ?? null,
       clientId: validated.clientId,
       shipmentId: validated.shipmentId ?? null,
       status: validated.status,
@@ -218,13 +228,35 @@ export async function createContract(data: ContractCreateInput) {
   return contract;
 }
 
+const FINANCIAL_FIELDS = [
+  "precioBolsa", "diferencial", "comisionCompra", "comisionVenta",
+  "montoCredito", "cfTasaAnual", "cfMeses", "tipoCambio",
+  "gastosPerSaco", "exportTrillaPerQQ", "exportSacoYute", "exportEstampado",
+  "exportBolsaGrainPro", "exportFitoSanitario", "exportImpuestoAnacafe1",
+  "exportImpuestoAnacafe2", "exportInspeccionOirsa", "exportFumigacion",
+  "exportEmisionDocumento", "exportFletePuerto", "exportSeguro",
+  "exportCustodio", "exportAgenteAduanal", "exportComisionOrganico",
+  "tipoFacturacion", "posicionBolsa",
+] as const;
+
 export async function updateContract(data: ContractUpdateInput) {
-  const session = await requireRole("OPERATOR");
+  const session = await requireAuth();
   const validated = ContractUpdateSchema.parse(data);
 
   const existing = await prisma.contract.findUniqueOrThrow({
     where: { id: validated.id },
   });
+
+  // Permission check: financial fields require contract:update_financial
+  const touchesFinancial = FINANCIAL_FIELDS.some(
+    (f) => (validated as Record<string, unknown>)[f] !== undefined
+  );
+
+  if (touchesFinancial) {
+    requirePermissionSync(session.role, "contract:update_financial");
+  } else {
+    requirePermissionSync(session.role, "contract:update");
+  }
 
   // Business rule: price is frozen once FIJADO
   if (existing.status === "FIJADO") {
@@ -291,6 +323,9 @@ export async function updateContract(data: ContractUpdateInput) {
       ...(validated.puntaje && { puntaje: validated.puntaje }),
       ...(validated.rendimiento && { rendimiento: validated.rendimiento }),
       ...(validated.lote !== undefined && { lote: validated.lote }),
+      ...((validated as Record<string, unknown>).cooContractName !== undefined && {
+        cooContractName: (validated as Record<string, unknown>).cooContractName as string | null,
+      }),
       ...(validated.notes !== undefined && { notes: validated.notes }),
       ...(validated.posicionNY !== undefined && {
         posicionNY: validated.posicionNY,
@@ -325,7 +360,7 @@ export async function updateContract(data: ContractUpdateInput) {
 }
 
 export async function deleteContract(id: string) {
-  const session = await requireRole("ADMIN");
+  const session = await requirePermission("contract:delete");
 
   const existing = await prisma.contract.findUniqueOrThrow({
     where: { id },
@@ -439,7 +474,7 @@ export async function getMonthlyContext(
 }
 
 export async function changeContractStatus(id: string, newStatus: string) {
-  const session = await requireRole("OPERATOR");
+  const session = await requirePermission("contract:change_status");
 
   const existing = await prisma.contract.findUniqueOrThrow({
     where: { id },

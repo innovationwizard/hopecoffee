@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
-import { requireAuth, requireRole } from "@/lib/services/auth";
+import { requireAuth, requirePermission } from "@/lib/services/auth";
 import { createAuditLog } from "@/lib/services/audit";
 import { calculatePurchaseOrder } from "@/lib/services/calculations";
 import { PurchaseOrderCreateSchema, PurchaseOrderUpdateSchema } from "@/lib/validations/schemas";
@@ -52,7 +52,7 @@ function computePOFields(input: PurchaseOrderCreateInput) {
 }
 
 export async function createPurchaseOrder(data: PurchaseOrderCreateInput) {
-  const session = await requireRole("OPERATOR");
+  const session = await requirePermission("purchase_order:write");
   const validated = PurchaseOrderCreateSchema.parse(data);
   const computed = computePOFields(validated);
 
@@ -72,12 +72,12 @@ export async function createPurchaseOrder(data: PurchaseOrderCreateInput) {
     validated
   );
 
-  revalidatePath("/inventory");
+  revalidatePath("/purchase-orders");
   return po;
 }
 
 export async function updatePurchaseOrder(data: PurchaseOrderUpdateInput) {
-  const session = await requireRole("OPERATOR");
+  const session = await requirePermission("purchase_order:write");
   const validated = PurchaseOrderUpdateSchema.parse(data);
   const { id, ...fields } = validated;
 
@@ -120,8 +120,8 @@ export async function updatePurchaseOrder(data: PurchaseOrderUpdateInput) {
     merged
   );
 
-  revalidatePath("/inventory");
-  revalidatePath(`/inventory/${id}`);
+  revalidatePath("/purchase-orders");
+  revalidatePath(`/purchase-orders/${id}`);
   return po;
 }
 
@@ -148,11 +148,11 @@ export async function getAccumulatedPOStats() {
 }
 
 export async function deletePurchaseOrder(id: string) {
-  const session = await requireRole("ADMIN");
+  const session = await requirePermission("purchase_order:delete");
 
   await prisma.purchaseOrder.delete({ where: { id } });
 
   await createAuditLog(session.userId, "DELETE", "PurchaseOrder", id);
 
-  revalidatePath("/inventory");
+  revalidatePath("/purchase-orders");
 }

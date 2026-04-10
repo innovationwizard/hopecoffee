@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
-import { requireRole } from "@/lib/services/auth";
+import { requirePermission } from "@/lib/services/auth";
 import { createAuditLog } from "@/lib/services/audit";
 import { recalculateShipment } from "@/lib/services/shipment-aggregation";
 import { calculateMateriaPrima } from "@/lib/services/calculations";
@@ -10,7 +10,7 @@ import { MateriaPrimaCreateSchema } from "@/lib/validations/schemas";
 import type { MateriaPrimaCreateInput } from "@/lib/validations/schemas";
 
 export async function createMateriaPrima(data: MateriaPrimaCreateInput) {
-  const session = await requireRole("OPERATOR");
+  const session = await requirePermission("materia_prima:write");
   const validated = MateriaPrimaCreateSchema.parse(data);
 
   const calc = calculateMateriaPrima({
@@ -53,7 +53,7 @@ export async function createMateriaPrima(data: MateriaPrimaCreateInput) {
 export async function updateMateriaPrima(
   data: MateriaPrimaCreateInput & { id: string }
 ) {
-  const session = await requireRole("OPERATOR");
+  const session = await requirePermission("materia_prima:write");
   const { id, ...rest } = data;
   const validated = MateriaPrimaCreateSchema.parse(rest);
 
@@ -96,7 +96,7 @@ export async function updateMateriaPrima(
 }
 
 export async function deleteMateriaPrima(id: string) {
-  const session = await requireRole("OPERATOR");
+  const session = await requirePermission("materia_prima:write");
 
   const mp = await prisma.materiaPrima.findUniqueOrThrow({ where: { id } });
 

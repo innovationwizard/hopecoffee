@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
-import { requireAuth, requireRole } from "@/lib/services/auth";
+import { requireAuth, requirePermission } from "@/lib/services/auth";
 import { createAuditLog } from "@/lib/services/audit";
 import { calculateFarmFinancing } from "@/lib/services/calculations";
 import { FarmCreateSchema } from "@/lib/validations/schemas";
@@ -14,7 +14,7 @@ export async function getFarms() {
 }
 
 export async function updateFarm(data: FarmCreateInput & { id: string }) {
-  const session = await requireRole("OPERATOR");
+  const session = await requirePermission("farm:write");
   const { id, ...rest } = data;
   const validated = FarmCreateSchema.parse(rest);
 

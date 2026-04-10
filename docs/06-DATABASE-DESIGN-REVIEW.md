@@ -326,3 +326,22 @@ This is a simple FK that preserves the lineage without duplicating the full conf
 ```
 
 All items are independent and can be implemented in any order. Items 1-2 should go first as they're the fastest wins with the highest impact-to-effort ratio.
+
+---
+
+## Implementation Status (Updated 2026-04-10)
+
+| # | Enhancement | Status |
+|---|------------|--------|
+| 1 | Missing indexes | DONE |
+| 2 | PO/Shipment status enums | DONE |
+| 3 | DB-level aggregation | PARTIALLY DONE — dashboard and monthly context use aggregate; `recalculateShipment()` MP/subproducto sums still use JS `.reduce()` |
+| 4 | Cosecha field | DONE |
+| 5 | MP allocation quantity | DONE — `quintalesAllocated` field exists on MateriaPrimaAllocation |
+| 6 | computedAt staleness detection | DONE |
+| 7 | GIN index on regions | NOT DONE |
+| 8 | Container model | DONE |
+| 9 | Price history table | DONE — ContractPriceSnapshot created on both updateContract and changeContractStatus |
+| 10 | Export cost config snapshot | DONE |
+
+**Remaining items (3 and 7) have been consolidated into [10-CATCH-UP-PLAN.md](10-CATCH-UP-PLAN.md) as Wave A (items A1 and A2).** This document remains as reference for the original analysis.

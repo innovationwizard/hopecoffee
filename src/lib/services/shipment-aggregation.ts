@@ -8,14 +8,20 @@ import {
 import { toNum } from "@/lib/utils/format";
 
 export async function recalculateShipment(shipmentId: string) {
-  const shipment = await prisma.shipment.findUniqueOrThrow({
-    where: { id: shipmentId },
-    include: {
-      contracts: true,
-      materiaPrima: true,
-      subproductos: true,
-    },
-  });
+  const [shipment, mpAgg, subAgg] = await Promise.all([
+    prisma.shipment.findUniqueOrThrow({
+      where: { id: shipmentId },
+      include: { contracts: true },
+    }),
+    prisma.materiaPrima.aggregate({
+      where: { shipmentId },
+      _sum: { totalMP: true },
+    }),
+    prisma.subproducto.aggregate({
+      where: { shipmentId },
+      _sum: { totalPerga: true },
+    }),
+  ]);
 
   const gastosPerSaco = toNum(shipment.gastosPerSaco) || 23;
 
@@ -35,17 +41,8 @@ export async function recalculateShipment(shipmentId: string) {
 
   const agg = aggregateContracts(contractCalcs);
 
-  const totalMateriaPrima = shipment.materiaPrima.reduce(
-    (sum, mp) => sum.plus(new Decimal(toNum(mp.totalMP))),
-    new Decimal(0)
-  );
-
-  const totalSubproducto = shipment.subproductos.reduce(
-    (sum, sp) => sum.plus(new Decimal(toNum(sp.totalPerga))),
-    new Decimal(0)
-  );
-
-  // Use aggregated commissions from contracts (3.00 USD/quintal total)
+  const totalMateriaPrima = new Decimal(toNum(mpAgg._sum.totalMP));
+  const totalSubproducto = new Decimal(toNum(subAgg._sum.totalPerga));
   const totalComision = agg.totalComision;
 
   const margin = calculateShipmentMargin(

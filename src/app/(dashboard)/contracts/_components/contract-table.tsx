@@ -25,6 +25,13 @@ const columns = [
     header: "Cliente",
     size: 120,
   }),
+  col.accessor("officialCorrelative", {
+    header: "Correlativo",
+    size: 100,
+    cell: (info) => (
+      <span className="font-bold">{info.getValue() ?? "—"}</span>
+    ),
+  }),
   col.accessor("contractNumber", {
     header: "Contrato",
     size: 100,

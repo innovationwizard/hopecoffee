@@ -417,6 +417,199 @@ export async function getPnlData(): Promise<PnlRow[]> {
 }
 
 // ---------------------------------------------------------------------------
+// INVENTORY REPORT
+// ---------------------------------------------------------------------------
+
+export interface InventoryStageRow {
+  stage: string;
+  qq: number;
+  count: number;
+}
+
+export interface InventoryGroupRow {
+  name: string;
+  stages: InventoryStageRow[];
+}
+
+export interface InventoryReport {
+  byFacility: InventoryGroupRow[];
+  bySupplier: InventoryGroupRow[];
+  byStage: InventoryStageRow[];
+}
+
+export async function getInventoryReport(): Promise<InventoryReport> {
+  await requireAuth();
+
+  const lots = await prisma.lot.findMany({
+    select: {
+      stage: true,
+      quantityQQ: true,
+      facility: { select: { name: true } },
+      supplier: { select: { name: true } },
+    },
+  });
+
+  // By stage
+  const stageMap = new Map<string, { qq: number; count: number }>();
+  for (const lot of lots) {
+    const existing = stageMap.get(lot.stage) ?? { qq: 0, count: 0 };
+    existing.qq += toNum(lot.quantityQQ);
+    existing.count += 1;
+    stageMap.set(lot.stage, existing);
+  }
+  const byStage = Array.from(stageMap.entries()).map(([stage, data]) => ({
+    stage,
+    ...data,
+  }));
+
+  // By facility
+  const facilityMap = new Map<string, Map<string, { qq: number; count: number }>>();
+  for (const lot of lots) {
+    const fname = lot.facility?.name ?? "Sin beneficio";
+    if (!facilityMap.has(fname)) facilityMap.set(fname, new Map());
+    const stages = facilityMap.get(fname)!;
+    const existing = stages.get(lot.stage) ?? { qq: 0, count: 0 };
+    existing.qq += toNum(lot.quantityQQ);
+    existing.count += 1;
+    stages.set(lot.stage, existing);
+  }
+  const byFacility = Array.from(facilityMap.entries())
+    .map(([name, stages]) => ({
+      name,
+      stages: Array.from(stages.entries()).map(([stage, data]) => ({ stage, ...data })),
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  // By supplier
+  const supplierMap = new Map<string, Map<string, { qq: number; count: number }>>();
+  for (const lot of lots) {
+    const sname = lot.supplier?.name ?? "Sin proveedor";
+    if (!supplierMap.has(sname)) supplierMap.set(sname, new Map());
+    const stages = supplierMap.get(sname)!;
+    const existing = stages.get(lot.stage) ?? { qq: 0, count: 0 };
+    existing.qq += toNum(lot.quantityQQ);
+    existing.count += 1;
+    stages.set(lot.stage, existing);
+  }
+  const bySupplier = Array.from(supplierMap.entries())
+    .map(([name, stages]) => ({
+      name,
+      stages: Array.from(stages.entries()).map(([stage, data]) => ({ stage, ...data })),
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  return { byFacility, bySupplier, byStage };
+}
+
+// ---------------------------------------------------------------------------
+// YIELD VARIANCE REPORT
+// ---------------------------------------------------------------------------
+
+export interface YieldVarianceRow {
+  lotNumber: string;
+  supplier: string;
+  contracted: number;
+  actual: number;
+  variance: number;
+  adjustmentStatus: string | null;
+}
+
+export async function getYieldVarianceReport(): Promise<YieldVarianceRow[]> {
+  await requireAuth();
+
+  const lots = await prisma.lot.findMany({
+    where: {
+      actualYield: { not: null },
+      contractedYield: { not: null },
+    },
+    select: {
+      lotNumber: true,
+      contractedYield: true,
+      actualYield: true,
+      supplier: { select: { name: true } },
+      cuppingRecords: {
+        select: {
+          yieldAdjustments: {
+            select: { status: true },
+            take: 1,
+            orderBy: { createdAt: "desc" },
+          },
+        },
+        take: 1,
+        orderBy: { date: "desc" },
+      },
+    },
+    orderBy: { lotNumber: "asc" },
+  });
+
+  return lots.map((lot) => {
+    const contracted = toNum(lot.contractedYield);
+    const actual = toNum(lot.actualYield);
+    const variance = contracted > 0 ? (actual - contracted) / contracted : 0;
+    const adjustment = lot.cuppingRecords[0]?.yieldAdjustments[0];
+    return {
+      lotNumber: lot.lotNumber,
+      supplier: lot.supplier?.name ?? "Sin proveedor",
+      contracted,
+      actual,
+      variance,
+      adjustmentStatus: adjustment?.status ?? null,
+    };
+  });
+}
+
+// ---------------------------------------------------------------------------
+// MILLING EFFICIENCY REPORT
+// ---------------------------------------------------------------------------
+
+export interface MillingEfficiencyRow {
+  orderNumber: string;
+  date: string;
+  inputQQ: number;
+  oroOutputQQ: number;
+  segundaQQ: number;
+  mermaQQ: number;
+  yield: number;
+}
+
+export async function getMillingEfficiencyReport(): Promise<MillingEfficiencyRow[]> {
+  await requireAuth();
+
+  const orders = await prisma.millingOrder.findMany({
+    where: { status: "COMPLETADO" },
+    include: {
+      inputs: { select: { quantityQQ: true } },
+      outputs: { select: { outputType: true, quantityQQ: true } },
+    },
+    orderBy: { date: "desc" },
+  });
+
+  return orders.map((order) => {
+    const inputQQ = order.inputs.reduce((sum, i) => sum + toNum(i.quantityQQ), 0);
+    const oroOutputQQ = order.outputs
+      .filter((o) => o.outputType === "ORO_EXPORTABLE")
+      .reduce((sum, o) => sum + toNum(o.quantityQQ), 0);
+    const segundaQQ = order.outputs
+      .filter((o) => o.outputType === "SEGUNDA")
+      .reduce((sum, o) => sum + toNum(o.quantityQQ), 0);
+    const mermaQQ = order.outputs
+      .filter((o) => o.outputType === "MERMA" || o.outputType === "CASCARILLA")
+      .reduce((sum, o) => sum + toNum(o.quantityQQ), 0);
+    const yieldPct = inputQQ > 0 ? oroOutputQQ / inputQQ : 0;
+
+    return {
+      orderNumber: order.orderNumber,
+      date: order.date.toISOString().slice(0, 10),
+      inputQQ,
+      oroOutputQQ,
+      segundaQQ,
+      mermaQQ,
+      yield: yieldPct,
+    };
+  });
+}
+
+// ---------------------------------------------------------------------------
 // REPORTS SUMMARY (for hub page)
 // ---------------------------------------------------------------------------
 

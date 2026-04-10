@@ -5,9 +5,11 @@ import {
   TrendingUp,
   Users,
   Truck,
-  FileText,
   DollarSign,
   ArrowRight,
+  Package,
+  Scale,
+  Factory,
 } from "lucide-react";
 import {
   getReportsSummary,
@@ -56,6 +58,24 @@ export default async function ReportsPage() {
       title: "Estado de Resultados",
       description: "P&L por embarque o por mes con desglose de ingresos y costos",
       icon: DollarSign,
+    },
+    {
+      href: "/reports/inventory",
+      title: "Inventario",
+      description: "Lotes por beneficio, proveedor y estado con totales en QQ",
+      icon: Package,
+    },
+    {
+      href: "/reports/yield",
+      title: "Varianza de Rendimiento",
+      description: "Rendimiento contratado vs real por lote con ajustes pendientes",
+      icon: Scale,
+    },
+    {
+      href: "/reports/milling",
+      title: "Eficiencia de Trilla",
+      description: "Rendimiento oro, segunda y merma por orden de trilla completada",
+      icon: Factory,
     },
   ];
 

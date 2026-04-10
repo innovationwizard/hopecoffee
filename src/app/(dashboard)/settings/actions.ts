@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
-import { requireAuth, requireRole } from "@/lib/services/auth";
+import { requireAuth, requirePermission } from "@/lib/services/auth";
 import { createAuditLog } from "@/lib/services/audit";
 import {
   ExportCostConfigSchema,
@@ -26,7 +26,7 @@ export async function getExchangeRates() {
 }
 
 export async function createExchangeRate(data: ExchangeRateInput) {
-  const session = await requireRole("OPERATOR");
+  const session = await requirePermission("exchange_rate:write");
   const validated = ExchangeRateSchema.parse(data);
 
   const rate = await prisma.exchangeRate.create({
@@ -59,7 +59,7 @@ export async function getExportCostConfigs() {
 }
 
 export async function createExportCostConfig(data: ExportCostConfigInput) {
-  const session = await requireRole("OPERATOR");
+  const session = await requirePermission("export_cost:write");
   const validated = ExportCostConfigSchema.parse(data);
 
   if (validated.isDefault) {
@@ -89,7 +89,7 @@ export async function createExportCostConfig(data: ExportCostConfigInput) {
 export async function updateExportCostConfig(
   data: ExportCostConfigInput & { id: string }
 ) {
-  const session = await requireRole("OPERATOR");
+  const session = await requirePermission("export_cost:write");
   const { id, ...rest } = data;
   const validated = ExportCostConfigSchema.parse(rest);
 
@@ -124,7 +124,7 @@ export async function updateExportCostConfig(
 // --- Users ---
 
 export async function getUsers() {
-  await requireRole("ADMIN");
+  await requirePermission("user:manage");
   return prisma.user.findMany({
     orderBy: { name: "asc" },
     select: {
@@ -140,7 +140,7 @@ export async function getUsers() {
 }
 
 export async function createUser(data: UserCreateInput) {
-  const session = await requireRole("ADMIN");
+  const session = await requirePermission("user:manage");
   const validated = UserCreateSchema.parse(data);
 
   const hashed = await hashPassword(validated.password);
@@ -168,7 +168,7 @@ export async function createUser(data: UserCreateInput) {
 }
 
 export async function toggleUserActive(userId: string) {
-  const session = await requireRole("ADMIN");
+  const session = await requirePermission("user:manage");
 
   const user = await prisma.user.findUniqueOrThrow({
     where: { id: userId },
@@ -194,7 +194,7 @@ export async function toggleUserActive(userId: string) {
 // --- Audit Log ---
 
 export async function getAuditLogs(page = 1, limit = 50) {
-  await requireRole("ADMIN");
+  await requirePermission("audit_log:view");
 
   const [entries, total] = await Promise.all([
     prisma.auditLog.findMany({

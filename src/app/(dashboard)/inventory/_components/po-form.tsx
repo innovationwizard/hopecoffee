@@ -82,7 +82,7 @@ export function POForm({ mode, suppliers, initialData }: POFormProps) {
         await createPurchaseOrder(parsed);
         toast.success("Orden creada");
       }
-      router.push("/inventory");
+      router.push("/purchase-orders");
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Error guardando orden");
     } finally {

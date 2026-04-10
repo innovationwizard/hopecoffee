@@ -400,3 +400,25 @@ priceSnapshots ContractPriceSnapshot[]
 - **Wave 2B (ShipmentStatus enum)** is the riskiest change — it alters existing data. Must run data migration SQL before schema push. Back up DB first.
 - **Wave 4 (DB aggregation)** changes return value shapes. Any code that depends on the raw Prisma objects (not just the returned stats) must be updated.
 - **Wave 5 (Container model)** adds a new relation to Shipment. The existing `numContainers` field must remain functional during transition.
+
+---
+
+## Implementation Status (Updated 2026-04-10)
+
+| Wave | Status |
+|------|--------|
+| Wave 1A — Missing indexes | DONE |
+| Wave 1B — GIN index on regions | NOT DONE |
+| Wave 1C — Export cost config FK | DONE |
+| Wave 2A — PO status enum | DONE |
+| Wave 2B — Shipment status enum | DONE |
+| Wave 2C — Cosecha field | DONE |
+| Wave 3A — computedAt staleness | DONE |
+| Wave 3B — MP allocation quantity | DONE |
+| Wave 4A — Dashboard aggregate | DONE |
+| Wave 4B — Monthly context aggregate | DONE |
+| Wave 4C — Shipment recalculation aggregate | NOT DONE — MP/subproducto sums still use JS `.reduce()` |
+| Wave 5A — Container model | DONE |
+| Wave 5B — Price history | DONE |
+
+**Remaining items (1B and 4C) have been consolidated into [10-CATCH-UP-PLAN.md](10-CATCH-UP-PLAN.md) as Wave A (items A1 and A2).** This document remains as reference for the original wave structure.

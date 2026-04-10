@@ -19,6 +19,12 @@ export async function getDashboardStats() {
     ytdShipmentAgg,
     recentShipments,
     recentContracts,
+    inventoryByStage,
+    qualityStats,
+    lotsWithoutCupping,
+    yieldStats,
+    pendingAdjustments,
+    millingStats,
   ] = await Promise.all([
     prisma.contract.count(),
     prisma.contract.count({
@@ -54,6 +60,39 @@ export async function getDashboardStats() {
       take: 5,
       include: { client: true },
     }),
+    // Inventory by stage
+    prisma.lot.groupBy({
+      by: ["stage"],
+      _sum: { quantityQQ: true },
+      _count: true,
+    }),
+    // Quality stats
+    prisma.cuppingRecord.aggregate({
+      _avg: { totalScore: true },
+      _count: true,
+    }),
+    // Pending cupping (lots without cupping records)
+    prisma.lot.count({
+      where: {
+        stage: { in: ["PERGAMINO_BODEGA", "EN_PROCESO"] },
+        cuppingRecords: { none: {} },
+      },
+    }),
+    // Yield performance
+    prisma.lot.aggregate({
+      where: { actualYield: { not: null }, contractedYield: { not: null } },
+      _avg: { actualYield: true, contractedYield: true },
+      _count: true,
+    }),
+    // Pending yield adjustments
+    prisma.yieldAdjustment.count({
+      where: { status: "PENDIENTE" },
+    }),
+    // Milling stats
+    prisma.millingOrder.aggregate({
+      _count: true,
+      where: { status: "COMPLETADO" },
+    }),
   ]);
 
   const totalRevenue = toNum(shipmentAgg._sum.totalPagoQTZ);
@@ -74,6 +113,20 @@ export async function getDashboardStats() {
     ? Math.ceil(remaining / avgUtilidadPerContainer)
     : null;
 
+  // Build inventory map by stage
+  const inventoryMap: Record<string, { qq: number; count: number }> = {};
+  for (const row of inventoryByStage) {
+    inventoryMap[row.stage] = {
+      qq: toNum(row._sum.quantityQQ),
+      count: row._count,
+    };
+  }
+
+  // Yield index: avg(contractedYield / actualYield) — higher means better
+  const avgActual = toNum(yieldStats._avg.actualYield);
+  const avgContracted = toNum(yieldStats._avg.contractedYield);
+  const yieldIndex = avgActual > 0 ? avgContracted / avgActual : 0;
+
   return {
     contractCount,
     activeContracts,
@@ -86,5 +139,14 @@ export async function getDashboardStats() {
     breakEvenProgress,
     containersRemaining,
     breakEvenTarget: BREAK_EVEN_TARGET,
+    // Operational KPIs
+    inventoryMap,
+    avgCuppingScore: toNum(qualityStats._avg.totalScore),
+    cuppingRecordCount: qualityStats._count,
+    lotsWithoutCupping,
+    yieldIndex,
+    yieldLotsCount: yieldStats._count,
+    pendingAdjustments,
+    completedMillingOrders: millingStats._count,
   };
 }
