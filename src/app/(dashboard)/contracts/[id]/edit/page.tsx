@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/ui/page-header";
 import { ContractForm } from "../../_components/contract-form";
 import { getContract, getClients, getActiveExchangeRate, getMonthlyContext } from "../../actions";
+import { getShipments } from "../../../shipments/actions";
 import { toNum } from "@/lib/utils/format";
 
 export default async function EditContractPage({
@@ -10,10 +11,11 @@ export default async function EditContractPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const [contract, clients, rate] = await Promise.all([
+  const [contract, clients, rate, shipments] = await Promise.all([
     getContract(id),
     getClients(),
     getActiveExchangeRate(),
+    getShipments(),
   ]);
 
   if (!contract) notFound();
@@ -33,12 +35,14 @@ export default async function EditContractPage({
       <ContractForm
         mode="edit"
         clients={clients}
+        shipments={shipments.map((s) => ({ id: s.id, name: s.name, month: s.month, year: s.year }))}
         defaultExchangeRate={toNum(rate?.rate) || 7.65}
         monthlyContext={monthlyContext}
         initialData={{
           id: contract.id,
           contractNumber: contract.contractNumber,
           clientId: contract.clientId,
+          shipmentId: contract.shipmentId ?? undefined,
           status: contract.status,
           regions: contract.regions,
           puntaje: contract.puntaje,

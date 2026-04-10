@@ -6,6 +6,7 @@ import {
   Users,
   Truck,
   FileText,
+  DollarSign,
   ArrowRight,
 } from "lucide-react";
 import {
@@ -49,6 +50,12 @@ export default async function ReportsPage() {
       title: "Compras por Proveedor",
       description: "Volumen, costo y precio promedio por proveedor",
       icon: Truck,
+    },
+    {
+      href: "/reports/pnl",
+      title: "Estado de Resultados",
+      description: "P&L por embarque o por mes con desglose de ingresos y costos",
+      icon: DollarSign,
     },
   ];
 
@@ -123,7 +130,7 @@ export default async function ReportsPage() {
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
         {/* Report links */}
         {reportLinks.map((link) => (
           <Link key={link.href} href={link.href}>

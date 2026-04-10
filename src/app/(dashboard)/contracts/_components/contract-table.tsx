@@ -37,7 +37,7 @@ const columns = [
   col.accessor("tipoFacturacion", {
     header: "Tipo Fact.",
     size: 90,
-    cell: (info) => info.getValue() === "LIBRAS_ESPANOLAS" ? "Lbs Esp." : "Lbs Guat.",
+    cell: (info) => info.getValue() === "LIBRAS_ESPANOLAS" ? "Kilos" : "Libras",
   }),
   col.accessor("posicionBolsa", {
     header: "Posición",

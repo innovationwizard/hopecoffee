@@ -35,8 +35,8 @@ export default async function ContractDetailPage({
       : 0;
 
   const tipoFactLabel = contract.tipoFacturacion === "LIBRAS_ESPANOLAS"
-    ? "Lbs Españolas"
-    : "Lbs Guatemaltecas";
+    ? "Kilos"
+    : "Libras";
 
   // source: "external" = typed by user from outside app
   //         "app"      = computed from other app modules/formulas

@@ -345,6 +345,78 @@ export async function getRevenueByRegion(): Promise<RevenueByRegionRow[]> {
 }
 
 // ---------------------------------------------------------------------------
+// P&L BY SHIPMENT
+// ---------------------------------------------------------------------------
+
+export interface PnlRow {
+  key: string;
+  label: string;
+  month: number;
+  year: number;
+  totalPagoQTZ: number;
+  totalSubproducto: number;
+  ingresoTotal: number;
+  totalMateriaPrima: number;
+  totalGastosExport: number;
+  totalCostoFinanc: number;
+  totalComision: number;
+  costoTotal: number;
+  utilidadBruta: number;
+  margenBruto: number;
+}
+
+export async function getPnlData(): Promise<PnlRow[]> {
+  await requireAuth();
+
+  const shipments = await prisma.shipment.findMany({
+    orderBy: [{ year: "desc" }, { month: "desc" }],
+    select: {
+      id: true,
+      name: true,
+      month: true,
+      year: true,
+      totalPagoQTZ: true,
+      totalSubproducto: true,
+      totalMateriaPrima: true,
+      totalGastosExport: true,
+      totalCostoFinanc: true,
+      totalComision: true,
+      utilidadBruta: true,
+    },
+  });
+
+  return shipments.map((s) => {
+    const totalPagoQTZ = toNum(s.totalPagoQTZ);
+    const totalSubproducto = toNum(s.totalSubproducto);
+    const ingresoTotal = totalPagoQTZ + totalSubproducto;
+    const totalMateriaPrima = toNum(s.totalMateriaPrima);
+    const totalGastosExport = toNum(s.totalGastosExport);
+    const totalCostoFinanc = toNum(s.totalCostoFinanc);
+    const totalComision = toNum(s.totalComision);
+    const costoTotal = totalMateriaPrima + totalGastosExport + totalCostoFinanc + totalComision;
+    const utilidadBruta = toNum(s.utilidadBruta);
+    const margenBruto = ingresoTotal > 0 ? utilidadBruta / ingresoTotal : 0;
+
+    return {
+      key: s.id,
+      label: s.name,
+      month: s.month,
+      year: s.year,
+      totalPagoQTZ,
+      totalSubproducto,
+      ingresoTotal,
+      totalMateriaPrima,
+      totalGastosExport,
+      totalCostoFinanc,
+      totalComision,
+      costoTotal,
+      utilidadBruta,
+      margenBruto,
+    };
+  });
+}
+
+// ---------------------------------------------------------------------------
 // REPORTS SUMMARY (for hub page)
 // ---------------------------------------------------------------------------
 

@@ -206,7 +206,7 @@ model Contract {
   puntaje         Int             // Cupping score: 81-85+
   sacos69kg       Decimal         @db.Decimal(10, 2) // Bags at 69kg
   sacos46kg       Decimal         @db.Decimal(10, 2) // Calculated: sacos69kg × 1.5
-  rendimiento     Decimal         @db.Decimal(6, 4)  // Yield factor, typically 1.32
+  rendimiento     Decimal         @db.Decimal(8, 6)  // Yield factor, typically 1.32
 
   // Pricing (USD per 100lb sack)
   precioBolsa     Decimal?        @db.Decimal(10, 2) // NY C-market or fixed price
@@ -218,6 +218,8 @@ model Contract {
   comisionCompra  Decimal?        @db.Decimal(10, 2) // 1.50 USD/quintal (buy)
   comisionVenta   Decimal?        @db.Decimal(10, 2) // 1.50 USD/quintal (sell)
   montoCredito    Decimal?        @db.Decimal(14, 2) // Credit amount in GTQ for financial cost
+  cfTasaAnual     Decimal?        @db.Decimal(6, 4)  // Annual interest rate (default 0.08)
+  cfMeses         Int?                                // Financing months (default 2)
 
   // Harvest year
   cosecha         String?         // "25/26", "26/27"
@@ -237,6 +239,29 @@ model Contract {
   utilidadSinCF   Decimal?        @db.Decimal(14, 2) // Profit before financial cost
   tipoCambio      Decimal?        @db.Decimal(10, 4) // Exchange rate at contract
   totalPagoQTZ    Decimal?        @db.Decimal(14, 2) // Total payment in Quetzales
+
+  // Inventory & subproducto inputs
+  precioPromedioInv   Decimal?  @db.Decimal(10, 2) // Avg inventory cost per QQ
+  subproductos        Decimal?  @db.Decimal(10, 2) // Subproducto qty (oro)
+  precioSubproducto   Decimal?  @db.Decimal(10, 2) // Subproducto unit price
+
+  // Export cost breakdown (per-saco components, persisted at contract creation)
+  gastosPerSaco               Decimal?  @db.Decimal(10, 2)
+  exportTrillaPerQQ           Decimal?  @db.Decimal(10, 2)
+  exportSacoYute              Decimal?  @db.Decimal(10, 2)
+  exportEstampado             Decimal?  @db.Decimal(10, 2)
+  exportBolsaGrainPro         Decimal?  @db.Decimal(10, 2)
+  exportFitoSanitario         Decimal?  @db.Decimal(10, 2)
+  exportImpuestoAnacafe1      Decimal?  @db.Decimal(10, 2)
+  exportImpuestoAnacafe2      Decimal?  @db.Decimal(10, 2)
+  exportInspeccionOirsa       Decimal?  @db.Decimal(10, 2)
+  exportFumigacion            Decimal?  @db.Decimal(10, 2)
+  exportEmisionDocumento      Decimal?  @db.Decimal(10, 2)
+  exportFletePuerto           Decimal?  @db.Decimal(10, 2)
+  exportSeguro                Decimal?  @db.Decimal(10, 2)
+  exportCustodio              Decimal?  @db.Decimal(10, 2)
+  exportAgenteAduanal         Decimal?  @db.Decimal(10, 2)
+  exportComisionOrganico      Decimal?  @db.Decimal(10, 2)
 
   notes           String?
   computedAt      DateTime?       // Set by computeContractFields(), staleness = updatedAt > computedAt
@@ -325,7 +350,7 @@ model MateriaPrima {
 
   punteo       Int               // Cupping score
   oro          Decimal           @db.Decimal(10, 2) // Gold coffee qty (sacos 46kg)
-  rendimiento  Decimal           @db.Decimal(6, 4)  // Yield: typically 1.32
+  rendimiento  Decimal           @db.Decimal(8, 6)  // Yield: typically 1.32
   pergamino    Decimal           @db.Decimal(10, 2) // Parchment coffee qty
   precioPromQ  Decimal           @db.Decimal(10, 2) // Average price in Quetzales
   totalMP      Decimal           @db.Decimal(14, 2) // pergamino × precioPromQ

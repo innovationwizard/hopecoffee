@@ -1,60 +1,74 @@
 "use client";
 
-import { formatUSD, formatGTQ, formatNumber } from "@/lib/utils/format";
+import { formatUSD, formatGTQ, formatNumber, formatPercent, marginColorClass } from "@/lib/utils/format";
 import type { ContractCalculation } from "@/lib/services/calculations";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 
 interface CalcPreviewProps {
   calc: ContractCalculation | null;
   tipoFacturacion?: string;
-  posicionBolsa?: string | null;
-  status?: string;
+  gastosPerSaco?: number;
+  costoFinanciero?: number;
+  precioPromedioInv?: number;
+  subproductosQty?: number;
+  precioSubproducto?: number;
+  rendimiento?: number;
 }
 
-/**
- * source — where this number ultimately comes from:
- *   "external"  → typed by user; derivation/source lives outside the app
- *   "app"       → computed from data managed in another app module
- *   undefined   → locally computed from other values on this same form
- */
 function Row({
   label,
   value,
   className,
-  source,
+  bold,
 }: {
   label: string;
   value: string;
   className?: string;
-  source?: "external" | "app";
+  bold?: boolean;
 }) {
-  const borderClass =
-    source === "external"
-      ? "border-l-2 border-amber-400 dark:border-amber-500 pl-2"
-      : source === "app"
-      ? "border-l-2 border-blue-400 dark:border-blue-500 pl-2"
-      : "";
-
   return (
-    <div className={`flex justify-between items-center py-1 ${borderClass}`}>
-      <span className="text-sm text-gray-500 dark:text-gray-400">{label}</span>
-      <span className={`text-sm font-mono ${className ?? ""}`}>{value}</span>
+    <div className={`flex justify-between items-center py-0.5 ${bold ? "border-t border-slate-300 dark:border-slate-600 pt-1.5 mt-1" : ""}`}>
+      <span className={`text-xs ${bold ? "font-semibold text-slate-700 dark:text-slate-200" : "text-slate-500 dark:text-slate-400"}`}>
+        {label}
+      </span>
+      <span className={`text-xs font-mono ${className ?? ""} ${bold ? "font-semibold" : ""}`}>
+        {value}
+      </span>
     </div>
   );
 }
 
-export function CalculationPreview({ calc, tipoFacturacion, posicionBolsa, status }: CalcPreviewProps) {
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="mb-2">
+      <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1">
+        {title}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+export function CalculationPreview({
+  calc,
+  tipoFacturacion,
+  gastosPerSaco = 0,
+  costoFinanciero = 0,
+  precioPromedioInv = 0,
+  subproductosQty = 0,
+  precioSubproducto = 0,
+  rendimiento = 1.32,
+}: CalcPreviewProps) {
   if (!calc) {
     return (
       <Card>
         <CardHeader>
-          <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-            Vista Previa
+          <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+            P&L del Contrato
           </h3>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-gray-400">
+          <p className="text-xs text-slate-400">
             Ingresa sacos y precios para ver el cálculo.
           </p>
         </CardContent>
@@ -62,119 +76,95 @@ export function CalculationPreview({ calc, tipoFacturacion, posicionBolsa, statu
     );
   }
 
-  const margin = calc.totalPagoQTZ.isZero()
-    ? 0
-    : calc.utilidadSinCostoFinanciero
-        .div(calc.facturacionKgs)
-        .toNumber();
+  const sacos46 = calc.sacos46kg.toNumber();
+  const precioBolsaDif = calc.precioBolsaDif.toNumber();
+  const facturacionTotal = tipoFacturacion === "LIBRAS_ESPANOLAS"
+    ? calc.facturacionKgs.toNumber()
+    : calc.facturacionLbs.toNumber();
+  const totalGastosExport = calc.gastosExportacion.toNumber();
+  const totalGastosFinancieros = costoFinanciero;
 
-  const marginWarning = margin < 0 || margin > 0.25;
+  // Inventory: quintales pergamino = sacos46 * rendimiento
+  const quintalesPergamino = sacos46 * rendimiento;
+  const totalCostoInventario = quintalesPergamino * precioPromedioInv;
+
+  // Subproducto
+  const totalVentaSubproducto = subproductosQty * precioSubproducto;
+
+  // P&L
+  const ingresoVenta = facturacionTotal;
+  const costoTotal = totalGastosExport + totalGastosFinancieros + totalCostoInventario;
+  const utilidadBruta = ingresoVenta + totalVentaSubproducto - costoTotal;
+  const margenBruto = ingresoVenta > 0 ? utilidadBruta / ingresoVenta : 0;
+
+  // Total pago QTZ
+  const totalPagoQTZ = calc.totalPagoQTZ.toNumber();
 
   return (
     <Card>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-            Vista Previa
+          <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+            P&L del Contrato
           </h3>
-          {tipoFacturacion && (
-            <Badge variant={tipoFacturacion === "LIBRAS_ESPANOLAS" ? "blue" : "gray"}>
-              {tipoFacturacion === "LIBRAS_ESPANOLAS" ? "Lbs Esp." : "Lbs Guat."}
-            </Badge>
-          )}
+          <span className="text-[10px] font-mono text-slate-400">
+            {tipoFacturacion === "LIBRAS_ESPANOLAS" ? "Kilos" : "Libras"}
+          </span>
         </div>
       </CardHeader>
-      <CardContent className="space-y-0.5">
-        <Row
-          label="Quintales"
-          value={formatNumber(calc.sacos46kg.toNumber(), 1)}
-          source="external"
-        />
-        <Row
-          label="Bolsa+Dif"
-          value={formatUSD(calc.precioBolsaDif.toNumber())}
-          source="external"
-        />
+      <CardContent className="space-y-0">
 
-        <div className="border-t border-gray-200 dark:border-gray-700 my-2" />
+        {/* Pricing */}
+        <Section title="Precio">
+          <Row label="Precio por Saco 46kg" value={formatUSD(precioBolsaDif)} />
+          <Row label="Quintales (46kg)" value={formatNumber(sacos46, 1)} />
+        </Section>
 
-        <Row
-          label="Fact. Lbs"
-          value={formatUSD(calc.facturacionLbs.toNumber())}
-        />
-        <Row
-          label="Fact. Kgs"
-          value={formatUSD(calc.facturacionKgs.toNumber())}
-        />
-        <Row
-          label="Gastos Export."
-          value={formatUSD(calc.gastosExportacion.toNumber())}
-          className="text-red-600"
-          source="app"
-        />
-        <Row
-          label="Utilidad s/GE"
-          value={formatUSD(calc.utilidadSinGastosExport.toNumber())}
-        />
-        <Row
-          label="Costo Financiero"
-          value={formatUSD(calc.costoFinanciero.toNumber())}
-          className="text-red-600"
-          source="app"
-        />
-        <Row
-          label="Utilidad s/CF"
-          value={formatUSD(calc.utilidadSinCostoFinanciero.toNumber())}
-        />
+        {/* Revenue */}
+        <Section title="Facturación">
+          <Row label="Total Facturación" value={formatUSD(facturacionTotal)} bold />
+          <Row label="Total Pago (Q)" value={formatGTQ(totalPagoQTZ)} className="text-emerald-600 dark:text-emerald-400" bold />
+        </Section>
 
-        <div className="border-t border-gray-200 dark:border-gray-700 my-2" />
+        {/* Costs */}
+        <Section title="Costos">
+          <Row label="Gastos Exportación" value={formatUSD(totalGastosExport)} className="text-red-600" />
+          <Row label="Gastos Financieros" value={formatUSD(totalGastosFinancieros)} className="text-red-600" />
+        </Section>
 
-        <Row
-          label="Comisión Compra"
-          value={formatUSD(calc.comisionCompra.toNumber())}
-          className="text-red-600"
-          source="app"
-        />
-        <Row
-          label="Comisión Venta"
-          value={formatUSD(calc.comisionVenta.toNumber())}
-          className="text-red-600"
-          source="app"
-        />
+        {/* Inventory */}
+        <Section title="Inventario">
+          <Row label="QQ Pergamino" value={formatNumber(quintalesPergamino, 1)} />
+          <Row label="Precio Prom. Inv." value={formatGTQ(precioPromedioInv)} />
+          <Row label="Costo Inventario" value={formatUSD(totalCostoInventario)} className="text-red-600" bold />
+        </Section>
 
-        <div className="border-t-2 border-gray-300 dark:border-gray-600 my-2" />
+        {/* Subproducto */}
+        <Section title="Subproducto">
+          <Row label="QQ Subproducto" value={formatNumber(subproductosQty, 1)} />
+          <Row label="Venta Subproducto" value={formatUSD(totalVentaSubproducto)} className="text-emerald-600" bold />
+        </Section>
 
-        <div className="flex justify-between items-center py-1">
-          <span className="text-sm font-semibold text-gray-900 dark:text-white">
-            Total Pago Q
-          </span>
-          <span className="text-lg font-bold font-mono text-emerald-700 dark:text-emerald-400">
-            {formatGTQ(calc.totalPagoQTZ.toNumber())}
-          </span>
+        {/* Bottom line */}
+        <div className="border-t-2 border-slate-300 dark:border-slate-600 mt-2 pt-2 space-y-1">
+          <div className="flex justify-between items-center">
+            <span className="text-xs font-semibold text-slate-700 dark:text-slate-200">
+              Margen Bruto
+            </span>
+            <span className={`text-sm font-bold font-mono ${marginColorClass(margenBruto)}`}>
+              {formatPercent(margenBruto)}
+            </span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-xs font-semibold text-slate-700 dark:text-slate-200">
+              Utilidad Bruta
+            </span>
+            <span className={`text-sm font-bold font-mono ${utilidadBruta >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-red-600"}`}>
+              {formatUSD(utilidadBruta)}
+            </span>
+          </div>
         </div>
 
-        {marginWarning && (
-          <div className="mt-3 p-2 bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-800 rounded text-xs text-amber-700 dark:text-amber-400">
-            {margin < 0
-              ? "Margen negativo. Verifica precios."
-              : `Margen (${(margin * 100).toFixed(1)}%) inusualmente alto. Verifica inputs.`}
-          </div>
-        )}
-
-        {status === "NEGOCIACION" && posicionBolsa && (
-          <div className="mt-3 p-2 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded text-xs text-blue-600 dark:text-blue-400">
-            Precio ICE {posicionBolsa}: -- (integración pendiente Fase 3)
-          </div>
-        )}
-
-        <div className="mt-3 pt-2 border-t border-gray-100 dark:border-gray-800 flex gap-4 text-[10px] text-gray-400">
-          <span className="flex items-center gap-1">
-            <span className="w-1 h-3 bg-amber-400 rounded-sm" /> Input externo
-          </span>
-          <span className="flex items-center gap-1">
-            <span className="w-1 h-3 bg-blue-400 rounded-sm" /> Dato del sistema
-          </span>
-        </div>
       </CardContent>
     </Card>
   );

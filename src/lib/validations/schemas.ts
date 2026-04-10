@@ -86,6 +86,8 @@ export const ContractCreateSchema = z.object({
   tipoFacturacion: TipoFacturacionEnum.default("LIBRAS_GUATEMALTECAS"),
   posicionBolsa: PosicionBolsaEnum.optional().nullable(),
   montoCredito: z.number().min(0).optional().nullable(),
+  cfTasaAnual: z.number().min(0).max(1).optional().nullable(),
+  cfMeses: z.number().int().min(0).max(60).optional().nullable(),
   cosecha: z.string().regex(/^\d{2}\/\d{2}$/, "Formato: YY/YY").optional().nullable(),
   posicionNY: z.coerce.date().optional().nullable(),
   fechaEmbarque: z.coerce.date().optional().nullable(),
@@ -96,6 +98,27 @@ export const ContractCreateSchema = z.object({
     .max(50)
     .optional(),
   notes: z.string().max(1000).optional().nullable(),
+  // Inventory & subproducto
+  precioPromedioInv: z.number().min(0).optional().nullable(),
+  subproductosQty: z.number().min(0).optional().nullable(),
+  precioSubproducto: z.number().min(0).optional().nullable(),
+  // Export cost breakdown (per-saco components)
+  gastosPerSaco: z.number().min(0).optional().nullable(),
+  exportTrillaPerQQ: z.number().min(0).optional().nullable(),
+  exportSacoYute: z.number().min(0).optional().nullable(),
+  exportEstampado: z.number().min(0).optional().nullable(),
+  exportBolsaGrainPro: z.number().min(0).optional().nullable(),
+  exportFitoSanitario: z.number().min(0).optional().nullable(),
+  exportImpuestoAnacafe1: z.number().min(0).optional().nullable(),
+  exportImpuestoAnacafe2: z.number().min(0).optional().nullable(),
+  exportInspeccionOirsa: z.number().min(0).optional().nullable(),
+  exportFumigacion: z.number().min(0).optional().nullable(),
+  exportEmisionDocumento: z.number().min(0).optional().nullable(),
+  exportFletePuerto: z.number().min(0).optional().nullable(),
+  exportSeguro: z.number().min(0).optional().nullable(),
+  exportCustodio: z.number().min(0).optional().nullable(),
+  exportAgenteAduanal: z.number().min(0).optional().nullable(),
+  exportComisionOrganico: z.number().min(0).optional().nullable(),
 });
 
 export const ContractUpdateSchema = ContractCreateSchema.partial().extend({
