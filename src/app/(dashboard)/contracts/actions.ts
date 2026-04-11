@@ -406,29 +406,26 @@ const VALID_TRANSITIONS: Record<string, string[]> = {
   CANCELADO: [],
 };
 
+export interface MonthlyContextContract {
+  id: string;
+  contractNumber: string;
+  clientName: string;
+  sacos69kg: number;
+  totalPagoQTZ: number;
+  // Per-contract P&L (prorated from own shipment) for custom context aggregation
+  facturacionQTZ: number;
+  utilidadBruta: number;
+  margin: number;
+  status: string;
+}
+
 export interface MonthlyContextStats {
   month: string; // "2026-03"
   contractCount: number;
   totalSacos69kg: number;
   totalRevenue: number;
   avgMargin: number;
-  // Shipment-level P&L totals (for prorating in custom context)
-  totalFacturacionQTZ: number;
-  totalMateriaPrima: number;
-  totalISR: number;
-  totalComision: number;
-  totalSubproducto: number;
-  contracts: {
-    id: string;
-    contractNumber: string;
-    clientName: string;
-    sacos69kg: number;
-    totalPagoQTZ: number;
-    facturacionKgs: number;
-    utilidadSinCF: number;
-    margin: number;
-    status: string;
-  }[];
+  contracts: MonthlyContextContract[];
 }
 
 export async function getMonthlyContext(
@@ -446,76 +443,79 @@ export async function getMonthlyContext(
     status: { not: "CANCELADO" as const },
   };
 
-  const [contractAgg, costAgg, peers] = await Promise.all([
-    prisma.contract.aggregate({
-      where: contractWhere,
-      _sum: { sacos69kg: true, totalPagoQTZ: true },
-      _count: true,
-    }),
-    // P&L costs from shipment-level aggregates (already recalculated with ISR, comision in QTZ)
-    prisma.shipment.aggregate({
-      where: shipmentWhere,
-      _sum: {
-        totalFacturacionQTZ: true,
-        totalMateriaPrima: true,
-        totalISR: true,
-        totalComision: true,
-        totalSubproducto: true,
-        utilidadBruta: true,
+  // Fetch contracts WITH their shipment P&L data so we can compute per-contract margins
+  const peers = await prisma.contract.findMany({
+    where: contractWhere,
+    select: {
+      id: true, contractNumber: true, sacos69kg: true,
+      totalPagoQTZ: true, facturacionKgs: true, tipoCambio: true,
+      status: true, client: { select: { name: true } },
+      shipment: {
+        select: {
+          totalSacos69: true,
+          totalFacturacionQTZ: true,
+          totalMateriaPrima: true,
+          totalISR: true,
+          totalComision: true,
+          totalSubproducto: true,
+          utilidadBruta: true,
+          margenBruto: true,
+        },
       },
-    }),
-    prisma.contract.findMany({
-      where: contractWhere,
-      select: {
-        id: true, contractNumber: true, sacos69kg: true,
-        totalPagoQTZ: true, facturacionKgs: true, utilidadSinCF: true,
-        status: true, client: { select: { name: true } },
-      },
-      orderBy: { createdAt: "desc" },
-      take: 50,
-    }),
-  ]);
+    },
+    orderBy: { createdAt: "desc" },
+    take: 50,
+  });
 
-  const totalSacos69kg = toNum(contractAgg._sum.sacos69kg);
-  const totalRevenue = toNum(contractAgg._sum.totalPagoQTZ);
-  const totalFacturacionQTZ = toNum(costAgg._sum.totalFacturacionQTZ);
-  const totalMateriaPrima = toNum(costAgg._sum.totalMateriaPrima);
-  const totalISR = toNum(costAgg._sum.totalISR);
-  const totalComision = toNum(costAgg._sum.totalComision);
-  const totalSubproducto = toNum(costAgg._sum.totalSubproducto);
-  const utilidadBruta = toNum(costAgg._sum.utilidadBruta);
+  // Build per-contract P&L by prorating each contract's own shipment costs
+  const contracts: MonthlyContextContract[] = peers.map((c) => {
+    const sacos = toNum(c.sacos69kg);
+    const pagoQTZ = toNum(c.totalPagoQTZ);
+    const factKgs = toNum(c.facturacionKgs);
+    const tc = toNum(c.tipoCambio) || 7.65;
+    const contractFactQTZ = factKgs * tc;
 
-  // Margin = utilidadBruta / gross billing (facturacionKgs × tipoCambio), matching Excel SSOT
-  const avgMargin = totalFacturacionQTZ > 0 ? utilidadBruta / totalFacturacionQTZ : 0;
+    const s = c.shipment;
+    const shipSacos = s ? toNum(s.totalSacos69) : 0;
+    const share = shipSacos > 0 ? sacos / shipSacos : 0;
+
+    // Prorate THIS contract's own shipment costs by its sacos share
+    const mp = s ? toNum(s.totalMateriaPrima) * share : 0;
+    const isr = s ? toNum(s.totalISR) * share : 0;
+    const comision = s ? toNum(s.totalComision) * share : 0;
+    const subproducto = s ? toNum(s.totalSubproducto) * share : 0;
+
+    const utilidadBruta = pagoQTZ - mp - isr - comision + subproducto;
+    const margin = contractFactQTZ > 0 ? utilidadBruta / contractFactQTZ : 0;
+
+    return {
+      id: c.id,
+      contractNumber: c.contractNumber,
+      clientName: c.client.name,
+      sacos69kg: sacos,
+      totalPagoQTZ: pagoQTZ,
+      facturacionQTZ: contractFactQTZ,
+      utilidadBruta,
+      margin,
+      status: c.status,
+    };
+  });
+
+  const totalSacos69kg = contracts.reduce((s, c) => s + c.sacos69kg, 0);
+  const totalRevenue = contracts.reduce((s, c) => s + c.totalPagoQTZ, 0);
+  const totalFactQTZ = contracts.reduce((s, c) => s + c.facturacionQTZ, 0);
+  const totalUtilBruta = contracts.reduce((s, c) => s + c.utilidadBruta, 0);
+  const avgMargin = totalFactQTZ > 0 ? totalUtilBruta / totalFactQTZ : 0;
 
   const monthStr = `${year}-${String(month).padStart(2, "0")}`;
 
   return {
     month: monthStr,
-    contractCount: contractAgg._count,
+    contractCount: contracts.length,
     totalSacos69kg,
     totalRevenue,
     avgMargin,
-    totalFacturacionQTZ,
-    totalMateriaPrima,
-    totalISR,
-    totalComision,
-    totalSubproducto,
-    contracts: peers.map((c) => {
-      const factKgs = toNum(c.facturacionKgs);
-      const utilidad = toNum(c.utilidadSinCF);
-      return {
-        id: c.id,
-        contractNumber: c.contractNumber,
-        clientName: c.client.name,
-        sacos69kg: toNum(c.sacos69kg),
-        totalPagoQTZ: toNum(c.totalPagoQTZ),
-        facturacionKgs: factKgs,
-        utilidadSinCF: utilidad,
-        margin: factKgs > 0 ? utilidad / factKgs : 0,
-        status: c.status,
-      };
-    }),
+    contracts,
   };
 }
 

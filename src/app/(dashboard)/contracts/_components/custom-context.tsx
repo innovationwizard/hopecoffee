@@ -44,27 +44,16 @@ export function CustomContext({ stats }: CustomContextProps) {
   }
 
   const agg = useMemo(() => {
-    const allSacos = stats.contracts.reduce((s, c) => s + c.sacos69kg, 0);
     const selected = stats.contracts.filter((c) => checked[c.id]);
     const count = selected.length;
-    // Per-contract values we know directly
     const totalRevenue = selected.reduce((s, c) => s + c.totalPagoQTZ, 0);
     const totalSacos = selected.reduce((s, c) => s + c.sacos69kg, 0);
-
-    // Prorate shipment-level costs by volume (sacos), not revenue —
-    // revenue is per-contract (actual), costs are proportional to volume
-    const sacosShare = allSacos > 0 ? totalSacos / allSacos : 0;
-    const mp = stats.totalMateriaPrima * sacosShare;
-    const isr = stats.totalISR * sacosShare;
-    const comision = stats.totalComision * sacosShare;
-    const subproducto = stats.totalSubproducto * sacosShare;
-    const facturacionQTZ = stats.totalFacturacionQTZ * sacosShare;
-
-    const utilidadBruta = totalRevenue - mp - isr - comision + subproducto;
-    const margin = facturacionQTZ > 0 ? utilidadBruta / facturacionQTZ : 0;
+    const totalFactQTZ = selected.reduce((s, c) => s + c.facturacionQTZ, 0);
+    const totalUtilBruta = selected.reduce((s, c) => s + c.utilidadBruta, 0);
+    const margin = totalFactQTZ > 0 ? totalUtilBruta / totalFactQTZ : 0;
 
     return { count, totalRevenue, totalSacos, margin };
-  }, [stats, checked]);
+  }, [stats.contracts, checked]);
 
   const marginColor =
     agg.margin >= 0.12
