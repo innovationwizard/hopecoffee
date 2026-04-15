@@ -82,21 +82,26 @@ precio_bolsa_dif = precio_bolsa + diferencial
 ```
 The sale price per 100-lb sack is the NY C-market futures price (bolsa) plus a differential that reflects the coffee's quality premium or discount. For fixed-price contracts, `precio_bolsa` is the agreed price and `diferencial = 0`.
 
-**Billing**
+**Billing** (single kg path per business_rules.md §1.5/§1.6/§2.3)
 ```
-facturacion_lbs = sacos_46kg × precio_bolsa_dif
-facturacion_kgs = facturacion_lbs × 1.01411
+facturacion_lbs = sacos_46kg × precio_bolsa_dif                              (SSOT col N)
+facturacion_kgs = sacos_69kg × 69 × 2.2046 × (precio_bolsa_dif / 100)        (SSOT col O)
 ```
-The kilo conversion factor (`1.01411`) accounts for the lb-to-kg adjustment plus small contractual additions. This was reverse-engineered from the Excel — every sheet uses it consistently.
+Both columns appear in the Excel. `N` is the libras-guatemaltecas view (informational). `O` is the canonical kg-billing value, and every downstream field reads from `O`. The legacy `facturacion_lbs × 1.01411` shortcut is a 5-decimal approximation of `(69 × 2.2046 / 100) / 1.5 = 1.01411733…` and drifts ~$1/contract; the app now uses the exact formula directly (see [calculations.ts](../src/lib/services/calculations.ts)).
+
+**Exceptional override**: when a legal contract is drafted with a manually-agreed facturacion that deviates from the formula (e.g., P40129 in January 2026 was drafted at the libras value, not the kg-uplifted value), `Contract.facturacionKgsOverride` replaces both `N` and `O` with the signed literal. `Contract.overrideReason` must be set alongside. See [docs/january-2026-reconciliation-session.md](./january-2026-reconciliation-session.md) §6.2 for the full mechanism.
 
 **Profit Waterfall**
 ```
-gastos_exportacion    = gastos_per_saco × sacos_69kg
+gastos_exportacion    = gastos_per_saco × sacos_46kg   (rate × quintales, business_rules §1.7)
 utilidad_sin_gastos   = facturacion_kgs − gastos_exportacion
-costo_financiero      = (varies by contract)
+costo_financiero      = ((total_mp_i × 0.08 / 12) × 2) / tipo_cambio
+                        (per-contract, uses own MP total — SSOT S_i formula)
 utilidad_sin_costo_f  = utilidad_sin_gastos − costo_financiero
 total_pago_qtz        = utilidad_sin_costo_f × tipo_cambio
 ```
+
+Note: `gastos_exportacion` multiplies by `sacos_46kg` (a quintal = 100 lb = 46 kg), not `sacos_69kg`. Earlier versions of this document had `× sacos_69kg` which was a latent bug that did not fire in production because `Contract.gastosExport` was populated via a different path (`exportCostConfig`), but the calc engine itself had the unit wrong. Fixed in [calculations.ts](../src/lib/services/calculations.ts) 2026-04-15.
 
 **Financial Cost**: This varies. Some contracts compute it as a percentage of billing; others use flat amounts. The Excel is inconsistent. In HOPE COFFEE, we store it as a computed field with an optional manual override. Default computation: `(facturacion_kgs / sacos_46kg) × (some factor per contract)`. When in doubt, allow manual entry.
 
@@ -232,8 +237,8 @@ NEGOCIACION ──► CONFIRMADO ──► FIJADO ──► EMBARCADO ──► 
 | Constant            | Value   | Source                       | Where Used           |
 | ------------------- | ------- | ---------------------------- | -------------------- |
 | Saco conversion     | 1.5     | 69kg → 46kg                  | Every contract       |
-| Kilo factor         | 1.01411 | Lbs → kgs billing adjustment | Every contract       |
-| Rendimiento (avg)   | 1.32    | Parchment → gold yield       | Materia prima        |
+| Lbs per kg          | 2.2046  | Exact conversion factor      | Billing (kg path)    |
+| Rendimiento (avg)   | 1.32    | Parchment → gold yield (fallback; real value is per-batch from `MateriaPrima.rendimiento` or `Lot.actualYield`) | Materia prima |
 | Tipo cambio         | 7.65    | GTQ/USD (manual)             | Every QTZ conversion |
 | Oro per container   | 25 qq   | By-product estimate          | Subproducto          |
 | Precio subproducto  | Q2,000  | By-product sale price        | Subproducto          |

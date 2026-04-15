@@ -23,7 +23,15 @@ export interface ContractInput {
   gastosExportPerSaco: number; // Export cost per 69kg sack
   tipoCambio: number;         // GTQ/USD exchange rate
   costoFinanciero?: number;   // Optional override
+  /** @deprecated ignored; invoicing always uses the kg path per business_rules §1.5/§1.6 */
   tipoFacturacion?: "LIBRAS_GUATEMALTECAS" | "LIBRAS_ESPANOLAS";
+  /**
+   * Manual facturación kgs override for exceptional legal-document cases.
+   * When set, replaces the computed facturacionKgs verbatim. facturacionLbs
+   * is set to the same value since there is no separate "libras view" when
+   * the override is active (the legal contract literal is what is billed).
+   */
+  facturacionKgsOverride?: number;
   montoCredito?: number;      // Credit amount in GTQ (for auto financial cost)
 }
 
@@ -160,21 +168,31 @@ export function calculateContract(input: ContractInput): ContractCalculation {
   const sacos46kg = sacos69.mul(SACO_CONVERSION);
   const precioBolsaDif = bolsa.plus(dif);
 
-  // Billing formula depends on tipoFacturacion
-  let facturacionLbs: Decimal;
-  if (input.tipoFacturacion === "LIBRAS_ESPANOLAS") {
-    // (sacos_69kg × 69 × 2.2046) × (precio_USD / 100)
-    facturacionLbs = sacos69
-      .mul(69)
-      .mul(LBS_PER_KG)
-      .mul(precioBolsaDif.div(100));
-  } else {
-    // Default: quintales_100lb × precio_USD
-    facturacionLbs = sacos46kg.mul(precioBolsaDif);
-  }
+  // Facturación — business_rules §1.5, §1.6, §2.3: single kg path.
+  //   facturacionLbs = sacos46 × (bolsa + dif)           (SSOT col N)
+  //   facturacionKgs = sacos69 × 69 × 2.2046 × ((bolsa+dif)/100)  (SSOT col O)
+  // The legacy LBS_TO_KGS_FACTOR (1.01411) is a 5-digit approximation of
+  // (69 × 2.2046 / 100) / 1.5 = 1.01411733… and drifts ~$1/contract. We
+  // compute facturacionKgs directly from the canonical kg formula so the
+  // app matches the SSOT cell-for-cell.
+  const facturacionLbsComputed = sacos46kg.mul(precioBolsaDif);
+  const facturacionKgsComputed = sacos69
+    .mul(69)
+    .mul(LBS_PER_KG)
+    .mul(precioBolsaDif.div(100));
 
-  const facturacionKgs = facturacionLbs.mul(LBS_TO_KGS_FACTOR);
-  const gastosExportacion = gastosPerSaco.mul(sacos69);
+  // Legal-document override: when set, skip the formula and use the literal.
+  // Both facturacionLbs and facturacionKgs take the override so every
+  // downstream field that reads either one stays internally consistent.
+  const hasOverride = input.facturacionKgsOverride != null;
+  const facturacionKgs = hasOverride
+    ? new Decimal(input.facturacionKgsOverride!)
+    : facturacionKgsComputed;
+  const facturacionLbs = hasOverride ? facturacionKgs : facturacionLbsComputed;
+
+  // gastos_exportacion = rate per quintal × quintales (business_rules §1.7).
+  // quintal = 100 lb = 46 kg, so multiply by sacos46kg. SSOT: Q = P × J.
+  const gastosExportacion = gastosPerSaco.mul(sacos46kg);
   const utilidadSinGastosExport = facturacionKgs.minus(gastosExportacion);
 
   // Commissions: 1.50 USD/quintal each (buy + sell)
