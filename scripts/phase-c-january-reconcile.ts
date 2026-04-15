@@ -246,7 +246,6 @@ async function main() {
         // 3-5. Update contract scalar fields
         const contractScalarUpdate: Prisma.ContractUpdateInput = {
           exportingEntity: t.exportingEntity,
-          rendimiento: new Prisma.Decimal(t.mp.rendimiento),
           gastosPerSaco: new Prisma.Decimal(t.gastosPerSaco),
         };
         if (t.facturacionKgsOverride != null) {

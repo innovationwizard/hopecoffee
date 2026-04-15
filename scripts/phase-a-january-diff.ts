@@ -408,44 +408,10 @@ async function main() {
       }
     }
 
-    // Contract-level rendimiento (expected to be removed — flag if non-null and differs from MP)
-    const contractRend = toDec(
-      (found as unknown as { rendimiento?: unknown }).rendimiento
-    );
-    if (contractRend != null) {
-      const target132 = new Decimal("1.32");
-      if (contractRend.minus(target132).abs().lte(EPSILON_YIELD)) {
-        push(
-          "WARN",
-          scope,
-          "Contract.rendimiento (to be dropped)",
-          "<removed>",
-          contractRend.toString(),
-          "hardcoded 1.32 — importer bug per §9.5"
-        );
-      } else {
-        push(
-          "WARN",
-          scope,
-          "Contract.rendimiento (to be dropped)",
-          "<removed>",
-          contractRend.toString()
-        );
-      }
-    }
-
-    // Contract.tipoFacturacion — expected to be removed
-    const tipoFact =
-      (found as unknown as { tipoFacturacion?: string }).tipoFacturacion ?? null;
-    if (tipoFact != null) {
-      push(
-        "WARN",
-        scope,
-        "Contract.tipoFacturacion (to be dropped)",
-        "<removed>",
-        tipoFact
-      );
-    }
+    // Contract.rendimiento and Contract.tipoFacturacion were dropped
+    // from the schema on 2026-04-15. Their per-batch counterparts live
+    // on MateriaPrima.rendimiento (via MateriaPrimaAllocation) and
+    // business_rules §1.5 (single kg path) respectively.
 
     // Downstream stored calc fields
     cmpDecimal(

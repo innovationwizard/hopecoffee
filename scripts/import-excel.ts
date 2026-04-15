@@ -12,6 +12,7 @@
 import * as XLSX from "xlsx";
 import Decimal from "decimal.js";
 import { PrismaClient, ContractStatus, CoffeeRegion } from "@prisma/client";
+import { calculateContract } from "../src/lib/services/calculations";
 
 Decimal.set({ precision: 20, rounding: Decimal.ROUND_HALF_UP });
 
@@ -794,14 +795,6 @@ async function main() {
         continue;
       }
 
-      // Pair this contract with its matching MP row (if any) to source the
-      // authoritative rendimiento. Contract.rendimiento is marked DEPRECATED
-      // in prisma/schema.prisma but still exists for UI compatibility, so we
-      // keep it in sync with the MP row rather than hardcoding 1.32.
-      const pairedMp =
-        mpToContractIdx != null ? block.materiaPrima[ci] : null;
-      const contractRendimiento = pairedMp?.rendimiento ?? 1.32;
-
       const created = await prisma.contract.create({
         data: {
           contractNumber: c.contractNumber,
@@ -812,7 +805,6 @@ async function main() {
           puntaje: c.puntaje,
           sacos69kg: c.sacos69kg,
           sacos46kg: c.sacos69kg * 1.5,
-          rendimiento: contractRendimiento,
           precioBolsa: c.precioBolsa || null,
           diferencial: c.diferencial || null,
           precioBolsaDif:
@@ -974,68 +966,48 @@ async function main() {
   // ── Recalculate all contracts and shipment aggregations ──
   console.log("\n📊 Recalculating contract fields and shipment aggregations...");
 
-  const SACO_CONV = new Decimal("1.5");
-  const LBS_KGS = new Decimal("1.01411");
-  const COM_PER_QQ = new Decimal("1.50");
-  const LBS_PER_KG = new Decimal("2.2046");
-
   const allShipments = await prisma.shipment.findMany({
     include: { contracts: true, materiaPrima: true, subproductos: true },
   });
 
   for (const ship of allShipments) {
-    const gastosPerSaco = new Decimal(Number(ship.gastosPerSaco) || 23);
+    const gastosPerSacoShipment = Number(ship.gastosPerSaco) || 23;
 
-    // Calculate each contract
+    // Calculate each contract via the canonical calc engine.
     for (const c of ship.contracts) {
-      const sacos69 = new Decimal(Number(c.sacos69kg));
-      const bolsa = new Decimal(Number(c.precioBolsa) || 0);
-      const dif = new Decimal(Number(c.diferencial) || 0);
-      const tc = new Decimal(Number(c.tipoCambio) || 7.65);
-
-      const sacos46 = sacos69.mul(SACO_CONV);
-      const precioBolsaDif = bolsa.plus(dif);
-
-      let facturacionLbs: Decimal;
-      if (c.tipoFacturacion === "LIBRAS_ESPANOLAS") {
-        facturacionLbs = sacos69.mul(69).mul(LBS_PER_KG).mul(precioBolsaDif.div(100));
-      } else {
-        facturacionLbs = sacos46.mul(precioBolsaDif);
-      }
-
-      const facturacionKgs = facturacionLbs.mul(LBS_KGS);
-      const gastosExport = gastosPerSaco.mul(sacos69);
-      const utilidadSinGE = facturacionKgs.minus(gastosExport);
-      const comisionCompra = sacos46.mul(COM_PER_QQ);
-      const comisionVenta = sacos46.mul(COM_PER_QQ);
-
-      let costoFinanciero = new Decimal(0);
-      if (c.costoFinanciero != null) {
-        costoFinanciero = new Decimal(Number(c.costoFinanciero));
-      } else if (c.montoCredito != null && Number(c.montoCredito) > 0) {
-        costoFinanciero = new Decimal(Number(c.montoCredito))
-          .mul(new Decimal("0.08").div(12))
-          .mul(2)
-          .div(tc);
-      }
-
-      const utilidadSinCF = utilidadSinGE.minus(costoFinanciero);
-      const totalPagoQTZ = utilidadSinCF.mul(tc);
+      const calc = calculateContract({
+        sacos69kg: Number(c.sacos69kg),
+        puntaje: c.puntaje,
+        precioBolsa: Number(c.precioBolsa) || 0,
+        diferencial: Number(c.diferencial) || 0,
+        gastosExportPerSaco: Number(c.gastosPerSaco) || gastosPerSacoShipment,
+        tipoCambio: Number(c.tipoCambio) || 7.65,
+        costoFinanciero:
+          c.costoFinanciero != null ? Number(c.costoFinanciero) : undefined,
+        montoCredito:
+          c.montoCredito != null && Number(c.montoCredito) > 0
+            ? Number(c.montoCredito)
+            : undefined,
+        facturacionKgsOverride:
+          c.facturacionKgsOverride != null
+            ? Number(c.facturacionKgsOverride)
+            : undefined,
+      });
 
       await prisma.contract.update({
         where: { id: c.id },
         data: {
-          sacos46kg: sacos46.toNumber(),
-          precioBolsaDif: precioBolsaDif.toNumber(),
-          facturacionLbs: facturacionLbs.toNumber(),
-          facturacionKgs: facturacionKgs.toNumber(),
-          gastosExport: gastosExport.toNumber(),
-          utilidadSinGE: utilidadSinGE.toNumber(),
-          costoFinanciero: costoFinanciero.toNumber(),
-          utilidadSinCF: utilidadSinCF.toNumber(),
-          totalPagoQTZ: totalPagoQTZ.toNumber(),
-          comisionCompra: comisionCompra.toNumber(),
-          comisionVenta: comisionVenta.toNumber(),
+          sacos46kg: calc.sacos46kg.toNumber(),
+          precioBolsaDif: calc.precioBolsaDif.toNumber(),
+          facturacionLbs: calc.facturacionLbs.toNumber(),
+          facturacionKgs: calc.facturacionKgs.toNumber(),
+          gastosExport: calc.gastosExportacion.toNumber(),
+          utilidadSinGE: calc.utilidadSinGastosExport.toNumber(),
+          costoFinanciero: calc.costoFinanciero.toNumber(),
+          utilidadSinCF: calc.utilidadSinCostoFinanciero.toNumber(),
+          totalPagoQTZ: calc.totalPagoQTZ.toNumber(),
+          comisionCompra: calc.comisionCompra.toNumber(),
+          comisionVenta: calc.comisionVenta.toNumber(),
           computedAt: new Date(),
         },
       });

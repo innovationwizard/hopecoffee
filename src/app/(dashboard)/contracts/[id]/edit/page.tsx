@@ -50,7 +50,6 @@ export default async function EditContractPage({
           regions: contract.regions,
           puntaje: contract.puntaje,
           sacos69kg: toNum(contract.sacos69kg),
-          rendimiento: toNum(contract.rendimiento),
           precioBolsa: toNum(contract.precioBolsa),
           diferencial: toNum(contract.diferencial),
           tipoCambio: toNum(contract.tipoCambio),

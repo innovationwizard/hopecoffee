@@ -47,10 +47,6 @@ export default async function ContractDetailPage({
       ? toNum(contract.utilidadSinCF) / toNum(contract.facturacionKgs)
       : 0;
 
-  const tipoFactLabel = contract.tipoFacturacion === "LIBRAS_ESPANOLAS"
-    ? "Kilos"
-    : "Libras";
-
   // source: "external" = typed by user from outside app
   //         "app"      = computed from other app modules/formulas
   //         undefined  = locally computed from other contract fields
@@ -59,13 +55,11 @@ export default async function ContractDetailPage({
     { label: "Correlativo", value: contract.officialCorrelative ?? "—", source: "app" },
     { label: "Contrato", value: contract.contractNumber, source: "external" },
     { label: "Nombre COO", value: contract.cooContractName ?? "—", source: "external" },
-    { label: "Tipo Facturación", value: tipoFactLabel, source: "external" },
     { label: "Posición Bolsa", value: contract.posicionBolsa ?? "—", source: "external" },
     { label: "Cosecha", value: contract.cosecha ?? "—", source: "external" },
     { label: "Puntaje", value: contract.puntaje, source: "external" },
     { label: "Sacos 69kg", value: formatNumber(toNum(contract.sacos69kg), 0), source: "external" },
     { label: "Quintales", value: formatNumber(toNum(contract.sacos46kg), 1) },
-    { label: "Rendimiento", value: formatNumber(toNum(contract.rendimiento), 4), source: "external" },
     { label: "Bolsa", value: formatUSD(toNum(contract.precioBolsa)), source: "external" },
     { label: "Diferencial", value: formatUSD(toNum(contract.diferencial)), source: "external" },
     { label: "Bolsa+Dif", value: formatUSD(toNum(contract.precioBolsaDif)) },

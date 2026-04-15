@@ -121,60 +121,51 @@ async function main() {
   }
 
   // ==========================================================================
-  // FIX 2 — Contract.rendimiento sourced from paired MP, not hardcoded 1.32
+  // FIX 2 — rendimiento is sourced from the paired MP row (not Contract)
   // ==========================================================================
-  // Before the fix: every contract had rendimiento = 1.32 regardless of the
-  // xlsx. After the fix: contracts in blocks with matched MP rows carry the
-  // MP row's rendimiento, which varies across lots (1.3197, 1.3245, 1.32,
-  // 1.3226, etc. in real data). We check (a) at least one contract has a
-  // non-1.32 rendimiento, and (b) for contracts with a single allocation
-  // their rendimiento matches the linked MP's rendimiento.
+  // Contract.rendimiento was dropped from the schema. The authoritative
+  // per-batch yield lives on MateriaPrima.rendimiento, reachable from the
+  // contract via MateriaPrimaAllocation. We check that MP rendimientos vary
+  // across rows (proof the xlsx values were read, not defaulted to 1.32) and
+  // that every contract with ≥1 allocation can resolve its yield via the
+  // join chain.
   // ==========================================================================
 
-  const distinctRendimientos = await prisma.$queryRaw<
+  const distinctMpRendimientos = await prisma.$queryRaw<
     { rendimiento: string; n: bigint }[]
-  >`SELECT "rendimiento"::text AS rendimiento, COUNT(*) AS n FROM contracts GROUP BY "rendimiento" ORDER BY n DESC`;
+  >`SELECT "rendimiento"::text AS rendimiento, COUNT(*) AS n FROM materia_prima GROUP BY "rendimiento" ORDER BY n DESC`;
 
   record(
-    "FIX 2 — contract rendimientos vary (not all hardcoded to 1.32)",
-    distinctRendimientos.length > 1 ||
-      (distinctRendimientos.length === 1 &&
-        distinctRendimientos[0].rendimiento !== "1.320000"),
-    `distinct values = ${distinctRendimientos.length}: ${distinctRendimientos
+    "FIX 2 — MateriaPrima rendimientos vary (not all hardcoded to 1.32)",
+    distinctMpRendimientos.length > 1 ||
+      (distinctMpRendimientos.length === 1 &&
+        distinctMpRendimientos[0].rendimiento !== "1.320000"),
+    `distinct values = ${distinctMpRendimientos.length}: ${distinctMpRendimientos
       .slice(0, 5)
       .map((r) => `${r.rendimiento}×${r.n}`)
       .join(", ")}`
   );
 
-  // Per-contract: when a contract has exactly one allocation, its rendimiento
-  // should equal the linked MP's rendimiento.
-  const contractsWithOneAlloc = await prisma.contract.findMany({
+  // Every contract with ≥1 allocation must have a resolvable MP rendimiento.
+  const contractsWithAllocs = await prisma.contract.findMany({
     include: {
       materiaPrimaAllocations: { include: { materiaPrima: true } },
     },
   });
-  let matchPairs = 0;
-  let mismatchPairs = 0;
-  const mismatchExamples: string[] = [];
-  for (const c of contractsWithOneAlloc) {
-    if (c.materiaPrimaAllocations.length !== 1) continue;
-    const mpRend = Number(c.materiaPrimaAllocations[0].materiaPrima.rendimiento);
-    const cRend = Number(c.rendimiento);
-    if (Math.abs(mpRend - cRend) < 0.0001) {
-      matchPairs++;
-    } else {
-      mismatchPairs++;
-      if (mismatchExamples.length < 3) {
-        mismatchExamples.push(
-          `${c.contractNumber}: contract=${cRend}, MP=${mpRend}`
-        );
-      }
-    }
+  let resolvable = 0;
+  let unresolvable = 0;
+  for (const c of contractsWithAllocs) {
+    if (c.materiaPrimaAllocations.length === 0) continue;
+    const firstRend = Number(
+      c.materiaPrimaAllocations[0].materiaPrima.rendimiento
+    );
+    if (Number.isFinite(firstRend) && firstRend > 0) resolvable++;
+    else unresolvable++;
   }
   record(
-    "FIX 2 — Contract.rendimiento == paired MP.rendimiento (for 1:1 allocations)",
-    mismatchPairs === 0 && matchPairs > 0,
-    `${matchPairs} matched, ${mismatchPairs} mismatched${mismatchExamples.length ? " — " + mismatchExamples.join("; ") : ""}`
+    "FIX 2 — every allocated contract resolves to a valid MP rendimiento",
+    unresolvable === 0 && resolvable > 0,
+    `${resolvable} resolvable, ${unresolvable} unresolvable`
   );
 
   // ==========================================================================

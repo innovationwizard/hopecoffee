@@ -6,14 +6,17 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 interface CalcPreviewProps {
   calc: ContractCalculation | null;
-  tipoFacturacion?: string;
   gastosPerSaco?: number;
   costoFinanciero?: number;
   precioPromedioInv?: number;
   subproductosQty?: number;
   precioSubproducto?: number;
-  rendimiento?: number;
 }
+
+// Inventory section uses a fixed rendimiento estimate at contract creation
+// time because the real per-batch value lives on MateriaPrima and is not
+// known until purchasing happens. 1.32 is the historical average.
+const RENDIMIENTO_ESTIMATE = 1.32;
 
 function Row({
   label,
@@ -51,13 +54,11 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 export function CalculationPreview({
   calc,
-  tipoFacturacion,
   gastosPerSaco: _gastosPerSaco = 0,
   costoFinanciero: _costoFinanciero = 0,
   precioPromedioInv: _precioPromedioInv = 0,
   subproductosQty: _subproductosQty = 0,
   precioSubproducto: _precioSubproducto = 0,
-  rendimiento: _rendimiento = 1.32,
 }: CalcPreviewProps) {
   // Sanitize NaN from empty number inputs
   const n = (v: number) => (isNaN(v) || v == null ? 0 : v);
@@ -66,7 +67,6 @@ export function CalculationPreview({
   const precioPromedioInv = n(_precioPromedioInv);
   const subproductosQty = n(_subproductosQty);
   const precioSubproducto = n(_precioSubproducto);
-  const rendimiento = n(_rendimiento) || 1.32;
   if (!calc) {
     return (
       <Card>
@@ -86,14 +86,13 @@ export function CalculationPreview({
 
   const sacos46 = n(calc.sacos46kg.toNumber());
   const precioBolsaDif = n(calc.precioBolsaDif.toNumber());
-  const facturacionTotal = n(tipoFacturacion === "LIBRAS_ESPANOLAS"
-    ? calc.facturacionKgs.toNumber()
-    : calc.facturacionLbs.toNumber());
+  // Always display the kg facturación per business_rules §1.5/§1.6.
+  const facturacionTotal = n(calc.facturacionKgs.toNumber());
   const totalGastosExport = n(calc.gastosExportacion.toNumber());
   const totalGastosFinancieros = n(costoFinanciero);
 
-  // Inventory: quintales pergamino = sacos46 * rendimiento
-  const quintalesPergamino = sacos46 * rendimiento;
+  // Inventory: quintales pergamino = sacos46 * rendimiento (estimate)
+  const quintalesPergamino = sacos46 * RENDIMIENTO_ESTIMATE;
   const totalCostoInventario = quintalesPergamino * precioPromedioInv;
 
   // Subproducto
@@ -115,9 +114,7 @@ export function CalculationPreview({
           <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300">
             P&L del Contrato
           </h3>
-          <span className="text-[10px] font-mono text-slate-400">
-            {tipoFacturacion === "LIBRAS_ESPANOLAS" ? "Kilos" : "Libras"}
-          </span>
+          <span className="text-[10px] font-mono text-slate-400">Kilos</span>
         </div>
       </CardHeader>
       <CardContent className="space-y-0">

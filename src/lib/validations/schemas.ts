@@ -32,11 +32,6 @@ export const CoffeeRegionEnum = z.enum([
 
 export const UserRoleEnum = z.enum(["ADMIN", "FIELD_OPERATOR", "FINANCIAL_OPERATOR", "VIEWER"]);
 
-export const TipoFacturacionEnum = z.enum([
-  "LIBRAS_GUATEMALTECAS",
-  "LIBRAS_ESPANOLAS",
-]);
-
 export const PosicionBolsaEnum = z.enum(["MAR", "MAY", "JUL", "SEP", "DEC"]);
 
 export const POStatusEnum = z.enum(["PENDIENTE", "RECIBIDO", "LIQUIDADO"]);
@@ -66,12 +61,6 @@ export const ContractCreateSchema = z.object({
     .number()
     .positive("Sacos must be positive")
     .max(10000, "Exceeds maximum saco count"),
-  rendimiento: z
-    .number()
-    .positive()
-    .min(1.0)
-    .max(2.0)
-    .default(1.32),
   precioBolsa: z
     .number()
     .min(0, "Price cannot be negative")
@@ -84,7 +73,6 @@ export const ContractCreateSchema = z.object({
     .max(500)
     .optional()
     .nullable(),
-  tipoFacturacion: TipoFacturacionEnum.default("LIBRAS_GUATEMALTECAS"),
   posicionBolsa: PosicionBolsaEnum.optional().nullable(),
   montoCredito: z.number().min(0).optional().nullable(),
   cfTasaAnual: z.number().min(0).max(1).optional().nullable(),

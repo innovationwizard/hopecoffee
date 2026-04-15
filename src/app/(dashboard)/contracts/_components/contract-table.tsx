@@ -41,11 +41,6 @@ const columns = [
     size: 110,
     cell: (info) => <StatusBadge status={info.getValue()} />,
   }),
-  col.accessor("tipoFacturacion", {
-    header: "Tipo Fact.",
-    size: 90,
-    cell: (info) => info.getValue() === "LIBRAS_ESPANOLAS" ? "Kilos" : "Libras",
-  }),
   col.accessor("posicionBolsa", {
     header: "Posición",
     size: 70,

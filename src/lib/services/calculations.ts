@@ -23,8 +23,6 @@ export interface ContractInput {
   gastosExportPerSaco: number; // Export cost per 69kg sack
   tipoCambio: number;         // GTQ/USD exchange rate
   costoFinanciero?: number;   // Optional override
-  /** @deprecated ignored; invoicing always uses the kg path per business_rules §1.5/§1.6 */
-  tipoFacturacion?: "LIBRAS_GUATEMALTECAS" | "LIBRAS_ESPANOLAS";
   /**
    * Manual facturación kgs override for exceptional legal-document cases.
    * When set, replaces the computed facturacionKgs verbatim. facturacionLbs

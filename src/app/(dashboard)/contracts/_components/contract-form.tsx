@@ -49,11 +49,6 @@ const REGION_OPTIONS = [
   { value: "OTHER", label: "Otra" },
 ];
 
-const TIPO_FACTURACION_OPTIONS = [
-  { value: "LIBRAS_GUATEMALTECAS", label: "Libras" },
-  { value: "LIBRAS_ESPANOLAS", label: "Kilos" },
-];
-
 const POSICION_BOLSA_OPTIONS = [
   { value: "", label: "Sin posición" },
   { value: "MAR", label: "Marzo" },
@@ -145,11 +140,9 @@ export function ContractForm({
       regions: initialData?.regions ?? ["SANTA_ROSA"],
       puntaje: initialData?.puntaje ?? 82,
       sacos69kg: initialData?.sacos69kg ?? 275,
-      rendimiento: initialData?.rendimiento ?? 1.32,
       precioBolsa: initialData?.precioBolsa ?? undefined,
       diferencial: initialData?.diferencial ?? undefined,
       tipoCambio: initialData?.tipoCambio ?? defaultExchangeRate,
-      tipoFacturacion: initialData?.tipoFacturacion ?? "LIBRAS_GUATEMALTECAS",
       posicionBolsa: initialData?.posicionBolsa ?? undefined,
       montoCredito: initialData?.montoCredito ?? undefined,
       cosecha: initialData?.cosecha ?? "",
@@ -194,7 +187,6 @@ export function ContractForm({
       diferencial: watchedValues.diferencial ?? 0,
       gastosExportPerSaco: gastosPerSaco,
       tipoCambio: tipoCambio,
-      tipoFacturacion: watchedValues.tipoFacturacion ?? "LIBRAS_GUATEMALTECAS",
       costoFinanciero: costoFinancieroComputed || undefined,
     });
   }, [
@@ -202,7 +194,6 @@ export function ContractForm({
     watchedValues.puntaje,
     watchedValues.precioBolsa,
     watchedValues.diferencial,
-    watchedValues.tipoFacturacion,
     tipoCambio,
     gastosPerSaco,
     costoFinancieroComputed,
@@ -305,12 +296,6 @@ export function ContractForm({
                   {...register("status")}
                 />
                 <Select
-                  label="Tipo Facturación"
-                  options={TIPO_FACTURACION_OPTIONS}
-                  error={errors.tipoFacturacion?.message}
-                  {...register("tipoFacturacion")}
-                />
-                <Select
                   label="Posición Bolsa"
                   options={POSICION_BOLSA_OPTIONS}
                   error={errors.posicionBolsa?.message}
@@ -319,7 +304,7 @@ export function ContractForm({
                 />
               </div>
 
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 gap-4">
                 <Input
                   label="Puntaje"
                   type="number"
@@ -327,13 +312,6 @@ export function ContractForm({
                   max={100}
                   error={errors.puntaje?.message}
                   {...register("puntaje", { valueAsNumber: true })}
-                />
-                <Input
-                  label="Rendimiento"
-                  type="number"
-                  step="0.000001"
-                  error={errors.rendimiento?.message}
-                  {...register("rendimiento", { valueAsNumber: true })}
                 />
                 <Input
                   label="Sacos 69kg"
@@ -710,13 +688,11 @@ export function ContractForm({
           <div className="sticky top-6 space-y-4">
             <CalculationPreview
               calc={calc}
-              tipoFacturacion={watchedValues.tipoFacturacion}
               gastosPerSaco={gastosPerSaco}
               costoFinanciero={costoFinancieroComputed}
               precioPromedioInv={watchedValues.precioPromedioInv ?? 0}
               subproductosQty={watchedValues.subproductosQty ?? 0}
               precioSubproducto={watchedValues.precioSubproducto ?? 0}
-              rendimiento={watchedValues.rendimiento ?? 1.32}
             />
             {monthlyContext && (
               <MonthlyContext stats={monthlyContext} />

@@ -185,11 +185,6 @@ enum ShipmentStatus {
   LIQUIDADO    // Settled
 }
 
-enum TipoFacturacion {
-  LIBRAS_GUATEMALTECAS // quintales_100lb × precio_USD
-  LIBRAS_ESPANOLAS     // (sacos_69kg × 69 × 2.2046) × (precio_USD / 100)
-}
-
 enum ExportingEntity {
   EXPORTADORA       // Main export company (business_rules §1.1, §1.15)
   FINCA_DANILANDIA  // Farm entity
@@ -257,7 +252,6 @@ model Contract {
   puntaje         Int             // Cupping score: 81-85+
   sacos69kg       Decimal         @db.Decimal(10, 2) // Bags at 69kg
   sacos46kg       Decimal         @db.Decimal(10, 2) // Calculated: sacos69kg × 1.5
-  rendimiento     Decimal         @db.Decimal(8, 6)  // DEPRECATED: use MateriaPrima.rendimiento via allocation
 
   // Exporting entity (business_rules §1.1, §1.15)
   exportingEntity ExportingEntity @default(EXPORTADORA)
@@ -276,7 +270,6 @@ model Contract {
   overrideReason         String?
 
   // Billing & commissions
-  tipoFacturacion TipoFacturacion @default(LIBRAS_GUATEMALTECAS)
   comisionCompra  Decimal?        @db.Decimal(10, 2) // 1.50 USD/quintal (buy)
   comisionVenta   Decimal?        @db.Decimal(10, 2) // 1.50 USD/quintal (sell)
   montoCredito    Decimal?        @db.Decimal(14, 2) // Credit amount in GTQ for financial cost

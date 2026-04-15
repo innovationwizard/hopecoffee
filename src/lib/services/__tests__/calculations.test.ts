@@ -142,24 +142,6 @@ describe("calculateContract", () => {
     expect(result.totalComision.toNumber()).toBe(1237.5);
   });
 
-  it("tipoFacturacion is ignored (single kg path per business_rules §1.5)", () => {
-    const base = {
-      sacos69kg: 275,
-      puntaje: 82,
-      precioBolsa: 300,
-      diferencial: 37,
-      gastosExportPerSaco: 23,
-      tipoCambio: 7.65,
-    };
-    const guat = calculateContract({ ...base, tipoFacturacion: "LIBRAS_GUATEMALTECAS" });
-    const esp = calculateContract({ ...base, tipoFacturacion: "LIBRAS_ESPANOLAS" });
-
-    expect(guat.facturacionLbs.toNumber()).toBe(esp.facturacionLbs.toNumber());
-    expect(guat.facturacionKgs.toNumber()).toBe(esp.facturacionKgs.toNumber());
-    // Single path: 412.5 × 337 = 139,012.50, then × 1.01411 for kgs
-    expect(guat.facturacionLbs.toNumber()).toBe(412.5 * 337);
-  });
-
   it("facturacionKgsOverride replaces the computed value for exceptional legal-document cases", () => {
     // P40129 January 2026: legal contract drafted at libras value (171600),
     // not the kg-uplifted value (≈174022). See RECONCILIATION_PLAN §9.3.
@@ -176,20 +158,6 @@ describe("calculateContract", () => {
     expect(result.facturacionLbs.toNumber()).toBe(171600);
     // R27 = 171600 - 23*412.5 = 162112.50
     expect(result.utilidadSinGastosExport.toNumber()).toBeCloseTo(162112.5, 2);
-  });
-
-  it("default tipoFacturacion matches old behavior (regression)", () => {
-    const input = {
-      sacos69kg: 275,
-      puntaje: 82,
-      precioBolsa: 376,
-      diferencial: 40,
-      gastosExportPerSaco: 34.5,
-      tipoCambio: 7.65,
-    };
-    const withDefault = calculateContract({ ...input, tipoFacturacion: "LIBRAS_GUATEMALTECAS" });
-    const withoutType = calculateContract(input);
-    expect(withDefault.facturacionLbs.toNumber()).toBe(withoutType.facturacionLbs.toNumber());
   });
 
   it("auto-calculates financial cost from montoCredito", () => {

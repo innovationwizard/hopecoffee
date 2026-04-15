@@ -118,7 +118,6 @@ function computeContractFields(input: {
   tipoCambio?: number | null;
   costoFinanciero?: number | null;
   gastosExportPerSaco?: number;
-  tipoFacturacion?: string | null;
   montoCredito?: number | null;
 }) {
   const sacos69kg = input.sacos69kg;
@@ -135,7 +134,6 @@ function computeContractFields(input: {
     gastosExportPerSaco,
     tipoCambio,
     costoFinanciero: input.costoFinanciero ?? undefined,
-    tipoFacturacion: (input.tipoFacturacion as "LIBRAS_GUATEMALTECAS" | "LIBRAS_ESPANOLAS") ?? undefined,
     montoCredito: input.montoCredito ?? undefined,
   });
 
@@ -165,7 +163,6 @@ export async function createContract(data: ContractCreateInput) {
     precioBolsa: validated.precioBolsa,
     diferencial: validated.diferencial,
     tipoCambio: validated.tipoCambio,
-    tipoFacturacion: validated.tipoFacturacion,
     montoCredito: validated.montoCredito,
     gastosExportPerSaco: validated.gastosPerSaco ?? undefined,
   });
@@ -190,10 +187,8 @@ export async function createContract(data: ContractCreateInput) {
       regions: validated.regions,
       puntaje: validated.puntaje,
       sacos69kg: validated.sacos69kg,
-      rendimiento: validated.rendimiento,
       precioBolsa: validated.precioBolsa ?? null,
       diferencial: validated.diferencial ?? null,
-      tipoFacturacion: validated.tipoFacturacion,
       posicionBolsa: validated.posicionBolsa ?? null,
       montoCredito: validated.montoCredito ?? null,
       cfTasaAnual: validated.cfTasaAnual ?? null,
@@ -252,7 +247,7 @@ const FINANCIAL_FIELDS = [
   "exportImpuestoAnacafe2", "exportInspeccionOirsa", "exportFumigacion",
   "exportEmisionDocumento", "exportFletePuerto", "exportSeguro",
   "exportCustodio", "exportAgenteAduanal", "exportComisionOrganico",
-  "tipoFacturacion", "posicionBolsa",
+  "posicionBolsa",
 ] as const;
 
 export async function updateContract(data: ContractUpdateInput) {
@@ -299,7 +294,6 @@ export async function updateContract(data: ContractUpdateInput) {
       ? validated.tipoCambio
       : toNum(existing.tipoCambio);
 
-  const tipoFacturacion = validated.tipoFacturacion ?? existing.tipoFacturacion;
   const montoCredito = validated.montoCredito !== undefined
     ? validated.montoCredito
     : toNum(existing.montoCredito);
@@ -309,7 +303,6 @@ export async function updateContract(data: ContractUpdateInput) {
     precioBolsa,
     diferencial,
     tipoCambio,
-    tipoFacturacion,
     montoCredito,
   });
 
@@ -337,7 +330,6 @@ export async function updateContract(data: ContractUpdateInput) {
       ...(validated.status && { status: validated.status }),
       ...(validated.regions && { regions: validated.regions }),
       ...(validated.puntaje && { puntaje: validated.puntaje }),
-      ...(validated.rendimiento && { rendimiento: validated.rendimiento }),
       ...(validated.lote !== undefined && { lote: validated.lote }),
       ...((validated as Record<string, unknown>).cooContractName !== undefined && {
         cooContractName: (validated as Record<string, unknown>).cooContractName as string | null,
@@ -349,7 +341,6 @@ export async function updateContract(data: ContractUpdateInput) {
       ...(validated.fechaEmbarque !== undefined && {
         fechaEmbarque: validated.fechaEmbarque,
       }),
-      ...(validated.tipoFacturacion && { tipoFacturacion: validated.tipoFacturacion }),
       ...(validated.posicionBolsa !== undefined && { posicionBolsa: validated.posicionBolsa }),
       ...(validated.montoCredito !== undefined && { montoCredito: validated.montoCredito }),
       ...(validated.cosecha !== undefined && { cosecha: validated.cosecha }),
