@@ -6,6 +6,33 @@
 
 ---
 
+## ⚠️ 2026-04-15 RETRACTION — Handoff 3 is NOT a bug
+
+This document was written under the assumption that Lab-world and CFO-world should be unified: a yield adjustment detected by Hector should flow all the way through to Octavio's contract margin. Under that assumption, Handoff 3 (YieldAdjustment → MateriaPrima cost) was classified as **broken**, and commit `4103987` implemented a best-effort bridge.
+
+**User direction 2026-04-15 supersedes that framing:** *"Octavio's numbers come from Octavio's xlsx files. Hector's numbers come from Hector's Lab. The app doesn't break if they differ."*
+
+The two worlds are now permanently independent at Lab-3 scope. Applied yield adjustments update the supplier ledger via `SupplierAccountEntry` and nothing else. They do **not** propagate to `MateriaPrima.totalMP`, they do **not** trigger `recalculateShipment`, and the CFO dashboard is **unaffected** by any catación Hector enters. Divergence between the two views of the same contract's cost is tolerated by design.
+
+The Handoff 3 code from commit `4103987` has been reverted. `applyYieldAdjustment` now does three things and three things only: flip the status, create a `SupplierAccountEntry`, set the bidirectional FK. See `src/app/(dashboard)/quality-lab/actions.ts` `applyYieldAdjustment` for the current implementation.
+
+**Revised handoff scorecard** (as of 2026-04-15 post-revert):
+
+| # | Handoff | Status | Notes |
+|---|---|---|---|
+| 1 | Cupping → YieldAdjustment auto-create | ✅ plumbed | unchanged |
+| 2 | YieldAdjustment apply → SupplierAccountEntry | ✅ plumbed | commit `4103987` — retained |
+| 3 | YieldAdjustment → MateriaPrima cost | ⛔ **intentionally not bridged** | was broken, then bridged, then reverted per user direction. No longer a bug. |
+| 4 | Lot ↔ MateriaPrima | ⛔ **intentionally parallel** | permanent independence, not a deferred unification |
+
+The rest of this document — especially the §"Business impact" and §"Fix scope" sections — is preserved as the historical record of how the decision was arrived at. It remains accurate to the facts observed at the time; the **interpretation** of those facts has changed.
+
+The live plan for Hector's workflow is in [docs/lot-materia-prima-unification-plan.md §H](lot-materia-prima-unification-plan.md), which supersedes this audit's Fix-scope section for implementation direction.
+
+---
+
+---
+
 ## The loop Hector asked for (from hector.txt)
 
 > "Si se compra con 1.32, si no me da 1.33 en el laboratorio, el precio debe ser ajustado. La idea es que cuando yo ingrese mi catación con el número de recibo, cuando aquel genere su pago, plum, ya era el ajuste."
