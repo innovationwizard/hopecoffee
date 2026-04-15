@@ -1,0 +1,76 @@
+test(importer): add end-to-end validation against disposable Postgres
+
+Implements item 9 of the parked follow-up list from the January 2026
+reconciliation session. Provides a fully-automated way to validate that
+the importer fix (commit 3554d2b) actually works against a clean
+database, without touching Supabase prod or requiring Docker.
+
+The validation spins up a temporary local Postgres cluster via Homebrew's
+postgres binaries (initdb + pg_ctl + createdb), pushes the Prisma schema,
+runs scripts/import-excel.ts against docs/hopecoffee.xlsx, then runs a
+focused assertion script that verifies the three structural fixes from
+3554d2b. The cluster is torn down on exit via a bash EXIT trap regardless
+of success or failure — nothing persists.
+
+scripts/validate-importer.sh — orchestration
+
+Prereqs: Homebrew postgres binaries on PATH and docs/hopecoffee.xlsx
+present (gitignored; must be supplied locally). Creates a mktemp dir,
+runs initdb with --auth=trust, starts Postgres on port 55432 bound to
+localhost with the temp dir as the unix socket directory, creates
+`hopecoffee_validate`, exports DATABASE_URL and DIRECT_URL so the shell
+overrides .env, pushes the schema, runs the importer, runs the
+assertions. Logs are captured to the temp dir so failures surface the
+full trace. Safe to run repeatedly.
+
+scripts/validate-importer-assertions.ts — read-only checks
+
+Verifies the three fixes at the structural level:
+
+  FIX 1 — MateriaPrimaAllocation rows exist with no orphan FKs.
+          Sample shipment check only asserts "every MP row allocated"
+          when contracts.length === materiaPrima.length (the positional
+          1:1 case); skipped when counts differ since the importer
+          intentionally does not guess in that case.
+
+  FIX 2 — Contract.rendimiento values vary across contracts (not all
+          hardcoded to 1.32), AND for every 1:1 allocation the
+          Contract.rendimiento matches the paired MP.rendimiento
+          exactly. Contracts where the match was skipped still fall
+          back to 1.32, which is the documented behavior.
+
+  FIX 3 — Contract.gastosPerSaco is non-null for ≥1 contract.
+
+Intentionally tolerant: this script does NOT compare values to the
+Enero.xlsx post-fix SSOT because scripts/import-excel.ts reads
+docs/hopecoffee.xlsx (CFO master workbook) which is a different
+snapshot from Enero.xlsx (the January standalone used by the
+reconciliation). Cell-for-cell parity is the job of
+phase-a-january-diff.ts against a reconciled DB, not this validator.
+
+RESULTS against docs/hopecoffee.xlsx
+
+  Baseline: 25 shipments, 46 contracts, 53 MP rows, 37 allocations
+
+  ✓ importer populated the DB
+  ✓ FIX 1 — allocations are being created (37, 0 orphans)
+  ✓ FIX 1 — sample shipment "Enero 2026 - Bloque 1" — counts differ,
+    assertion skipped per design (the master workbook's January Bloque 1
+    has 4 MP rows for 3 contracts; the standalone Enero.xlsx has 3:3)
+  ✓ FIX 2 — rendimiento varies: 1.32 × 41, 1.30 × 4, 1.3226 × 1
+  ✓ FIX 2 — all 37 1:1 pairs matched, 0 mismatched
+  ✓ FIX 3 — 46/46 contracts have gastosPerSaco persisted (23.00 × 46)
+
+  7/7 assertions passed.
+
+OBSERVATION (not a bug)
+
+docs/hopecoffee.xlsx and the standalone Enero.xlsx used by the
+January reconciliation have drifted: the master's January Bloque 1
+has 3 contracts but 4 MP rows, while the standalone has 3:3. This
+is why 16 MP rows across the full workbook (53 MP - 37 allocated)
+land in ambiguous blocks where the importer skips allocation
+creation. Flag for future cleanup — ideally the CFO maintains a
+single workbook, not two — but not something this commit addresses.
+
+Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
