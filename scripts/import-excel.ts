@@ -748,8 +748,33 @@ async function main() {
     });
     stats.shipments++;
 
+    // ── Match MP rows to contracts (positional 1:1 when counts agree) ──
+    // Per hopecoffee_business_rules.md §1.3 and the January 2026 reconciliation
+    // (docs/january-2026-reconciliation-session.md §4.1), each MateriaPrima row
+    // represents the raw material allocated to exactly one contract, and the
+    // SSOT's MP section explicitly lists one row per contract in block order.
+    //
+    // When contracts.length === materiaPrima.length, we match by index. When
+    // they differ (e.g. a contract covered by multiple lots per §1.3), the
+    // mapping is ambiguous and we skip allocation creation for this block —
+    // the allocations must then be set by a one-off reconciliation script.
+    const mpToContractIdx =
+      block.contracts.length === block.materiaPrima.length
+        ? block.materiaPrima.map((_, i) => i)
+        : null;
+    if (mpToContractIdx == null && block.materiaPrima.length > 0) {
+      console.warn(
+        `    ⚠️  ${meta.name}: contracts.length (${block.contracts.length}) !== materiaPrima.length (${block.materiaPrima.length}); allocations will NOT be auto-created for this block`
+      );
+    }
+
     // ── Create contracts ──
-    for (const c of block.contracts) {
+    const contractIdByIndex: (string | null)[] = new Array(
+      block.contracts.length
+    ).fill(null);
+
+    for (let ci = 0; ci < block.contracts.length; ci++) {
+      const c = block.contracts[ci];
       // Dedup: client sheet contracts with real numbers that already exist from monthly sheets → skip
       // Monthly sheet contracts with duplicate numbers → suffix to make unique
       const isRealNumber = !c.contractNumber.startsWith("PEND-");
@@ -769,7 +794,15 @@ async function main() {
         continue;
       }
 
-      await prisma.contract.create({
+      // Pair this contract with its matching MP row (if any) to source the
+      // authoritative rendimiento. Contract.rendimiento is marked DEPRECATED
+      // in prisma/schema.prisma but still exists for UI compatibility, so we
+      // keep it in sync with the MP row rather than hardcoding 1.32.
+      const pairedMp =
+        mpToContractIdx != null ? block.materiaPrima[ci] : null;
+      const contractRendimiento = pairedMp?.rendimiento ?? 1.32;
+
+      const created = await prisma.contract.create({
         data: {
           contractNumber: c.contractNumber,
           clientId: client.id,
@@ -779,32 +812,45 @@ async function main() {
           puntaje: c.puntaje,
           sacos69kg: c.sacos69kg,
           sacos46kg: c.sacos69kg * 1.5,
-          rendimiento: 1.32,
+          rendimiento: contractRendimiento,
           precioBolsa: c.precioBolsa || null,
           diferencial: c.diferencial || null,
           precioBolsaDif:
             c.precioBolsa && c.diferencial
               ? c.precioBolsa + c.diferencial
               : c.precioBolsa || null,
+          gastosPerSaco: c.gastosPerSaco,
           tipoCambio: 7.65,
           lote: c.lote,
           exportCostConfigId: defaultConfig?.id ?? null,
           cosecha: "25/26",
+          // exportingEntity defaults to EXPORTADORA at the schema level. The
+          // importer intentionally does not auto-detect Finca Danilandia
+          // blocks — that mapping is a business fact not present in the
+          // xlsx, and must be set via a per-month reconciliation script or
+          // a future UI action. See docs/january-2026-reconciliation-session.md §10.1.
+          //
+          // facturacionKgsOverride is intentionally NOT set here. Legal-
+          // document exceptions (e.g. P40129 Jan 2026) must be entered
+          // explicitly with an audit reason, never auto-detected from the
+          // xlsx. See docs/january-2026-reconciliation-session.md §6.2.
         },
       });
+      contractIdByIndex[ci] = created.id;
       if (isRealNumber) createdContracts.add(c.contractNumber);
       stats.contracts++;
     }
 
-    // ── Create materia prima ──
-    for (const mp of block.materiaPrima) {
+    // ── Create materia prima + allocations ──
+    for (let mi = 0; mi < block.materiaPrima.length; mi++) {
+      const mp = block.materiaPrima[mi];
       const supplier = mp.supplierCode
         ? supplierByCode.get(mp.supplierCode)
         : null;
       const pergamino = mp.oro * mp.rendimiento;
       const totalMP = pergamino * mp.precioPromQ;
 
-      await prisma.materiaPrima.create({
+      const mpRow = await prisma.materiaPrima.create({
         data: {
           shipmentId: shipment.id,
           supplierId: supplier?.id ?? null,
@@ -819,6 +865,22 @@ async function main() {
         },
       });
       stats.materiaPrima++;
+
+      // Link this MP row to its contract via MateriaPrimaAllocation.
+      // quintalesAllocated = null means "full allocation" (per schema comment).
+      if (mpToContractIdx != null) {
+        const contractIdx = mpToContractIdx[mi];
+        const contractId = contractIdByIndex[contractIdx] ?? null;
+        if (contractId) {
+          await prisma.materiaPrimaAllocation.create({
+            data: {
+              materiaPrimaId: mpRow.id,
+              contractId,
+              quintalesAllocated: null,
+            },
+          });
+        }
+      }
     }
 
     // ── Create subproducto ──
