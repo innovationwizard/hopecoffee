@@ -41,6 +41,10 @@ prisma/migrations/**/migration_lock.toml
 # private source documents (CFO transcripts, extracted business rules)
 transcripcion_completa.txt
 hopecoffee_business_rules.md
+RobertoFULL.txt
+
+# database backups (contain bcrypt hashes + prod data)
+backups/
 
 # scratch files for drafting commit messages
 git-commit-*.txt
