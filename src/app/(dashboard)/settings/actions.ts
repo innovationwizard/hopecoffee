@@ -131,10 +131,12 @@ export async function getUsers() {
       id: true,
       email: true,
       name: true,
-      role: true,
       isActive: true,
       lastLoginAt: true,
       createdAt: true,
+      roleAssignments: {
+        select: { role: true },
+      },
     },
   });
 }
@@ -150,7 +152,12 @@ export async function createUser(data: UserCreateInput) {
       email: validated.email,
       name: validated.name,
       passwordHash: hashed,
-      role: validated.role,
+      roleAssignments: {
+        create: validated.roles.map((role) => ({
+          role,
+          assignedBy: session.userId,
+        })),
+      },
     },
   });
 
@@ -160,7 +167,7 @@ export async function createUser(data: UserCreateInput) {
     "User",
     user.id,
     null,
-    { email: validated.email, name: validated.name, role: validated.role }
+    { email: validated.email, name: validated.name, roles: validated.roles }
   );
 
   revalidatePath("/settings/users");

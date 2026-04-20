@@ -1,0 +1,1005 @@
+TRANSCRIPCIÓN DE REUNIÓN
+International Coffee Industry, S.A.
+Participantes: Roberto (Finanzas/Contabilidad), Consultor de Sistemas
+================================================================================
+
+Así es. Pero bueno No sé Cómo Quisieras Que comencemos. Si te muestro Qué hago. Cómo lo hago O. Me quieres mostrar algo Comencemos Con El Excel. Que me mandaste. Mira.
+
+Esto es lo que yo Le imprimo A Octavio Mejor. Mira. Es lo que yo Le imprimo A él Me hace Algunas observaciones Algunas cosas. Pero eso es Las dos. Son más de adelante Y eso. Son versiones anteriores Me sirve Porque Sobre todo No solo Cambia La operación. Mes a mes.
+
+Sino que Octavio Cambia Su Excel. No. Y todo Cambia Comencemos. Por ese cuadro Que es Dice Te voy Explicando. No lo general. Que ya sabemos. Te doy el modelo.
+
+En el que yo Espero. A tu explicación Es más Vamos a. A ver si puedes. Tener la pantalla Quisiera Explicarte. Donde es que. Se me pone Complicado A mi. Donde es que.
+
+Yo siento Ah Pucho Yo estoy. Esto está más No complejo Sino que. Un poquito más Laborioso Lo hace A veces Soporte TV Debes Estar En Wifi. No. Dejaron HDMI Por aquí. No. Dejaron.
+
+No. Dejaron Pero Supongo Que tienes Que estar Conectada. A la de ORION Visitas Yo Supongo Que no La dejaron Conectada Será Todos. No. Mira que Está La prueba De test. ¿Qué marca. Sería esta tele?
+
+Sergi Creo yo. No. Samsung Apple Airplay. Esto me sirve. No. Si no Usted sirve Eso Solo Una vez Eso es. Correcto. No. Eso es.
+
+Correcto. Para ella Debo Poder. ¿Qué nombre Tendrá La Imagina. Que te parece. Como el nombre. De la pantalla El TV Algo El TV Sala 3 Tal vez Sala 2 Lo Tendrá Paso Quintan Tendrá. ¿Qué qué��.
+
+Tendrá. Bueno, para mí estás contando. Justo lo que me estabas diciendo. ¿Dónde. Se te complica la vida? Mira Primero. A ver, ¿por dónde comienzo?
+
+Como en todos lados creo que sucede. El principal problema es la comunicación. Pero yo creo que ahí. No sé qué tanto podamos hacer. Nosotros desde el sistema. Tal vez sí. Ojalá que sí.
+
+¿Qué pasa? Se compra café. El licenciado José Herrera. Él es encargado de compras. Claro que con esto se reúnen con Octavio. Y en base a las necesidades. Y a las características que el cliente en el exterior necesita de su café.
+
+En base a eso. En base a la necesidad y al requerimiento del cliente. Van a ir a buscar el café. El tema es que yo no me entero de eso Ellos hablan. No quiero saber qué hablaron. No, yo quiero saber qué pasó después de esa reunión. ¿Se va a comprar o no se va a comprar?
+
+¿Ya se emitió una orden de compra? No, eso es lo que a mí me interesa. Y yo me vengo a enterar Días después. ¿Por qué está en triado? ¿O cuándo? O cuando ya llevas semanas de café en el beneficio. ¿Ya?
+
+¿Y cómo me entero? Nadie me dijo nada. Hasta que me puse a revisar por algún tema O abalco. Tenía yo que hacer. Y agarré ley de compras del licenciado José. A ver pues. Hay más órdenes de compra.
+
+Claro que yo puedo estar acá a cierto tiempo. Y ya me hice el hábito de revisar. O él tiene un Excel. Con las compras Pues pero. Tengo que ir al share. Pueden buscar el archivo. O ir y buscar el ley físico.
+
+Cuando yo creo que. Al tenerlo en el sistema O sea. Está a un clip. A dos clips. De la info O sea. Entonces. Para mí comienza en la compra.
+
+Enterarme yo en tiempo real O sea. Que el licenciado José. Ya no haga sus compras. En un formato de Excel. ¿Me entiendes? O sea. Yo quisiera que quede.
+
+En el sistema. ¿Quiere la caja está ahorita? No sé si está. Pero si quieres. Aprecemos un poquito más. Y ya porque. Ya cuando hayamos tomado.
+
+Y aterrizado ideas Y decisiones Mostrémosle algo Propongámosle. Y ya que nos De retroalimentación. Entonces. Él hace una versión. Preliminal de la compra. La orden de compra Puede modificarse. Hasta dos o tres veces.
+
+A mí me gustaría. De que no se vayan. Perdiendo las versiones Que siempre Porque. Cambia el número De quintales. O el precio. O una condición Algo cambió. En la orden de compra.
+
+O ponerle. Se había pedido Inicialmente. Que el café Fuera entregado. En el beneficio La joya. Pero ya en el momento. En el que el productor. Va a hacer la entrega.
+
+De café. Por temas de inventario Logística. Porque nos surge Un café. Hay que mandarlo. A otro beneficio. A otro lado. Esto es última hora.
+
+Te hacen cambios De. Sí. Yo me refiero. A dos o tres días. Antes de la entrega De café. Ya. Entonces.
+
+Yo vengo Y yo Ah va. Filtro en mi Excel Y beneficio La joya. Y cuando veo Recibo Se entregó. En otro beneficio. Entonces yo vengo. En mi Excel. Y lo cambio.
+
+Pero. Me interé después. ¿Me entiendes? Y muchas veces. Viene mi José Y imprime Otra hoja. Y quita la anterior A veces. Deja la antigua.
+
+Como De referencia. Pero quizás. Que pase lo mismo. En el sistema. Que se vayan quedando. Las versiones anteriores. Pero que reconozca.
+
+Para temas De costos Y proyecciones E inventarios. O para tema De Inforeportería. La última versión. ¿Ya? Pero que no Puedes darse El historial. De qué pasó Y si. Se pueden hacer.
+
+Anotaciones. Que estoy seguro. Que se puede. Dejar un comentario El motivo Por qué Esa versión Queda desfasada Pues Me gustaría Eso. ¿Ya? Facilísimo Para mí Y ahí Comienza Para mí. En la orden.
+
+De compra Mis costos Ahí comienzan Para Héctor Comienza. Con la llamada Del cliente Para Octavio. Es otro tema Cada quien. Pero para mí Los costos. Y los números. Que yo controlo Comienzan. Desde la orden.
+
+De compra. Entonces yo Dependo mucho Del licenciado Docente De él. Entonces yo Casi que. De día a día. Estoy ahí con él Bueno Ponerle. Que ya se decidió. Que el café.
+
+Comprar Y cuánto Estás entrenado. Con mi tarta. Sí. O el que pusieras El archivo. Pero bueno. Entonces Ese tipo De cambios. A última hora.
+
+Ponerle Ah. En la orden De compra Uno Pedimos 500 Quintales. Vino el productor. Y nos mandó 480 Nos hicieron Faltar 20 Quintales. Entonces. Una de dos O licenciado José Decide Cerrar ahí La orden De compra Y modificarla. Queda una versión.
+
+Con 500. Y la nueva Queda Con 480. Y ahí cerró El tramo Puede ser. O queda abierta Pendiente De recibir 20 quintales. Eso lo decide Puede ser José Puede ser Que. Ah no hay que quedar. Después que me traiga.
+
+Esos 20 Puede ser. Que pasó un mes Decidió Que ahí Queda No cerró Puede ser. ¿Ya? O Puede pasar Lo otro Que quedaron Esos 20 Pendiente Y después Te mandó Una Orden De compra. Y te puso 40 quintales De más. Entonces. El licenciado José.
+
+Decide Si esos 40 quintales Que recibió De más Después. Se lo asigna. A esa orden De compra Y así Queda O toma 20 De esos. Que le sobran Y completa La anterior. Que le hacían Falta Ahí. ¿Ya me entendiste?
+
+Como que si fuera Un rompecabezas. Y vas decidiendo Qué piezas Usar Para completar. O dejarlo pendiente De completar. ¿Ya? Me sobró de aquí. Voy a pasar. Un poquito de café.
+
+Para aquella. Que me hacía falta. A un costo Diferente Condiciones Diferentes Probablemente Candidates Diferentes. Pero deberían Deberían ser Similares. Porque si no No debería. Porque estar Completando Una OC. Con un café.
+
+Que es muy diferente Las condiciones Del café. Deberían ser similares. Y no las mismas Si no No cumple La condición Del requerimiento Inicial. De la OC. Entonces. Pero eso. Ya lo decide.
+
+Él Es decir Tipo. No está hablando De puntaje Y. Tipo de café También Así Tipo Región. Ajá. Punteo Región Puede ser. Café de hueva Puede ser. Café de Santa Rosa.
+
+Puede ser. Lo que sea. Entonces Dale simila El problema Es que Cada orden De compra O sea Nosotros decimos Ah 500 quintales. Tomo 5 de ahí. No tomo 20. Y los paso. Porque me sonaron.
+
+Ok. Pero acordate. Que esa OC Está integrada Por pequeños Grupitos. Que se llaman Recivos. Entonces. No solo es decir Ah. De esta OC.
+
+Agarro 20. Y los paso para allá. No. No son números macro. Tienes que ir a ver La integración. De esa OC Y seleccionar En específico. De esos recibos.
+
+Que querés pasar. Para la otra OC. Y aún así Y puede. Y no te va a dar. Exacto. Ajá. Parciales.
+
+Ajá. Entonces. De ese recibo. El hijo se puede decidir. De ese recibo Parto Otro poquito. Entonces puede que O sea. Mitad de un recibo.
+
+En una OC. Mitad de otro recibo. En otra OC. OC es solo De compro. Eso pasó ayer O antier. Y de ahí fue. Lo de Octavio.
+
+Ajá. Y quiero verlo ya. Ajá. Entonces Me sobra. Me queda para acá. Un poquito aquí. Pero en esta OC.
+
+Tiene este costo. En esta OC. Es otro costo A veces El diseñador Se dice. Mira A Cafinos. Le hemos hecho Diez horas De compra. Y me está mandando Café. Yo no tengo.
+
+Plata para pagar De ahorita Ese café. Que me está mandando Como todo. Es de la misma Calidad. Y el mismo tipo. Lo que cambia. Es el costo. Porque la negociación.
+
+Se cerró. En momentos diferentes. Entonces Los costos. En los que cambian El café. Puede ser el mismo. El mismo tipo de café. Lo único que cambia.
+
+Es el costo Se dice. Mira Yo ahorita No tengo. Plata para pagar De ahorita. Me está mandando. Entonces Ese café. Que me está mandando. Se lo voy a asignar.
+
+A las órdenes de compra. Con costo más barato. Al costo más barato De momento Porque. Si se lo asigno. A la última. Tal vez es la más cara Y ahorita. No puedo pagarles.
+
+El diseñador José decide. A qué o sea. Asignar ese café. Puede ser que. Él en su momento. Hizo ese requerimiento. Pensando en la OC5.
+
+Pero ya cuando recibe el café. Se lo asigno. Se lo asigno a otro. Ya el momento. De ingresar el café Él decide. A dónde va a meter Ese café Ahí está. Mi costo de compra.
+
+De materia prima. Interesante. Una vez que cerraste. Todavía puede cambiar. Sí. Yo creo que muchos lugares. Evitan hacer eso.
+
+Porque. Porque obvio. Porque les genera más trabajo. Deja el trabajo La confusión. Y la capacidad De errores. ¿Verdad?
+
+Entonces puede salir Más caro Un error. Que estar tratando. De ahorrarte plata. Moviendo el café. De nuevo para otro. Porque Héctor. Es más así.
+
+De verlo macro. Héctor como vendedor. A tantos quintales Tanto diferenciar Se va Después Recuperando Pero Tal vez Octavio. Que es más financiero Él. Si mira una área De oportunidad Para ahorrar. Son dos centavos. Lo va a hacer.
+
+Si. Si puede hacer algo. Para que el costo Promedio baje. Y que los márgenes. De él mejor. Lo va a hacer No importa. Que eso conlleve.
+
+Más trabajo. Para que controle El inventario No importa. Si eso es. Lo que sea. Que conlleve eso. O tal vez. Si mira que algo.
+
+Puede mejorar Sus márgenes. Lo va a hacer. Claro. Que como te digo. En otros lados. Tal vez el dueño. No está metido en eso.
+
+Entonces El inventario. Es el que toma la decisión. Y por ahorrarse El trabajo Y errores. No lo hace Simplemente. No lo hace. Porque no quiere. Como vos decís.
+
+Confusiones. No quiere más trabajo. No quiere estarse. Complicando la vida. Pero si el dueño. O un analista financiero. Llega a revisar eso.
+
+Probablemente. Que si quiere No mira. Aquí puedes ahorrarte plata Haces como Bueno. Entonces. No está mal Pero. Es un truco. Para la vida.
+
+Menos Las teles Samsung Y el Guargan La memoria. De sus configuraciones. A menos que. Pierda la electricidad. Le quitas un minuto La electricidad Y entonces Ya buscan Nuevos dispositivos. No tienen conclava. Pero si están.
+
+Complicados. En el radio Y Mismas redes. No se ven Quiere decir. Que uno de los dos Una configuración Esta Guardó La configuración. De la vez pasada. Que la usaron. Ya. Y.
+
+La marca. No le puedo estar. Borrando el dispositivo. Y volverlo a agregar Desde cero. O ni siquiera Aparece No aparece. Porque está pegado. A la última.
+
+Compu. Que lo usaron No aparece. En la lista De avisados Anteriormente Ah. A la última Compu No a. No a la última Conexión Que hubo. Ajá. Ya. Se le queda.
+
+La dirección Física De la Compu. A la tele Y A veces Logra Ella solita Borrar Tiene ciclo Pero. No. No son Muy Robustos. En las tele Nuevas Entre más Inteligente La tele Más Cosas Tratan De meterle Y Terminan Otras. Entonces Entiendo. Que el dinamismo.
+
+En Cualquier Punto. De la existencia Del proceso Si. Es un dolor Para vos Sobre todo. Porque no Tendrás. Que ha mejorado La comunicación Debo decir. Este es mi Segundo Tercer año. Pero el primer año.
+
+No se exportó. Fue el 2024. Es un año Muy complicado. No se exportó Casi nada. Entonces. El año pasado. Fue mi primera prueba.
+
+Así de verdad 12 contenedores De exportación Y ahorita Creo que. Es más de 30. O la meta Son 50 Creo yo Pero. Sí. 30 y pico Bueno Creo. Entonces Este es Como mi Prueba. Este es mi año.
+
+De ver. Si de adaptar. Vaya que hemos Mejorado En comunicación El equipo. Es un poco Más grande Y Si no Fue así. Fue algo loco. No se que Fue así Es difícil Andar tratando De averiguar Qué pasó. Y qué hizo.
+
+La gente Hace dos Tres meses Ni yo Se acuerda. Pero yo Me veo Hasta después. Ya cuando veo Los números Y yo. Y le digo Se vendió Café. A tal cliente Tantos quintales De dónde. Sabe ese café. Si yo ya.
+
+En mi excel. Ya no hay más café De dónde Ah. No es que Fíjate que Ese nunca Entró Al beneficio Nunca entró Porque Al productor. Que se lo compramos. Él lo trilló. Él lo procesó. Ahí se hizo todo.
+
+Y de ahí salió. Directo para el puerto. Nunca hago un recibo Como tal Yo Ah. Hay un documento Pues Digo yo Algo que Para yo. Dar el ingreso De que. En algún momento. Fue inventario mío.
+
+Aunque físicamente. No haya ingresado. A mis bodegas. O a las bodegas Del beneficio. Con el que yo trabajo. Pero algún documento Debe haber Donde garantiza. De que ese café.
+
+Yo lo compré Ah. Es que no se ha pagado Bueno Con razón. No me aparece. A mi dinero. Porque si no. Si no tengo Alimentario. Por lo menos.
+
+Tengo dinero. Ahí como anticipado Este dinero Que onda Ahí está Como anticipo. Y por qué no Lo liquido Probablemente Ni siquiera. Le hemos dado. Dinero al productor. Porque muchas veces Se dice. Mira.
+
+Productor Vendeme. Pero te lo pago. Cuando lo venga Continuación. No. Entonces. Yo nunca me enteré. Porque como no se había vendido.
+
+Y no le habíamos dado plata Para mí Nada. ¿Me entendés? Entonces. Y si yo había presentado Información financiera. A tal fecha O algo. Yo había hecho algo Un reporte. Ya me cambió todo.
+
+Porque hace tres meses. Se compró un café. Que yo no sabía. Que era nuestro. No me enteré. Nunca entró el beneficio. Y hasta hoy.
+
+Que lo están triando. O hasta hoy. Que lo van a exportar Me entero. Que era algo. Que había cerrado Un negocio. Hace tres meses. Pero no me enteré.
+
+Porque nunca salió dinero. Y porque nunca ingresó. Algo del beneficio. No hay un recibo. No hay una notificación. Que va a recibir. También te voy a mostrar.
+
+El sistema Del beneficio. Donde yo me entero. Que café ha ingresado. Y te voy a mostrar Las notificaciones. Que me llaman El correo De alertas Ingresó café. Inició un proceso De tría. Terminó un proceso.
+
+De tría. Aquí está el resultado. Eso me llega El correo Pero. Igual es estático. ¿Perdón? Porque lo que te llevó Ahorita. Dos minutos después.
+
+Lo pueden cambiar. Ellos me avisan. Que ingresó café. Y el número De recibo. Que le asignaron ellos. ¿Qué hace el licenciado. O sea aquí.
+
+Con ese café? Ellos no se enteran. Si se lo asignó. A una O.C. No sé qué. Si se lo va a asignar. Si lo va a costear.
+
+A otro precio. Nunca se enteran Que ellos. Ellos se lo realizan. Cuando ingresa café. Y lo que se hace. Con ese café Que ingresó Si sale Si entra. Si no entra.
+
+Si se transforma. Si no se transforma Y eso. Y si salió merma. Y que cuántos. Subproductos salieron de ahí. Ellos solo me dan. Información del gran.
+
+Ingresos Salidas Y transformación. De la materia prima. No. No me dicen. De quién es. A qué precio. Se le ha pactado.
+
+A qué orden de compra. Lo voy a asignar. Eso no me lo hace El beneficio. Ese ya es Control nuestro Ese es. Sí. Ese solo es. Como una ayudadita extra.
+
+Que nos dé beneficio Cuántos Beneficios Con cuántos Estamos trabajando. Ajá. Hasta el momento Tres. Hay uno que es el principal. Que es con. Que tenemos un contrato Describirme La tecnología. Que usan ellos.
+
+Para. Así como vamos. Usarse el seguimiento Nuestro Que tecnología Usan ellos Al interno De ellos. Para su seguimiento El único. Que me da Una herramienta. Que me da Confiabilidad. Y de ciertamente.
+
+La confianza. Y es más Transparente Para nosotros Como cliente De ellos. Porque no es. No es una Empresa nuestra Es un Servicio Es un Tercerizado. ¿Va? Correcto. Es una.
+
+Maquina Es el Beneficio La Es el Principal Como el. Que se ha Firmado Un Contrato. Que se van A exportar Un mínimo De Contenedores Y los Demás Beneficios Que salen Extras Es porque El productor. O por algo Nos conviene Ahí. Pero el centro Es beneficio A la. Si lo vamos A trabajar En Otro Beneficio Es porque Es el Beneficio Del productor. Y nos va a salir.
+
+Más barato. Si lo teníamos Con él. O por algún Motivo. Que eso ya es Compras Y ventas. Y entre Octavio José Héctor Entre ellos Deciden. Yo no decido Para dónde. Ni por qué.
+
+Ni cuánto. Yo lo único Que decido. Y lo único. Que tengo que hacer Es controlar El inventario. Pero no Controlar Existencias Ni para. Eso es lo que. Yo les decía.
+
+A mis compañeros. Y no sé. Si lo que he equivocado. Pero les decía Es que. Yo puedo tener Un reporte De inventarios. Pero no es Tu reporte De inventarios Porque A pesar Que tienen. El mismo nombre.
+
+No fueron Elaborados. Con la misma Finalidad Mi reporte Es para Analyse Financiero Mi reporte Casi siempre. Es a fin de mes. O a fin de semana Ellos Como ventas Deben tener Tengo más Actualizados Porque Yo no O sea Ahora. Con el sistema. Pues yo podría Hacerlo Solo metete Descargarlo Ah bueno Ahora sí Tenemos acceso. A la misma información.
+
+Los dos. Al mismo tiempo Pero Joya Que usa Un sistema. Que es el que. Te quería mostrar. Es un sitio Que ingresa. Con mi correo Una clave. Y ahí puedo ver.
+
+El listado De recibos De café. Que han entrado Y vos Si Podés Es propia De ellos Si podés Proyectar. En esta tele. ¿Por qué Estamos Haciendo? Porque. Yo sigo peleándome Con esta Meina. Yo le hemos.
+
+Llamado Al Chavo De. No. Bueno Si vos Nos va Pues. No creo que Te olvidaste Otario Estaba. Ya. Lo agarraba De Jesús Desde Que vino Este nuevo. Todos los días.
+
+Lo llamaba. Por la tele Y nunca Nunca Le logró Hacer que Proyectar Le vas Permitir Por Yo fui. Pero yo aquí llevo 4 años. Y justo más sufrí 4 años. Ya. Ya no aparece La tele Aquí. Yo creo que.
+
+Así que es lo que Está pasando. Vamos a ver Otra vez Creo que Se conecte. Y se desconecta La tele. De la red Ahí está Ahora sí. A ver si Otra vez Dice ahí Permitir Ahí está Conectando. Vamos a ver. No está muy lento.
+
+A ver si Ahí Yo Creo que. La dejaron configurada Por dispositivo No abierta Como. Sana de TV Que raro Pues sí. Entonces. Cuando el tema. El reporte alimentario. Ellos querían saber.
+
+Que café tenemos. Para que ellos puedan Ofrecerlo Y venderlo Pero Yo no Tengo Esa información O sea. Yo no la tenía. En ese momento No mira. Es que yo tengo Ponerle hoyos Que fecho Es poner. Que hoy sea. El 10 de abril.
+
+No mira Héctor. Yo lo que le puedo dar. Es el estatus Del inventario Financiero. Lo que yo tengo. En mi estado financiero. El 31 de marzo. Porque yo no sé.
+
+Qué café Ha comprado José. En la última semana No sé. De ese café Cuál Usted En mente Ya tiene Asignado. Para otra venta. ¿Por qué pasa? Mira. ¿Rober.
+
+¿Cuántos tenemos Pergamino? ¿Cuántos 400 quintales? Ah Tenemos 400 Digo yo Hector. Viene y dice No Robert. ¿Por qué ese café? Yo lo compré. Pero ya está.
+
+Asignado. En la exportación. Entonces. Se da cuenta. Que eso no existe. Entonces le digo Ya ves Por eso Mi reporte. No puede ayudarte.
+
+A tu toma de decisiones. Si es un reporte inventario. Pero fue elaborado Con intenciones Totalmente diferentes Con conocimientos Totalmente diferentes. Entonces no esperes. Que yo te pueda dar El reporte. Para que vos Tomes decisiones De ventas. O llevas vos.
+
+Tu control. O te acoplas Con compras O crean Una manera. En la que se puedan Comunicar Entre compras Y ventas Si quieren. Que yo los apoye Con alto. Para ver costos Démoslo. Pero no. Pero mi reporte.
+
+No les va a ayudar A ustedes. Como equipo de ventas. Le decía yo. Y al final. Pues creo que si. Logramos un batalla Y entendieron Que no. No. Ahora con el sistema.
+
+Pues es otra cosa. Es otra historia. Que todos vamos a tener. Acceso a lo mismo. Al mismo tiempo. La misma información. Siempre y cuando.
+
+Todos alimenten el sistema. O hay que no se vayan. Por otro lado. Ah es que yo no quiero. Porque yo prefiero. Hacerlo en Excel. Y imprimirlo desde Excel.
+
+Ah no. Esa es mi chance. Y irnos calando Al. Mira Yo soy El sistema Pro Cambios Pro Herramientas digitales Pro. Todo lo que te facilita El trabajo. Otavio me dice. Es que no dedicas.
+
+Claro. Es que estaba Estaba viendo Otras cosas Estaba preparando. Información para bancos Cerrando impuestos. Y yo quería preparar El Excel. Que te compartí Porque. ¿Qué era eso?
+
+En lo que estaba Trabajando. Yo quería compartir. Porque así era más fácil O sea. No estaba leyendo Con vos. Viendo el sistema. Pero yo cuando estaba. Haciendo mi Excel.
+
+Ya estaba pensando En diseñarlo. Para muestrarse algo O sea Contarme. ¿Qué no te has reunido Con él? ¿No te has sentado? ¿No has hecho? ¿No has avanzado?
+
+Bien. Yo estuve. Haciendo mi Excel Aquí está. Lo podemos ver. Se lo muestro. Así es más fácil Hasta vos. Me vas a entender.
+
+Mucho más fácil Viendo. Sí. Viendo Qué fórmulas. Entonces Tal vez No directamente Estaba metido Aquí. Pero ya estaba. Pensando en eso. Pero Octavio.
+
+A veces Eso no. Él es difícil. Yo solo escucho. No le digo nada Bueno Estamos peleando. Mucho con eso No hombre. ¿De qué rato. Nos estamos confiando?
+
+Dame el chance Ahora. No. Lo. No. Hola Favo, mira, los documentos de la Rural yo los envié ayer, no estoy seguro si se.
+
+Lo entregaron a tu asesora, al contacto que me pasaste porque cuando me pasaste el contacto ya se había ido a ella, no estoy seguro si se lo entregaron a ella o lo entregaron a otra persona o a otra agencia de la Rural, pero ya me firmaron de recibido en el banco, que era muy importante. Y bueno, gracias y ya me quedo ahí con el contacto cuando necesite algo más. Gracias.
+
+Está pegado a una cuenta personal de alguien, soporte TV, cuenta de qué?
+
+Soporte técnico, creo, porión, como GT. Entonces, solo dentro de esa cuenta de Samsung, en el teléfono o en la congo, podés cambiarle configuración.
+
+¿Y por qué no lo dejan abierto sin cuenta? ¿Quién es soporte técnico? ¿El nuevo?
+
+Sí, el chavo que ves que llama Octavio Jarraso. El correo es nuestro, pero quien se ejecuta en todos son él.
+
+¿Cómo es que se llama él? Brian. ¿Cómo se escribe Brian?
+
+No, si te la debo ni el número del tema. Pero todo lo hacemos a través de Paola. Yo le digo, llamo a Paola y le digo, mira, mándame al chavo de soporte.
+
+Podemos hacer eso si no tienes el contacto. Se está escribiendo ahí a Paola.
+
+Yo no sé hasta el momento, hasta dónde vas con los sistemas y lo que te han pedido aquí en el grupo, pero yo creo que café podría ser lo más complejo.
+
+Sí, podemos decir que algo es complejo, porque tal vez para vos, ya lo has visto, ya tienes experiencia en esto, pero desde mi punto de vista tal vez, control de comisiones y café podría ser lo más complejo.
+
+Muy, muy, muy insertado de tu juicio. El control de comisiones todavía no lo pegamos. ¿Verdad? Por, justamente, porque la gente hace cosas y no las informa.
+
+Mira, si la gente entendiera la importancia de comunicar y saber comunicar, creo que este mundo sería muchísimo más diferente.
+
+En todo sentido. Porque muchas veces hay muchas otras cosas que yo. Me pasa aquí, es que yo te copio en el correo. Eso no es comunicar. Eso no, copiar en el correo no es comunicación.
+
+Es que muchas veces la gente pone el copio, usa la herramienta de copiar en el correo como para evadir responsabilidades y tienes que estar en el correo.
+
+Porque yo te copio.
+
+Ahí tuviste que haber leído las 10 hojas de hilo de correo y haber encontrado entre todo eso la información que vos querés.
+
+Es que eso no es comunicado. Ahí viene, ahí viene. Adelante, bienvenido. Vos no miro la tele desde mi compu. ¿Cómo hago para proyectar aquí? Por Wi-Fi.
+
+Ok, perfecto. Solamente quiero ver a... Porque el DASMAT nos pide que los dos tienen que estar conectados a la misma red. Sí, los dos estamos en Orion Red. Orion Red. Ah, bien, perfecto.
+
+No importa si es Orion Red y visita a Orion. Esas son distintas. Son distintas. Porque aquí, para conectarte a esta tele, es visita a Orion. ¿Verdad? Ah, por eso es que nunca me he podido conectar ahí.
+
+Pero usted ya está cambiada a una red, si no estoy mal. Ah, bueno. A mí se me aparecen, porque yo estoy en visita a Orion.
+
+No, y encima aparecen las A2, pero cuando lo doy conectar, queda conectando y pasa un error y lo no conecta.
+
+Porque no tiene el mismo círculo. Mira. Sí, tu persona sí te aparece. Pero no conecta. No conecta. No, le da un error.
+
+Ahí es su cara. Después ahí en la pantalla aparece un mensaje de error. En la mañana siempre vengo, me conecta y me conecta de bien. Ya después de pronto, cuando ya vienen todos, es cuando ya haces eso. ¿Tu compu es la que se llama soporte? Sí. Aunque a esta tele le doy una cuenta de soporte.
+
+Es por eso, pieza. Mira, y si la... ¿Cómo se dice? Quitabas la planta. Reestablecemos de fábrica.
+
+Y la dejas abierta como tele de salón de reuniones.
+
+En vez de pegarle una cuenta. Ok. ¿Sin dejarle cuenta? Sin cuenta. Ajá. ¿No me deja transmitir?
+
+No sé por qué esta tele no me dejaba transmitir si no le ponía... Probemos. Quiero ver. Solo para... Para sacarme a mí de la duda. Ahora, si no deja...
+
+Le prendimos fuera. No nos funciona, ¿no? ¿Por qué hagan eso? Es que hoy todos quieren amarrarte a tu correo. Todos quieren tener tu correo. Todas las marcas.
+
+Todos quieren tu correo. Todos. El... Ya. El borro del 191 son los datos. Vale. ¿Cuánta plata ya llevó?
+
+Los bancos. Las comerciales. Si tienes una cartera de quien... Yo estoy recontento quien es el correo, pero... El proyecto que estaba apoyando antes por mi cuenta era... Justamente un...
+
+Una app... Para unificar todos los bancos de Guatemala. Ajá. ¿Con qué fin? O sea, ¿quién estaba en la superintendencia? No. Yo iba...
+
+Banco por banco. Y el fin... Es que todas sus apps son una mierda. Entonces, yo... Tengo una capacidad de desarrollar un front-end que aprende qué es lo que vos necesitas hacer. Y se personaliza a lo que vos estás buscando.
+
+No cuadrado como lo tienen los bancos. Y por supuesto, con seguridad de estándares 2027. Lo que se revisa hoy por mi fondo. Dale, sin prisa. Y con tecnología nueva. Porque los bancos, por lo mismo, que manejan Platna, no pueden cambiar de tecnología.
+
+Para ellos, cambiar un lenguaje de programación es un proyecto de 10 años. Pero yo puedo ser un intérprete que lee cualquier mensaje. Que lea cualquier lenguaje. Yo eso me pongo a pensar. Y te pasa a una app. Front-end, moderna.
+
+Último. Así, de los últimos 30 días, toda la tecnología entra. Ellos no pueden cambiar su lenguaje. Sí, y el banco es como el ejemplo más crítico. Pero para cualquier empresa grande que lleva mucho tiempo con un sistema, es un dolor de cabeza cambiar. Porque es duro, no es fácil, es complicado.
+
+El personal no siempre está con la mejor disposición y la mejor actitud a esos cambios. Que luego termina complicándolo mucho más. Y los resultados probablemente los vas a ver años después. Pero durante ese proceso, puta, pasa de todo. Sí, de todas maneras, trabaja triple. Porque tienes que mantener operaciones.
+
+Estrés, cutiadas, despido, renuncias. ¿Verdad? Sí. No, sí. Mira, yo. A ver, te contaba.
+
+Llevo cuatro años aquí. Mi primer trabajo. Comencé como auxiliar contable un poco tiempo antes de graduarme. Entonces me cayó re bien. O sea, yo estaba cerrando pensum. Y vos tenías de libros y tenías de la vida.
+
+Sí, la vida en conta. Solo era la oficina del otro lado. No pasábamos de diez personas. Quince máximo. Y yo comenzaba a darme cuenta de que no sabían conectar. No sabían conectar una Coco nueva a la red Wi-Fi.
+
+Entonces sí. No podían configurar la impresora nueva en la compu. O no sabían cómo, simplemente, dónde desconectar el router y volverla a conectar para que se reiniciara. Algo estaba fallando. Solo había que reiniciar. Cosas tan sencillas como esas, porque son súper sencillas.
+
+Nadie sabía hacerlas. Nadie sabía conectar. Configurar un teléfono nuevo. Una compu nueva. Descargarle los programas de Excel. Adquirir una licencia.
+
+Yo tampoco sabía. No lo había hecho. Pero no es nada del otro mundo. Solo te metes. Y hoy, todas las empresas grandes te lo hacen cada vez más fácil. O sea, ellos piensan en todo.
+
+Entonces te lo ponen fácil. Que no te cueste comprar. Que entendás dónde se descarga. Que entendás dónde tienes que hacer tip para instalarte. Te van quedando, cosito, cosito. Entonces, yo me ofrecí.
+
+Yo le ayudo. Entonces yo comencé a configurar los teléfonos, las computadoras. Primero, no soy ingeniero en sistemas ni nada por el estilo. Solo, sí estudié bachiller en computación. Pero la orientación es comercial. Era más enfocado al comercio.
+
+No, no, si se llama nada de eso. Pero cosas tan sencillas para mí.
+
+Entonces, vamos a ver que yo consular los teléfonos, que yo les apoyaba con la impresora, que yo les apoyaba con la compu.
+
+Y me dijeron, Robert, quedate como encargado de informática interna.
+
+O sea, vos vas a hacer el enlace entre nosotros como grupo y la empresa que nos da soporte técnico.
+
+Que está afuera, pues, que es un outsourcing. Entonces venía un ingeniero una o dos veces a la semana a resolver los problemas más complicados. Pero en el día a día, era por llamar a él ni me explicando. El tema es que, entre más éramos, más problemas. Por supuesto. La red Wi-Fi ya no alcanzaba para todos.
+
+El repetidor no funcionaba. La una una se conectaba, la otra no. Números simples. Un router tocan 20 personas. Imagínate. Y dos de esas entradas son de servicio.
+
+Entonces con 18 personas. Y de ahí que se unió el personal, Federico, que es forma. No, no, no, ya. Yo pasaba unas. Qué lagrán, puchica. Entonces.
+
+Al inicio era todo sencillo, porque éramos poquitos. Era una red muy pequeña. La verdad es que es la más rápida. Sí, es lo mejor.
+
+Yo había escuchado que visitas a Orion era porque a veces venía gente de banco que quería proyectar y para que no tuviera que usar la red que todos nos daban.
+
+Es por supuesto que no. Pero pues. Yo que testeo las redes, la Orion es la que más nos da. Es la más directa, sí. Porque supuestamente tenemos un servicio de 175 megas simétrico. Sí, yo creo que desde un inicio que va a ser configurado para que el de visita sea más.
+
+Pero como todos estamos conectados a esa red, tanto como teléfonos, como computadores, está muy saturado. Sí, está muy saturado. Entonces parece que muchas veces también nos da problemas las transmisiones. No sé por qué cuando tenía más problemas ha sido con la cara de transmisión. Las pacientes. Sí. No va a tardar por les sacar sus propias transmisiones.
+
+Ya, ¿cómo? ¿Ya tiene? ¿Pero fue a tomar? ¿No les fue bien? Yo pienso que hoy deberían intentarlo de nuevo tal vez. No. Porque ya crearon eso.
+
+De que el sistema Apple. O sea, que todo funciona. Si es Apple. Es como un circuito. Que el teléfono. O la marca. Que no se que.
+
+Que todo está conectado. Pero aquí no quedó. Cambio hecha del mío. No. Y aquí sobraban. Primero sobraban cuatro. Después sobraban tres.
+
+Después sobraban dos. Cienes ahora ya no sobran. Yo lo quería. Entonces ahí estamos. Ahí no tienen ninguna cuenta. Y ya está conectado a la Cuántas cosas. Entonces ahorita yo paro mi.
+
+Recepción de Wifi. Y espero 30 segundos. Para que la borre de caché. Ya por ver en si ver Debería ver Tele dos. Feliz a dos. Vamos a ver. ¿Verdad?
+
+Bien. Gracias. No conecto. ¿Esta es de 65? Sí. Ya la encontré. Se llama 65 Cristal UHD.
+
+Ah, sí. Sí, porque le tenía sala 2. Ah. Y cuando se reinició de fábrica, le he quitado el móvil. Yo le di no. No conectar porque... A veces es una de las personas que están aquí a la par que...
+
+Que están conectando a otro dispositivo. Ah, pero el nombre del dispositivo sí se le puede cambiar. O te pide cuenta también. ¿Eh? Pero el nombre del dispositivo sí se puede cambiar, ¿no? Sí. No necesariamente tienes que ponerle la cuenta.
+
+¿Aguanta esto en el PIN? Sí. ¿Qué sabe? ¿Qué es el PIN? Pero el PIN no va por WIFI. El PIN lo transmite por Bluetooth.
+
+Pero es para... Para asegurarte de que no estás hackeando la tele de la otra oficina. Me imagino. Ay. Se realizó. Ajá. Location.
+
+¿No? No. Sí. No. ¿Nos? A ver.
+
+No. Lo. Lo es. No. Sí, sí. No. No, ni.
+
+Pongámosle cuenta de que es SmartThings. Y esa que es como la plataforma de Samsung. Si es como las cuentas de Samsung internas. Y vamos a tener Samsung y SmartThings es como la plataforma. Para administrar tus dispositivos. Te conectan las horas, tres horas, tres horas. A partir de Samsung.
+
+¿Se entiende? Vale. Está bajando un plugin, está bajando un controller. ¿Para la tele o para su tele? Lo está bajando acá. Para reconocer la tele. Ya no saludaste el gorro.
+
+¿Ya? Ya, sí. Ya me comí una y el rato me como otra. Borro todo menos el nombre Si aparece. Todavía no tiene ese lado. Ah, no, ya se lo comí. Ah, ya se lo comí.
+
+Sí. Ah, a ver pues Ah, ok. Entonces ahora se supone que tengo el control remoto acá. Ajá. Te va a ver que. Ajá. Ok. Sí. ¿Qué? ¿Ahí es esto?
+
+¿Ahí? ¿Qué? ¿A ver? ¿Qué? Gracias. Configuración, todos los ajustes.
+
+Ok. Gracias. ¿Dónde era que estaba el...? El IPL? Ajá. Ahí en los ajustes.
+
+Todo el ajuste. Y para abajo. Normalmente está en conexiones. Entendía que acá está más abajo. O no. No. Aquí estamos en general.
+
+Y estas conexiones. Ahí es donde se encuentra En conexiones. Tendría que aparecer. Administrador de conexión. Ahí nos metimos. Y no aparece. No creo que sea por la cuenta del marketing.
+
+Supongamos que ya. Resolvimos el problema de la comunicación Y. De los cambios que hacen dinámicamente. ¿Eso te arregla la vida? Sí. Sí, mira, ahorita pues. ¿Y de ahí que sigue?
+
+¿Cuál es el siguiente paso? Eso era lo más difícil, lo más complicado. Y como te decía, ha mejorado mucho. Entonces. Lo único que se vuelve un buco tedioso es. Como que seguir Alimentando y. Revisando el margen de error que puede tener un Excel.
+
+Después de eso ya no. Sí, yo intenté conectarme. Y vos se puedes transmitir Ahí está. Aquí se puede. Esas son mis pruebas todas las mañanas. Si puedo en todas las teles. Pero no sé por qué.
+
+Ahora pero va con la de aquel. Las dos son de él. Eso debería ayudar. Max yo entiendo que tiene sus cositas Pero. Vamos a ver. Si luego no queda de aquel La agarra Crystal, ¿verdad?
+
+Sí. ¿De dónde está el mequil? Gracias Contando. No te quiero chingar más. Con que aquel que pruebe Puedes proyectar. Ya estamos en el. Ya tenemos el mismo archivo.
+
+Ok. Perfecto. Muchas gracias. Voy a abrir. Este es el comparto. Así si le muevo. Le cambia algo.
+
+Es César. Ah, lo de la finca Me contaste. Que ya había quedado. Pero ya tiene muchas pruebas. Lo que me dijo Luis Castellano. Que todavía no voy a poder. Ingresar la data.
+
+¿Por qué no me lo dejo a mí? No, pero ya está. Que va a ser. Va a ser. Ya. No sé. Como que aún.
+
+No sé Bueno. Aquí comienza todo. ¿Verdad? Aquí comienza todo. Que estos son como que. Cuando decís aquí. ¿Dónde exactamente.
+
+De lo que estoy viendo? Aquí. En esta pantalla O sea Aquí. Aquí estás viendo Recibos. Uno por uno Que integran Entre todos. Ordenes de compra. Estoy en la.
+
+SNB David G. En la hoja. No, no, no En recibo. Ah, en recibo Perdón. Sí, sí, sí Hoja, recibo Sí, bajo Al azar. Orden de compra Número 8 Ya filtré. Orden de compra.
+
+Número 8. Orden de compra Número 8. Se va a recibir. En el beneficio La joya. Pero mirá Casualmente Un recibo. Este que yo. Marqué en verde.
+
+No se entregó. En la joya Se entregó En SCL. ¿Cómo es posible. Que de una. Misma orden de compra Una parte. Entró a un beneficio. Y la otra.
+
+Fue decisión. Que por asignación. Y José Herrera Lo decidió. ¿Vale? Entonces. Si vos ves Este recibo De SCL S37 910. Ese es el código.
+
+Que le asigna El beneficio Cada beneficio Usa Nomenclatura Código diferente Y códigos Diferentes Yo pienso. Que sería bueno. Asignarle un código Interno. ¿A qué? A cada recibo. ¿Por qué?
+
+Y que haya un campo libre. Que sea donde. Metamos el recibo Del beneficio Por ejemplo. En la joya. Si lo grabas. De la pantalla. Voy a ver.
+
+Aquí. Este es un recibo El recibo 655. Se lo compramos A cafinos A productual. Es un tipo De café Pergamino Se recibieron 8.54 Quintal. ¿Ya? Pero este es el recibo 655 Del beneficio. No quiere decir.
+
+Que intercofi Lleva 600 Tantos recibos Porque. Ese es del beneficio Intercofi Internamente. No le asigna Un código Yo pienso. Que sería útil. ¿Por qué? Porque es el 655. ¿Y qué pasa.
+
+Si después Otro beneficio Casualmente. También tiene un recibo Que es 695. ¿Ya te entendí? Ya. Entonces. El número recibo. Que estamos usando.
+
+No es nuestro. Es del beneficio. Y no es nuestro beneficio Tampoco. Por lo tanto Para mí. Eso no es un numerita Es un Una referencia. De nuestro proveedor Es decir El beneficio. Si el beneficio.
+
+No le asignara Un código. ¿Qué estoy remunciendo A nosotros? Loqueando Pescando. En el agua Imagínate. ¿Ya? ¿Por qué?
+
+Ah Para. Yo una vez. Ese es el sistema. De la joya. ¿Ya? Puedes renovar Un screenshot. Así como lo tenés.
+
+Ahí Si. No me sale Me reconoce. Me va a estar perdiendo Un recorte Tu número 5820. Genial. Sigamos. Entonces mira Veamos. Mira aquí.
+
+Casualmente Del 879. ¿Por qué se saltó Al 941? O sea. Porque de plano. Los que hacen falta. Son de otra persona. No son compras nuestras.
+
+Ese es el recibo de ellos. Tal vez el 880. Es de otra exportadora. Entonces. Por eso pienso. Que sería bueno. Un número interno.
+
+Ahorita si me preguntas Robert Específicamente. ¿Para qué te serviría? Solo para ese caso. Que te dije. ¿Qué tal si Dos beneficios. Coinciden con el mismo número?
+
+Solo Para eso Pero. Yo pienso que en algún momento Puede servir Un número. Un código interno. Es que mi inventario. Es algo básico. Sí. Es algo básico.
+
+Que. Tal vez en el momento. No tengo el alcance La experiencia. Como para decirte En qué. Me va a ayudar. O en qué. Me va a servir.
+
+En el futuro. Pero estoy seguro. Que ya no va a servir Conta Todo. Lo que haces En cuenta Tiene Un código Único. Claro. Pero como si vos No dice No Robert. Si ya tienes un código.
+
+El beneficio. Te lo está dando. Eso podría ser. Una opinión válida. De cualquier otro. Pero la duplicidad. Es un error.
+
+Pero que otro No vale. Que otro error Es suficiente Para causar Un caos. Entonces Yo pienso. Y sería bueno. Un código interno. Regalame una cosa. Dale. Clic derecho.
+
+Ahí. ¿Querés adentrar. Y ver la información Que contiene Este recibo? O sea Clic derecho. O clic derecho. O este es tu. Lo que me muestra.
+
+Abajo. Donde es inspeccionar Ah Perdón. Porque si entras. Es la información. Que me muestra. Bien. Ah.
+
+Aquí ya está. Aquí ya es tu información. Aquí ya no entiendo Nada. ¿Qué quiere decir? Ahí estamos bien Estamos bien. Ok. Esto.
+
+Si le das Clic aquí. ¿Qué quiere decir? Es la consola de escritura Acá. Esa es la consola de Transmisión Buen trabajo. ¿Qué quiere decir? Network. ¿Qué quiere decir?
+
+Esto ellos lo están desarrollando Dale reload. Nos ofrecieron mejorarlo Muchísimo más Y Estamos buscando. Aquí no entiendo nada. Esto lo vamos a ver. Da a tu Facebook De acá. ¿Doble clic?
+
+Solo uno Un clic Y dame Un screenshot De. De todo eso. Ok. Acá. Solo esta parte. Ajá. Es ahí.
+
+Ahí está. Perfecto. Y ahora. La vamos a mandar De oxímetro. Sí. Vale. Aquí.
+
+Y ahora ponerte aquí En response. Ok. Ahora sí dale clic Adentro del. ¿Quieres ver la data? Del recibo Baja. Debe estar más abajo. Ahí está hasta abajo.
+
+Ya no hay más. ¿La última? Esto. Ajá. Clic. No hay nada Headers Dale un Otro. Ajá. Un screenshot.
+
+Ahí Muy bien. ¿Para qué te va a servir esto? Disculpa la conducción. Esto es un O sea. ¿Qué estamos viendo aquí. En palabras simples?
+
+Porque no entiendo. Pero me da curiosidad. Te voy a explicar Ampliamente Hasta satisfacer. Toda tu curiosidad Dale un Paydon Normal Response. Está mandando la respuesta. Está mandando la respuesta en. ¿Probamos en la respuesta?
+
+¿Probamos en el interior? El penúltimo Ahí está Ahora Ahí no. No le des. Te mando el texto. Sí, sí, puedes darle a seleccionar todo, copy paste, vamos a ver, ahí está, ¿sabes eso? Vamos a ver, control C, aquí era falsa, sí, sí, me acuerdo, me acuerdo, te explico, esto me recuerda a mis clases de segundo básico, if, tal condición, de, tomar tal cosa, si no se tuvieran esa inteligencia artificial, hacer un doctorado, un inteligencia artificial, te darías cuenta que al final todo es if, tal cosa, si no, tal otro, todo, todo.
+
+A mí me gustaba mucho, ¿sabes por qué no me metí más en esta rueda? Porque no sabía inglés y me frustraba tener que entender palabras, ahora pues yo voy a estudiar inglés, ya tengo un nivel aceptable, pero bien, primero básico, segundo básico, ver los libros y tantas cosas. No entienden nada, por suerte. A mí tal vez no tenía el profesor que me, que era la inducción correcta y que te hiciera entusiasmado, claro. Pues sí, o sea, me acuerdo que lo más que ya sea era como que una calculadora, lo básico,.
+
+Bueno, porque crear un menú en HTML, una página web y que te crea un menú y que te va
+
+Llevando la cuenta de un restaurante. Eso era lo más que llegamos a probar, mejor lo digo, en Pascal, Visual Basic, no sé qué. Pascal, ah, eh, eh, los bancos usan Pascal y todo el día. No sé, imagínate, no hay en segundo base. Sí, eso es lo que yo quiero proponer, integrar en nuestro sistema todas las funciones que tiene este y dárselo gratis a los beneficios, para que nosotros sepamos todo lo que están haciendo ellos. Claro, eh, convencerlo o algo, porque te entiendes que mucha gente te viene miedo a lo desconocido.
+
+Esta es ya la chance de Octavio, yo no voy a tratar de convencer a nadie más. Si él me dice sí, que va a ir y nos convenza. Si él me dice no, ahí se acabó mi idea. Claro, que vas a ser parte de, de como la labor de convencimiento, esta es esta parte, porque quien lo entiende, Octavio en palabras simples puede explicarles, pero, por ejemplo, si quieren generar confianza, tal vez ellos tienen de su lado alguien de soporte, un informático,.
+
+Que vos, en su lenguaje se entiende, y ahí como que vos ayudarías, ah, sí, mira, pues, pero es que
+
+No vas a perder nada, no es invasión, no es que te estés siendo vulnerable, simplemente es, creo yo, pues, que es por beneficio mutuo, beneficio tanto nuestro como ellos. Y sí, les puedo ofrecer muchos beneficios con los sistemas que estamos desarrollando acá. No. Bueno. Seguimos en el tour, seguimos en el tour. Entonces, vamos a ir, ¿no?
+
+Entonces, hagamos alguno de ustedes, este, yo me acuerdo que este recibo tenía algo en específico. Ok, regresamos al Excel, regresamos a la hoja que se llama recibo, y estamos en el recibo. Aquí estamos viendo todo, aquí ya están todas las OC, si te das cuenta. Ahí está la marca en verde. Ajá.
+
+OC es orden de compra, 25, 26 es la cosecha, 2025, 2026, 08 es el número de orden de compra.
+
+Quien decide el número de orden de compra es el licenciado OC. Él se lo dice OC8, OC9, pero yo les agrego el OC, 25, 26, por control mío. Ajá. Bueno, este recibo es 37, 9, 10. Yo me acuerdo que ese está partido en 2 o más. El 37, 9, 10.
+
+¿Qué es el 37, 9, 10? Sí. Buscar, dale a buscar. 37, 9, 10. Ahí está. Sí, ya está.
+
+No, no está partido. Hay uno que lo partimos de varios pedazos ayer. Que van en la orden de compra. Ah, no, no, no, no, no, no, no, no. Lo que pasa es que este es el que yo te mandé, pero ya lo actualizamos.
+
+Va a proponer, hacerle cuenta y caso que de estos 563, que de estos 563 quintales que recibimos, en este recibo,
+
+A el precio que indica aquí, decidimos quitarle 20 quintales y los pasamos a otra OC, es lo que te explicaba, que podemos partir un mesilito en varios pedazos.
+
+Quiero ver... Octavio, si ves esta hoja. Estas me las puedo quedar hoy. Copias, te puedo dejar, porque esto... Esta es la situación que volverá, tal vez de él. Ah, yo...
+
+Yo te puedo dejar copias de esas. Era para irlas a escanear, pero sin las copias me hicieron un profesional. Sí, no, yo te las compro. No, yo también los escaneo y te lo mando por correo en el programa. Genial. Pero mira, mira.
+
+Estas órdenes de compra que les saqué atrás, costo de café, órdenes de compra, la 1, la 4, la 5, la 6 y la 15.
+
+¿Qué tienen en específico estas órdenes de compra? ¿Qué por qué las tengo por aparte? Mira el costo promedio, 2041, 2071 y 1095. Se va a ser. Mira aquí, nuestro costo promedio es 1,700, 1,783, 1,800, 1,400, 1,700. Si yo las dejaba aquí, me alteraba mi costo. Me dio una subida de mercado.
+
+Octavio me dijo, quítalas. Que yo lo hago en selva, pero en el sistema sé yo que sería mucho más fácil. Quitalas y déjalo aparte. No lo tomes en cuenta para el costo promedio que vos me das. Porque me lo dejan muy alto. Yo veo que hago después con ese café caro que compré.
+
+Puede ser que ya ni esté. Pero él sabe que hay un café que compró caro y que tiene que vender caro. Él lo tiene en mente. Él sabe. Bueno, puede ser que este café ya ni existe. Ya se ve bien.
+
+Pero él sabe que fue caro. Entonces él tiene que vender un café caro también en algún momento. Para preparar eso. Y ya solo ya hace con este costo. Bueno. Esto no está aquí.
+
+La saqué del mapa. ¿Por qué el medio? ¿Ya? Entonces mi costo promedio, si es promedio y si es de compra. Pero sin tomar en cuenta esto. Porque esto es muy caro.
+
+¿Ya? Entonces hay un real. Y uno que podemos jugar con él. Al gusto de quien lo pide. Normalmente. El único que lo pide es que información no es local.
+
+Solo él quiere analizar costos y márgenes. No hay otro financiero aquí. En algún momento tal vez vio en él. Pero él no se ha metido mucho en el café todavía. Al menos no he visto ello. Quizás ha sido mucho todavía.
+
+Pero sí. Él. Esto le va a servir un montón. Porque para análisis de información. Márgenes. Y Octavio.
+
+Él lo que se dice es que él se quiere desligar un poco. Que él como que solo decide a alguien. Hacerlo y ya. No creo que algún día pase. Sí. Tampoco.
+
+Pero. Pues. Siguiendo esa línea y lo que él dice. Leónel. Esto le va a ayudar un montón. Porque él va a querer hacer análisis.
+
+Quitar. Poner. Esto le ayudaría un montón a él. Entonces. Es café recibido. Mira.
+
+Café recibido. Aquí no estoy metiendo. Café que ya compré. Que ya le dije al productor que le compré. Que ya firmamos. Porque hay un montón de órdenes de compra.
+
+Por el mínimo hay cinco. Órdenes de compra que ya están firmadas. Ya está acordada la cantidad y el precio. Ya firmamos. Ya es una compra formada. Pero no he recibido el café.
+
+Entonces. No lo he recibido. No está aquí. En el primer cuadrito. El de arriba. Aquí no está.
+
+Aquí solo es lo real que ya entró. Aunque no esté pagado. Pero ya entró. Ya el recibo. Ya existe a nombre de International Coffee. En uno de los beneficios.
+
+Solo lo que ya entró. Claro. Sin tomar en cuenta esto. Que habíamos dicho antes. Octavio me pide un costo promedio de lo recibido. Siempre recibido.
+
+Recibido de este proveedor. Servicios Nacionales de Bodeo. De Cafín. De Tanto. De Pepito. De Juanito.
+
+Y sacaron promedio en general. Recibido. Es lo que dice por región o calidad le llama. Octavio le dice región y Héctor le dice calidad. Que se pongan de acuerdo. No se pongan de acuerdo.
+
+Que va región, diagonal, calidad. Santa Rosa y Huevo. Entonces. Alguien hizo. Me había dicho. Dice San José.
+
+Mira todo el que te ven. Todo el de Cafín no se es huevo. Y todo el de Juanito es Santa Rosa. Yo lo formule. Contar o sumar puntos y tal es igual a huevo. Y si no.
+
+Si es Santa Rosa. Jalar y sumar tal número. En el C. Fue así. Después me doy cuenta que no necesariamente es así. Un probador te puede vender Santa Rosa y huevo.
+
+Entonces. Metí otra columna. Que se llama calidad. Aquí está. Y ahí sí. Ya lo saqué por aparte.
+
+Ya no depende del productor. Sino que. En específico. Hay una casilla que se llama calidad o región. Se desconectó. No sé qué pasó.
+
+Ya. Entonces. No. No es necesariamente el productor el que determina la calidad o la región. Correcto. Ya. Entonces.
+
+Pero así había yo asumido al inicio porque eso hablé con José. Pero estoy teniendo en cuenta que no. Estábamos equivocados. Entonces hasta aquí creo que vamos bastante bien. Se entiende bastante fácil. ¿Va?
+
+Algo importante. El costo del café puesto en beneficio. No solo está conformado por la materia prima. Que es el grano. Una cosa es el costo que aparece en la orden de compra. Que eso es lo que cuesta el grano.
+
+El puro café. La materia prima. El licenciado José este año. Ha variado un poco la modalidad en la que él compra. Ya no está comprando puesto en finca o puesto allá. Ajá. Él ya está comprando.
+
+Dame el precio pero ya ha puesto en beneficio. Que ver qué o que estás buscando flete. Dame el precio. Pero no quiere decir que siempre va a ser así. O que está haciendo así todo el tiempo. No. Entonces.
+
+Dependiendo de las condiciones que el licenciado José analice. La información que él tiene en su momento. Él decide si le pone custodio o no. Si paga un seguro durante el transporte o no. Él decide qué costos y qué gastos van a incurrir en ese traslado del café. ¿Ya?
+
+Estamos hablando del traslado de la finca. O de donde sea que viene el café. Hasta el beneficio donde queremos hacerlo llegar. Entonces una cosa es el costo puesto en la orden de compra. Pero la orden de compra. Si es puesto en beneficio.
+
+Se entiende que incluye flete. Pero si es puesto en finca. Vos sabes que tienes que agregarle flete. Porque nadie te lo va a mover de gratis. A menos que tengas un camión. Pero igual le des un costo.
+
+Hay un combustible. Hay un costo del piloto. En caso de que tuviéramos camiones y tuviéramos pilotos. Podemos determinar cuánto cuesta eso. Cuánto nos cuesta que el piloto vaya en un camión a traer el café y lo traiga. ¿Va?
+
+Normalmente nos cobran 15 gresales por quintal en flete. Pero este año casi que no hemos estado pagando flete. Porque lo incluye en el costo pagado del café. Pero los únicos dos costos adicionales que yo he estado viendo es flete. No, perdón. Custodio.
+
+Y seguro. Te voy a mostrar así primitivamente. Como si no te digan ustedes. Este es el map que le hice ya. Acá solo te despliega recentados. Aquí estamos viendo que números de mil.
+
+Ah, es mil y matemáticas. Esto es Cargolmomo. Pero tiene esta funcionalidad y me imagino que va a tener la misma funcionalidad para sus compradores de frente. Gracias. ¿Tú costos integrados de costo? Flete.
+
+Sí. Carga. Seguro. Custodio. Sacos. Bolsa.
+
+Comisión. Sí. Es básicamente lo mismo que me estoy diciendo. Y ahorita todos están a cero porque está pidiendo entregador. Perdón. Sí. Ya te entendí.
+
+Mirá, otra cosa. Que ahorita que me mostraste eso. Lo primero que yo pienso es. Si no hay comunicación entre mi sistema con satisfecho y esto. Tengo que meter la data dos veces. ¿Cómo no estaba bien?
+
+Gracias. Ahora ya comenzó. Bueno. Gracias. Esta data, el costo del flete, yo lo meto en Tocapime. Yo tengo que agarrar la misma factura y meterla aquí.
+
+Creo que en algún momento así va a tocar. Pero yo estoy seguro que vos me puedes ayudar a que lo dejemos en un solo lugar. O que de alguna manera, si lo pongo aquí, que llegue allá. Ya tenemos Odum. ¿Ya tenemos? Odum.
+
+Odum 19. La última versión nuestra propia ya activa. Ok. Ahí vamos a unificar todo. Entonces, cuando Tocapime... Digamos que solo este año va a ser así como un día.
+
+Cuando Tocapime tiene los días juntados. Bueno. Ahorita mi cuello de la estrella es Jorge. Que Tocapime desde antes ya tenía 30 horas diarias de trabajo, ahora tiene 80. Sí. Vamos, despacito.
+
+Pero si vos querés comenzar a meditar de una vez con Tocapime a Odum, podremos hacerlo. Yo quisiera... Yo creo que este año, o al menos mientras termine la cosecha, lo veo difícil soltar. Tocapime. Yo ya te dije que soy pro cambios y a ver eso lo hago. No, no, no, no.
+
+Es transición. Sí. Yo no puedo soltarlo porque aquí está listo ya. Aquí está todo. Hay un periodo que vas a trabajar doble. Doble, exacto.
+
+Entonces, quisiera yo. O si vos me decimos, bueno, es que vos estás pensando en una migración como algo tedioso porque es la experiencia que vos tenés en migraciones. Puede ser que sí, pero si vos decimos ahora, hagamos pruebas. Por ejemplo, si queremos ingresar el libro compras de un mes, vas a ver el Excel y hacemos una carga masiva. Perfecto. Así no me pones a...
+
+Porque a mí cuando me decís transición, el mundo está acostumbrado. Factura 1, ya la regresé. Y así. Sí. Yo no quiero eso. No es que lo quieras, sino que...
+
+No tengo el tiempo. Es el peor escenario. Ajá. No tengo el tiempo. No, cosas muy precisas de esa manera. Entonces, si vos me disminuyó, de alguna manera, saquemos integraciones de las cuentas, hagamos una tabla de Excel.
+
+Que nos va a llevar tantos X días, ponerla bonita. Puede ser que menos, puede ser que horas. O yo te la mando y vos sos mucho más experto en limpiar la data. Y ahí vemos de qué manera hace y se carga. Yo lo que necesito es ver qué tenés. Así, vean el universo de todos los datos que tiene Contapyme.
+
+Ahí. Para yo hacer un traductor que diga, ah, ok, esto es un Contapyme.
+
+Se llama de tal manera el código tal, lo voy a trasladar a Orup y ahora se va a llamar el
+
+Catanome. Contapyme. Ya. Contapyme. Puede ser que tenga un gran potencial, que tenga módulos, pero yo no los uso. O no me aparecen.
+
+Desde que yo estoy aquí, yo no he visto un módulo de inventario. He escuchado que lo tienen, pero yo quisiera un módulo de inventario. ¿Qué hago aquí? Mira, aquí existe una sola cuenta de inventario, una cuenta contable. Se llama inventario de mercadería. Pero ahí no puedo ver qué es inventario.
+
+Yo solo tengo el número, punto, tanto millones. No sé cuánto es pergamino, cuánto es oro, no sé de tal recibo cuánto tomé, pero yo solo sé que tenía un costo de medio mío y lo rebajé y lo pasé. Si yo pienso que tal vez partimos de esto hasta que pegue con Contapyme. Sí. Te voy a mostrar otra cosa que yo estuve trabajando un día de eso. ¿Dónde está esa mano?
+
+Yo tengo, yo tengo intervención. Yo estuve trabajando un archivo hace unos días. Aquí está. ¿Ya? Ah, no. Es que se ha estado aquí, está que chingada.
+
+¿Y gracias por la prensa? Te voy a mostrar cómo yo determino mi costo del mes de la prensa. ¿Y cómo llego a un número? Y ese número solamente una partida financiera en el Contapyme y ya les lo llevo abajo. Solo a un número. Porque no tengo un módulo donde me permita agarrar recibo uno, recibo dos, recibo tres y tirarlo al costo porque se transformó.
+
+Entonces, uno en Excel, saco los recibos, le pongo un costo a esos recibos y lo tiro al costo. Porque vamos a inventar el costo. Pero estoy seguro que ahí vamos a tener un módulo. Bien hecho. Donde yo sí pueda ver qué recibos tiré yo al costo, en qué momento y para qué exportación sirvió. Te lo voy a mostrar.
+
+Yo creo que sí me voy a conectar. Dale, dale. Conectando. No conectado. No, no se pudo conectar. La conexión fue...
+
+O, John Red. Sí fue conectado, John Red. Te lo voy a mostrar aquí. Creo que me voy a pasar todavía. Más fácil. Va.
+
+Tequila, yo le quería agregar algo más, pero por facto a tiempo no lo he hecho. Enero. Yo solo lleno referencias por todos lados, pero le voy a explicar dónde es. P4199, ese es el número de contrato. Ese es otro tema. El cliente te manda un número de contrato, porque él lleva su correlativo.
+
+Dice que sí, sí, sí, lo tengo. Pero nosotros deberíamos ponerlo interno. Correcto. ¿Verdad? No. Es café orgánico a ESCL.
+
+Se hizo con la orden de tría número 63. Te lo voy a mostrar. ¿De dónde viene esa... Aquí tiene 9 trías. Es la 63.
+
+Se trió en servicios nacionales de bodega, se triaron 545.67 quintales, pergamino, a un rendimiento de los 32 y medio esto de oro del primero.
+
+Tantos de sus productos. Y aquí está exportación, contrato total, orgánico a ESCL. Es lo mismo que está aquí. Es lo mismo. ¿Qué le agregué yo? El coste.
+
+¿De dónde viene esto? Orgánico ESCL, tría 63. Todo en el centro. Que esto si yo lo hiciera en... Creo que no puse la intención de... Aquí está, ¿no?
+
+¿No pasa? Orden de tría 63. Corresponde a la orden de compra 1. No tiene un número de recibo en específico porque no todos los beneficios. Entonces yo en vez de un número de recibo le puse OT 63.
+
+No se trió en la joya porque la joya sí o sí, si te diste cuenta, siempre le ponen un número.
+
+Este beneficio no me dio un número.
+
+Yo lo que puse fue OT 63 porque yo sé que lo triaron en la orden de un trío 63.
+
+Esa fue mi referencia. Yo lo elegí y le dije, bueno, eso a mí me va a servir. Ya con eso yo sé que café es. Y aquí está el costo, mira. Pero hay trías que están integrados por muchos recibos. Casualmente aquí, mira.
+
+Casi que toda esta tría, la orden de tría 451 y 407 es de la partida 5. Está integrada por recibos de la orden de compra 4 y 1 de la orden de compra 5. Se agarran sobre sí y se triaron. ¿Y por qué yo lo separo? Porque así determina el costo. Yo creo que sabe cuánto cuesta ese café en específico.
+
+¿Ya? Entonces, regresemos aquí. Ya vimos la tría y que todo ese café cuesta esto. Entonces, yo tengo un costo del pergamino. El costo por un pergamino es 2.041. Pero esto, 545 pergamino es lo mismo que decir 412 por oro.
+
+Es lo mismo. Entonces, ¿cuánto cuesta si lo bebo en oro? El costo del café no cambia. Si yo lo transformo en café líquido, lo tuesto, lo quemo, el costo es el mismo. Lo que yo pagué por ese café es el costo. No importa si lo quiero ver como oro o como pergamino.
+
+La materia prima. Claro que hay costos de transformación. Pero el peso lo está dando bien en materia prima. Eso es esto. Materia prima. Café, el grano.
+
+¿Ya? Tengo que sacar el costo de ver. ¿Qué tal si de ese café oro que salió de la tría, yo obtuve 412.5? Yo solo exporto la mitad. En este caso se exportó el 100%. Pero yo, la mitad.
+
+12, 12.5 dividido 2. 412.50 dividido 2. Si yo solo exporté la mitad, mi costo de ver es la mitad. Lo demás quiere en mitad. Que yo lo hago aquí, oro sobrante. Lo saqué del resultado de la tría, 412.50, menos lo que yo exporté.
+
+Yo solo exporté la mitad. Oro sobrante, ahí quedó. ¿Cuánto cuesta ese café que me quedó ahí? El costo no cambia, el costo es el mismo, lo saqué de aquí. Entonces, este café que me sobró, vale esto. Sencillo.
+
+¿Va? Pero yo lo hago en el centro. Si vos estás, cuéntate un tirado.
+
+Siltrar los residuos, pasarlos a una bomba, porque esos son los que yo voy a usar para sacar el costo.
+
+Una vez tengo el costo total, yo empiezo a jugar. ¿Cuánto me doy la tría? ¿Cuánto me doy su producto? Los subproductos también tienen un valor. En este caso, yo porque aquí puse cero. El costo es el mismo.
+
+Porque los subproductos, parte de la negociación era que se les iba a quedar el productor. Sí, bueno. Entonces, yo no tengo subproductos. Pero aquí en algunas ocasiones, sí hay. Sí, porque... Sí hay subproductos.
+
+Y yo les pongo un costo. Mirá, si te das cuenta aquí, cambia, ve. En esta tría hay café de la OC4 y de la OC5. Entonces, los separo. Porque cada OC tiene un costo diferente. Y...
+
+¿Ves? Pues me queda un costo de venta. Bueno, en este caso era el mismo productor, pero pueden ser productores diferentes. Hago el mismo escenario. Existe un documento que se llamó orden de tría. No sé si se ha habido el mismo.
+
+Que es donde dice, yo intercone, te digo a vos, beneficio, agarrar estos recibos, transformarlos, porque me van a servir para tal partida.
+
+Y lo que viene como es un resultado de tría.
+
+Donde dice beneficio, yo beneficio, te sirve a vos, intercone, que de lo que a vos, la instrucción que vos me diste, obtuvimos tantos hospitales de café de hoy.
+
+Que es lo que a mí me sirve para entrenamiento. ¿Cuánto casadoras salió? ¿Cuánto usé para exportar? ¿Cuánto me queda en el mercado? Si hay subproductos que me quedan a mí, ¿qué costo tiene? Eso ya no se costea, ya no va a metido un cocello.
+
+Cuando yo hago una exportación, ahí reconozco el costo del café. Correcto. Ahí va todo. Lo que yo obtenga por la venta de los subproductos, es ganancia, porque ya está costeado. Pero es importante saber cuánto, qué valor tiene. O sea, no me puedo decir, ¿ha parecido el dinero?
+
+No. Porque si lo vendes, si vendes todo esto, ¿dónde es su producto? Es aquí. Si vendes estos subproductos, y vos los vendiste a 100 mil pesos, bueno, pero el gasto sí te costaba al 130 mil, le perdiste 3. No, pero como es ganancia, ya estaba costeado, tenés razón. Pero lo que este número te dice es que le pudiste haber ganado a más.
+
+Lo viste por debajo. Siempre es ganancia, porque ya lo habías costeado antes. Pues para que no se ganar menos, sí puedes ganar más. Exactamente. Si te has... Es por mes.
+
+En enero, pues, si es esta exportación, ya está. Es bien sencillo. No es nada del otro mundo. El tema es que se hace en el centro. El tiempo que me toma, y el margen de error, y las consecuencias que esto puede tener,. ¿sabes?
+
+No es tedioso. O sea, puede ser tedioso, pero no es complejo. Para mí ya no, en su momento lo fue. Entonces, ya sea que me funcionó, pero no mora. Pero esto me toma tiempo. La verdad que me toma tiempo.
+
+Puede ser que yo sea lento, o que yo soy muy cuidadoso, que otros tengan otras habilidades y van más rápido, o que hay otra manera, otras fórmulas que automático. Yo sé que se puede. Yo sí lo hago. Pero estoy seguro que lo ideal, si se puede mejorar en Excel, pues, qué bonito, qué bueno. Pero esa no es la meta. Yo sé que la meta es el sistema.
+
+Donde todos podamos accesar a la información en tiempo real e información actualizada. Porque si no, todo el tiempo vamos a depender de mi Excel. ¿Ya? Si te das cuenta, es bien sencillo. ¿Cuánto usé? ¿Cuánto tuve el resultado?
+
+¿Qué costo tiene? ¿Cuánto me sobró? ¿Hay subproductos o no? Si hay, ¿cuánto cuesta el resultado? Para saber cuánto cuesta el café que los corten. Y lo que me sobró, que es el inventario.
+
+El problema con los tapines es que tienen la misma cuenta, inventario. No está separado de si es inventario pergamino que yo compré, o inventario oro que me sobró de una trina. No está separado. Sí, entonces, tu tapines nos va a servir solo para cuadrar contantes. Exacto. Una que otra integración, inventario, tal vez por productor te lo puedo dar.
+
+¿Cuánto le he comprado por productor? Porque cuando yo ingreso al sistema, la obra no le compra. Pero ahora es un total. Es un total. No hay números de recibo, no hay números digitales, más que una, hay una línea que se llama detalle a referencia. Yo le pongo 500, digitales, pergamino, comprado, o sea, tal persona, un costo, un tallo, de tal.
+
+Eso es un contacto. ¿Es el texto? Sí. ¿Es un mensaje? Eso está, yo trato de ponérselo todo el tiempo. Es bastante fácil, o sea, para vos, pues, no creo que, no es nada que no hayas visto en otro lado, estoy seguro.
+
+No es información complicada. No.
+
+Pero sí, sí creo que están de acuerdo en que no es, no es, ni por cerca lo mejor que
+
+Hay en el Excel, ni es lo más fácil. Comisión de estabilidad. No es lo más fácil, la investigación. Bueno. Pues así yo determino el costo. Con esa, todo esto te lo puedo mandar sin ningún trabajo.
+
+Ah, sí, entre más hecha ya le mandes, y mejor es para mí, porque más voy a armar de los antecabezas. Fíjate que yo iba a llevarlo a Camino, pero yo dije, no, no, mejor otro archivo. Se te hace un acordeón y olvidate. Sí, y cuando Octavio está en reunión, ¿qué es eso? Y entre más información le muestro, más preguntas, más bolas, yo solo esto le muestro, lo imprimas y se lo pasa, ya. Él no sabe que yo tuve que integrar y ponerle fórmulas y proyectar, ni se lo pongo aquí.
+
+Porque entre más información le doy, más bolas se hace y... Él me pidió el costo promedio, costo promedio le doy. Eso me pidió, eso me pidió, yo entendí contigo, eso es, no más. No porque, no es que mire y si... No, no, no, no, no, eso no es. Estas son trías.
+
+Si estás cuenta, no tiene ni sentido. 63, 65, 69, la 15, 30, y cada uno pues, cada beneficio usa su regulativo o asunto. Pero, ¿qué sería bueno? Pero antes llevábamos una, se llamaba OT01. Y creo que le tomé 25, 26, no me acuerdo. Porque yo, ahí sí ya no estoy yo metido en eso.
+
+Las trías creo que, la instrucción creo que las daré, por si no estoy mal. Ellos. Yo no, no... Pero... Es aquel que yo te decía la comunicación. Yo no me enteraba un día que me mandaba un día al café.
+
+Según yo seguía el pergamino allá. Hasta que me topé con una exportación y me dijo, ¿qué café esto? Ah, es eso. Ah, después, no sabía yo qué era la ventría. Alguien me puede compartir la orden de la ventría. Mira, alguien me corrí, parece.
+
+Empieza. No, no me explico. No me aparece. Eso fue hace como un mes y medio. ¿Tiene un ley? ¿Dónde la puedo ver?
+
+Alguien, una foto, madre, me le dio mi premio. Y a veces la gente en escena mejor. Ah, ajá. No tiene tiempo de ser estresado y yo entiendo. Pero así es lo que digo. ¿Por qué no comunicamos cosas?
+
+Comunicamos. Que sea un hábito. Cada dos semanas. Te mando lo que llevamos de mes. Órdenes de compra y trias. No te va a dar el mes.
+
+Un solo correo. Se dice todo, ¿no? Pero algo, pues. Ahora, con el sistema, yo no voy a tener que a nadie preocuparme a nadie. Solo con un usuario ingreso y veo que... Yo no quiero modificar nada.
+
+Porque yo no tengo que modificar las órdenes de compra y lo vendemos, ¿eh? No tengo por qué. Las órdenes de trias de Héctor, tampoco. No tengo por qué yo hacer eso. Pero tienes que convertirlo en eso. En números.
+
+Si yo de ahí puedo destacar, o incluso si ahí ya están los costos, para mí mejor. No, no, no. Entre menos Excel no sé yo, pero a mí mejor. Me gusta el Excel. Quisiera aprender más de Excel, pero no es lo que yo necesito. No es ideal.
+
+No es lo mismo. Entonces, sigamos. Estas son las estrías. Así como las órdenes, así como lo recibimos, creo que es importante asignar el código interno. Definimos qué letra va a llevar, qué código, etc. Eso lo definimos.
+
+Bueno, que lo definen quienes tengan que definir. Yo entiendo que OK es órdenes de trias. Si le ponen... Si le quieren poner 25, 26 para identificar de qué cosecha es, está bien. Si quieren llevar un correlativo por cosecha, o si quieren hacer una continua de aquí en adelante y llegar hasta la 1.000 de aquí a 5 años, está bien, como gusten. Ahí ya es el sistema de ellos, de quienes tengan que tomar la decisión.
+
+A mí me sirven las órdenes de compra y esto que te estoy mostrando. A ver. Yo creo que esto ya estamos. Cómo determinar el costo. Ya sabes que yo selecciono tantos recibos para sacar el costo y que un resultado de la tría. Ahora, ¿qué más?
+
+Costo. Esto no es. Lo mencioné. Esto no es. Va al recibo. En esta hoja de Excel yo solo tengo lo recibido.
+
+Si no lo he recibido, no está. Yo por adelantado, para bien o para mal, ya metí estas órdenes de compra. Pero si te das cuenta, recibido, cero, cero. Ya está ahí, porque yo sé que ella sí se la orden de compra, pero cero. No tiene ningún dato de que, mira, no me está alterando nada mi costo ni mi inventario. Está en cero.
+
+Solo le deje el costo por fin al acordado, que tampoco me hace fin a tenerlo ahí. Ya. Entonces. Este es uno de los costos que un cliente cabe. Aquí está formulado. El lápita que están viendo acá.
+
+Servicio Nacional de Odea. Aquí está la lista de productores. Aquí está formulado. Que si cumple con la condición del nombre, que lo sumen o recibimos. Ya. Y que si cumple con este nombre, que sume el costo.
+
+Ya. Aquí tengo los pagos. Tengo una hojita de pagos. Ya. Aquí están todas las transferencias que le he hecho. La fecha.
+
+El productor. La referencia bancaria. Y el monto pagado. Esto lo que yo hago es descargar los contables. Hay una cuenta que es contable que se llama Anticipo Compras de Café. Yo descargo.
+
+Bien. Y si no, pues, voy al banco. Yo sé que fueron 500.000. Y eso lo vamos a hacer. Fantástico. Pero para comenzar, así lo hice.
+
+La primera vez. Ya llevamos como 20 Anticipos. Y yo quería saber cuánto lo hemos pagado cada uno. Me fui con la firme. Clasifique por nombre. Y lo pedí aquí.
+
+A partir de aquí vamos a empezar con eso. Entonces, a la fecha llevamos pagados 18 millones. Y solo hemos recibido 17 millones de café. Quiere decir que ya debemos dar Anticipo. Todos los productores se piden Anticipos. Todos.
+
+Es muy raro el tiempo. Entonces, digamos que tenemos casi un millón de quesallas adelantados. ¿Ya? ¿De dónde viene este? De allá. Del recibido.
+
+De aquí. Del café recibido. ¿Ya? Aquí viene. Entonces ya les saco un saldo por parado a favor. Aquí hay otra columna que se llama costo total.
+
+Este es costo residuo. Este es materia prima. El grano. Y este es costo total. Por tal. Aquí van los costos que te conmigo.
+
+¿Verdad? Pero también ustedes saben el costo. Con costo total. Ya puestos en Anticipo. Entonces. Yo aquí.
+
+Custodio. Segundo. Otro. Yo metí el dato así. A la... A la línea.
+
+Yo vi en la cuenta. Y le metí el dato. Si no. Tendría que pro-ratearlo por recibe. Eso lo parece el sistema. Pero yo en Excel no tengo el tiempo.
+
+Porque yo al final. Con la fórmula. Ahí lo jalo. No tengo por qué pro-ratearlo. No sé si había regresado este Excel. Pero.
+
+Es lo que te mandé. Entonces. Ya tengo. Un total de costos adicionales. Unos tienen. Otros no.
+
+Todo depende de la negociación que haya hecho. Posee. Me da un costo total. Que es el mismo que pega aquí. Diecisiete millones. A veces diecisiete millones.
+
+Y ahora sí. Puedo tener un... Un promedio. El... Costo total ya... El...
+
+Recibido. Ahora sí. Y aquí en general. Y aquí lo mismo que te explico. Ya sólo que por... Ahora ya no es por productor.
+
+Sino que por región o calidad. Hueve o Santa Rosa. Aquí está la columna. La mayoría son huevos. Poco Santa Rosa. No que por región o calidad.
+
+Hueve o Santa Rosa. Aquí está la columna. ¿No? La mayoría son huevos. Poco Santa Rosa. ¿No?
+
+Me doy a huevo, huevo, huevo, huevo, huevo, huevo. Santa Rosa. Vale. Ahora vamos al segundo cuadro. Aquí ya hay un comparativo entre lo recibido y lo que me interesa. Allá sólo estaba recibido, ¿sí?
+
+Nada más. De aquí para la izquierda es la misma información. Aquí acá. Compradas. No recibido. Compradas.
+
+Recibidos de interés. Entonces. De allá es lo mismo. Costos, sí. Cabo aquí. Recibidos.
+
+Y el costo de lo recibido. Esa es la línea del anterior. Y me enfoco en la columna de la diferencia. Pendiente al recibido. Porque ahora el nuevo costo con aquí está ya. Ahora da bien costo, pero lo recibido tomando en cuenta lo que ya compramos.
+
+Aunque no lo hayamos recibido, tomarlo en cuenta. Ya. Entonces. ¿Cuál es mi enfoque ahora? Lo que tengo pendiente al recibir. Tengo que saber cuánto cuesta eso.
+
+Para sumárselo al dato anterior. Ya. A la hoja que acabamos de ver. Entonces. Lo recibido y lo pendiente al recibir es mi gran total. Saco un promedio.
+
+Eso es lo que hago aquí en la segunda hoja. Lo mismo. Saco un costo de materia prima pendiente. Proyecto costos adicionales. Proyecto un seguro, un flete. Siempre y cuando las condiciones de la orden de compra se lo digan.
+
+Correcto. ¿Verdad? Si no, pues parte del proyecto si lo sé que no. No aplica. Me saco un nuevo costo total proyectado de lo pendiente. Entonces sumo.
+
+Me da el costo pendiente. ¿Verdad? Costo pendiente. El costo pendiente. Más el costo recibido. Dividido.
+
+Los quintales recibidos. ¿Verdad? Sí. ¿Verdad? Fácil. Solo que estén en C y también si no, como aquí.
+
+¿Ya? Y revisarlo. Y viendo más o menos que aquí. Que vaya a perder en cero. Mirad. Todo eso que aparece así en rojo.
+
+Esto no es confirmación. De que no hay diferencia. Exacto. O sea. No es mucho. Pero si es.
+
+Me tomo al dinero. Es trabajoso. Sí. Me tomo al dinero. Eso es lo que hago. Ok. Claro que de aquí.
+
+Después yo saco copias. Cuando ya la tengo nítido. Copio. Y quito las horas de compra que no quede. Ajá. Pero primero lo pudo.
+
+Todo. Macro. Lo dejo. Cuadrado. Saco una copia de cada hoja. Y quito las horas de compra que no quede.
+
+Ajá. Pero primero lo pudo. Todo. Macro. Lo dejo. Cuadrado.
+
+Saco una copia de cada hoja. Y quito las horas de compra que no quede. Y se las pongo a parte. Porque si se las dejo. Lo dejo. Eso es lo que tenía que mostrar acá.
+
+Por ejemplo. Cerca de. Este es el contexto de enero. Esto es ventas. Ok. Pero caballo médico.
+
+Una y dos veces. Ahora organiza los bloques de manera diferente. Entonces le dicen. El contexto de esto. Este es el contexto de enero. Esto es ventas.
+
+Porque esto es ventas. Pero caballo médico. Una y dos veces. Ahora poblano. Organiza los bloques de manera diferente. Entonces le dicen.
+
+El contexto de enero. Entonces dicen. Qué pasa si excluyo esta. Este contrato. Comunicame. Dejemos esto.
+
+Qué pasa si excluyo esta. Este contrato. Comunicame. A mi médico. Ah. Dejemos esto.
+
+¿Qué pasa si excluyo este? Ah bueno, es aceptable. Entonces ya hace este paquete. Y deja la otra para subir. Otro paquete o lo que quiera. Solo un clic Bueno, buenísimo. ¿Qué es lo que vamos a hacer con los océanos?
+
+¿Quitar esta? ¿O sabes qué se me ocurre? Bueno, al final tenemos un... Pensando en Dalshow. Tenemos un costo promedio. Tal vez en una gráfica podemos ver. ¿Qué productores están por arriba del promedio?
+
+¿Quiénes están vendiendo por arriba del promedio? ¿O de quiénes están vendiendo por abajo del promedio? ¿Para hacer a quién comprarle más? ¿O qué cafés que estamos comprando. Nos está dando un mejor rendimiento? ¿Con cuál productor?
+
+¿O obtenemos más café de oro? ¿Para exportar? Eso es un pancerquín. Yo ya estaba pensando en eso Pero... Olvídate. Te pasas un fin de semana entero. Solo haciendo eso.
+
+Yo sé que encuentro la manera de hacerlo. En el ser se puede hacer todo. O casi todo. Pero oye, no, primero lo que te están pidiendo. No te pongas más. Porque entre más cosas que hagas. Más cosas que comprobar.
+
+Y pues. Ahí va a estar. Y estoy seguro Porque. No, si usted la está ahí Yo sé. Que puedes hacer lo que. No te se te ocurra Así es. ¿No?
+
+Entonces. Esto quisiera tenerlo allá. Y que ya no. Y que por ejemplo. Cuando el licenciado no se meta. A la orden de compra. Yo no tengo que hacer nada.
+
+No, bueno, ya está ahí. Ya está ahí. Yo lo único que tengo que hacer. Es el licenciado no se necesita. Descargarlo un poco Y nada. No tengo yo que. Ver el excel de José.
+
+Para meterlo en el excel Y actualizarlo. Y ver de que si no lo estoy tomando en cuenta. Y regresar fórmulas. Ya no tengo las traducciones. ¿Ya? Prácticamente yo ya. Yo ya no.
+
+Yo no sería el encargado. O sea, ya no tendría yo. Que estar controlando el inventario. Si te das cuenta. Si te controla solo Mi responsabilidad. Es ver algo normal. Algo que no sea aquí.
+
+Consultar. Ya es análisis. Ya es después. No es tu más y restas. No. Que. Ay, que raro.
+
+Que estamos. Estando ahí por arriba. Ajá. El José se equivocó. Y puso un cero además. En el puesto Miren Pues Estamos. Cosas de así.
+
+¿Por qué pasa? Ah, sí Cuídate. Sí. Qué bueno que lo viste Déjame. La imprimo de nuevo. Y tal vez. Él la había hecho.
+
+Hace dos semanas. ¿Ya? Pero yo. Hasta dos semanas después. La vi por primera vez. Hasta ahí me di cuenta. ¿Verdad?
+
+Pero ahí. Todo va a estar al día. Entonces. Puede ser que. Ya al día siguiente. O el mismo día. En el que se cometió el error.
+
+Yo ya lo vi. Y lo cumplí. ¿Verdad? O sea El cambio En tiempo. Y en consecuencia. Es al mismo tiempo. Sí. ¿Verdad?
+
+Pero es que. Soy pro cambios Abierto a Nuevas herramientas. Cuando tú te habías De ahí Me dicen Que no. No hace el tiempo. Que eso es así Me decís. No. ¿Sabes qué?
+
+Él el día a día. No se detiene. Pero sí. No. Y yo cuando. Estaba haciendo este Excel. Yo estaba pensando.
+
+Lo hago. Porque se lo tengo que mostrar A aquel. Me va a servir. Y qué mejor Que así O sea. Date un ejemplo. Porque si solo te hablo Y. Sí me vas a entender.
+
+Yo sé que tienes la competencia. Por ti mismo. Pero en general. No es lo mismo que. Es ya los números. Y tal vez aquí Hay detalles. Que yo no te he explicado.
+
+Pero los vas a encontrar. Los vas a encontrar Vos Por aquí F2 Quiero ver Qué hice. Y ya consultas La fórmula Ah. Ahí lo hice. Correcto. Entonces Eso es. Creo que tengo chance.
+
+Tengo bastante. Me has dejado bastante tarea. Para integrar en mi sistema. Ajá. Y está Está desafiante Porque. Cada uno habla. Un idioma distinto.
+
+Ya. Vos hablas un idioma. Héctor habla otro idioma. Sí. Octavio habla otro idioma. José habla otro idioma Yo. Con el que más diferencia.
+
+Siento que el idioma. Es con Héctor. Porque él es Ben Y él. Tiene años de experiencia en el café. Y usa otros términos. Yo es más corto. Más materia prima.
+
+Octavio también tiene otros términos. Ajá. Pero al final es lo mismo. Yo creo que vamos a levantar. Un sistema para cada uno Para comenzar. ¿Cómo es?
+
+Un sistema para vos Otro para. Este es el doctor. Yo es que ya está. El de Héctor va a Medins. Tenemos ahí unas Es más. Que les puedo mostrar. Pero de alguna manera.
+
+Van a estar integrados. Sí. Porque yo era el idea. De un solo sistema. Pero con módulos diferentes Uno solo. Pero que. Que cuando Octavio inicie sesión.
+
+Le aparezca solo su módulo. La sección A. Se va a generar Completamos Esa está. Pero tengo un producto. De la sección B Sección C Sección D Sección E Sección G. ¿Eso es cómo?
+
+Héctor. Es la data. Que nos falta Para terminar El sistema. Entonces Originalmente Digamos. En el momento. Que yo levante Los sistemas. Van a ser independientes.
+
+Ok. Y a partir de ahí. Si necesito meterlos. A los cuatro. En un ring. Y le va. Como lo tratamos.
+
+Pero en el momento inicial Es decir. Son lío más distintos. No. El tiempo. Dentro de cuánto Estamos hablando. Como para que vos Nos llames. A los cuatro.
+
+Yo sé que no solo depende De vos Es esto. Yo sé que eso. No va a perder vos. Porque si yo no atiendo Tus dudas Yo estoy. Alargando esta fecha. Digamos que con vos Hoy salí. Lo que vos me.
+
+Si lo que yo estoy Estoy dando. Yo creo que ahí está todo En inventarios. Si después queremos. Ver la información financiera. Eso es otro Cargar saldos O. ¿Cómo quisiera yo. Sacar los estados financieros.
+
+Del sistema. Que salga el logo. Dónde quiero que aparezca El razonamiento Moneda. Si lo quiero ver. En quetzales y dólares. Eso lo vemos después. Pero el encanto.
+
+De Octavio Es Inventarios Costos Contratos Ventas Marcas Con esto. Con lo que me diste ahorita Yo estoy. Y no es No es Mucho Trabajo Para mi Porque. Tal como me dijiste La verdad Que. En el concepto. Son bien poquitos Conceptos. Entonces las fórmulas.
+
+Van a llevar. Bien poquitas fórmulas. Eso lo levanto. De un día para otro. Lo que me cuesta Es justamente El concepto. Vos y yo estamos aquí hoy. Por la otra.
+
+Y por todo. Y Héctor me dijo Va. Hoy saquemos esta sección. Y a ver. Cuando sacamos la otra. Pero si te vas a contar. Ahorita yo decía eso.
+
+Sí. Me tardé. Pero ya estoy aquí dos horas. Y ya te traje algo. Entonces con vos. Si él me pregunta. Ya salió el error.
+
+Ya estamos. ¿Qué me falta? ¿Me falta Héctor? Porque si es verdad. Que no me había juntado aquí Personalmente. Con tu persona Aquí. Vale a reunirse.
+
+Con vos. No estábamos aquí. Pero yo estaba trabajando. En lo que te tenía. Ya me había contado cosas Ya traía. ¿Qué te tenía que entregar?
+
+Ya estábamos iniciando. Te voy a mandar. Yo solo comenté esto. Donde están las trillas. Ajá. Es decir Lo tienes. Este es el de.
+
+El único. Que te voy a mandar. Es el otro. Donde yo sacaba El post. Esa la trilla. Y el sobrante. Y sus productos.
+
+Es. Algo de señal Este productor Tiene algo En especial Servicios Nacionales De Boaena Con él. Lo que se ha hecho Es que. Se le compra. Y él mismo. En su beneficio Lo transforma Lo maquina Lo convierte De pergamino A oro. ¿Ya?
+
+Entonces. El licenciado José. Hace una orden De compra. Por esta cantidad De pinta De pergamino. A este costo. ¿Ya?
+
+Sí. Y da un costo Total. Para que la plena Pero El producto Se queda Con nuestros Subproductos Y eso. Tiene un valor. ¿Quién acorde a ese valor? Estaba Dice 2000 Quetzales. O puede ser.
+
+Más. O puede ser Menos. Pero hasta ahorita. Todas las concesiones han sido 2000 Quetzales Por quitar. De su producto. Entonces. Yo a él.
+
+Ya no le voy a pagar Este 1000 1. Yo voy a pagar Eso Menos Su producto Sando. Entonces. Mira. Aquí lo resto. Aquí un cuadrito Puse. Cuánto me iba saliendo.
+
+De su producto. Y lo voy a multiplicar. Aquí por 2000. ¿Ya? Me da un nuevo. Salgo a pagar. Y el producto.
+
+Dice. Mira. Pero yo lo transformé En semileficio. Yo lo pedí en pesos. Tiene un costo Ah Dice Cómbramelo. Ajá. En el valor.
+
+De su producto. Entonces Le resto El valor. De su producto. Porque no se lo voy a pagar. Ajá. Pero le agrego El servicio. Que me cobras 45.
+
+Quetzales. Por quitar el oro. Que haya salido Como resultado Y dice. ¿Por qué quitarme. En ese oro? ¿Por qué le paga el dinero?
+
+Y dice Ah Tiene sentido. Porque si le pago Por Esto es. Para los basura. Y su producto. Ajá. Y. Entre más oro me dé.
+
+Más ganó. Y más me va a cobrar. Bien. Entonces es un ganarán. Si él me está entregando. Menos café oro. Y él se está quedando.
+
+Con parte de mi café oro. Pero mira. Esto me salió. Un poquito más Te pago Muy bueno. Ajá. Entonces. Te pago menos trío.
+
+Entonces. A él no le conviene Robarnos. Ajá. O quedarse con nuestro café oro. Le vamos a pagar Menos trío. ¿Ya?
+
+Porque le vamos a pagar. Por quintales de oro. Correcto. Entonces Le descuento. A los subproductos. Le sumo el costo. De la tría.
+
+Me dan. Un nuevo costo total. Y me dan. Un nuevo costo promedio. ¿Ya? Entonces Este costo. Es el que yo uso.
+
+Para los nacionales Estampilotar. Esto está en Coja S&B David Servicios nacionales De Rodega O David. Porque ese Otro tema Que como Me cuesta. Pero yo no estoy Acoplando. Viene un servicio Y dice. Mira le compré a David. Y lo que David.
+
+Ajá. Hay David David Solano. Mira le compré a David. Le compré a David Guerra. Ah ya está Ya sé. Que David Guerra. Mira.
+
+Mandame la nota De abono. O el pago. De David Guerra. No es David Guerra. Reviso las cuentas bancarias. No hay nadie. A nombre de David Guerra.
+
+Documentos emitidos. A nombre de David Guerra. No existe ahí Nada Todo es. A nombre de servicios Nacionales De Rodega. A ese es el nombre. De la sociedad. Yo documentos fiscales.
+
+Transferencias bancarias. Para mí siempre Servicios nacionales De Rodega Que él Su cuate Sea David. Ajá. Eso es lo que. Así me pasa Con ventas A mí. A eso es a lo que Me refiero. Eso me hace el Getty.
+
+Ajá. Opa. A eso es a lo que Me refiero No veo. No puedo integrar. De una vez Los sistemas Porque Bueno Yo entrevisté A José José Herrera. Y me he hecho la vida. Entonces el sistema.
+
+Dice la vida. Si es tuyo Servicios nacionales De Rodega. No va a meter Nunca Si necesito. Ya cuando tenga Los cuatro. Sí. Va Conten Los cuatro. Que el tuyo.
+
+Dice esto. Que el tuyo Dice esto. Que el tuyo Dice esto. Como los empate. Exactamente. Y Espero yo. Que me permitan.
+
+Hacer una reunión. Que no salgamos de ahí. Hasta que todo Este terminado Yo. Ya te dije Yo. Solo que a veces. Te puedes hacer esperar Un poquito. Pero cuando yo te diga.
+
+Así Estoy dispuesto. Genial. Tengo el tiempo. Genial. Porque no voy a estar 5 minutos Espérame Me voy. Ajá. Seguimos mañana.
+
+No. Yo Dije Cuatro horas El tiempo. Y toda la mañana. Si hace falta Seguimos hoy. No hay clave. Y ahí estamos Ahí estamos. Y se avanza.
+
+Mucho más rápido Así Así es. No te quito. El tiempo a vos. Ni me lo quito a mí. Es tiempo productivo. Y como te digo Tu parte. Va a estar lista mañana.
+
+Sin mucho pasado mañana. Me ayudo yo mismo. Te ayudas yo mismo. Pero no todos. Por X y de motivo Ahí vamos. Sí, ahí vamos Y No pues. Lo mismo me pasaba.
+
+Con el área de ventas. Lo mismo que en todo Me pasaba. Mira Serengeti Ópale. Ese es el nombre. Con el que vos. Comercialmente los conoces. Buscamos la factura.
+
+La exportación. La que yo hago En FESAT. Por ningún lado Dice Serengeti No existe. No. Y en el sistema Contable Mucho menos. Ahí va el nombre Fiscalmente. Como se conoce.
+
+La empresa. Aunque esté en el exterior. Entonces Yo decía. No. Vale. Opal o quién. No es que no sea nombre.
+
+De quien lo facturaste. Eso es otro tema Porque. Me lo compró Opal Pero. Pidió que se lo facturaran A otro. Porque Opal. Se lo estaba Vendiendo A otro. Entonces.
+
+Dame el número De contrato. Es que no me acuerdo. Entonces. No estamos hablando. Busquemos un término Un lenguaje. En el que todos Nos entendamos. Porque si yo vengo.
+
+Y te digo Servicios Nacionales De huelga. No me vas a entender Te digo. La de invierno. Entonces. Ahí hay una diferencia. Porque no hablamos. De números de orden.
+
+De compra. La 12 es 5. Ajá. Ahí está. Encontramos un punto. En el que ambos Nos entendemos. Eso quisiera yo.
+
+Con todo mundo. Lo vamos a tener. Yo te garantizo. Que lo vamos a tener Que lleguemos. A hablar el mismo idioma Todos. Y que nos entendamos. Y va a ser.
+
+Y no Ojalá. Eso es lo que busco. Porque pasa de compra. Pasa en ventas. A veces me pasa. Como un cabrón No, mira. Yo me retene en cuenta.
+
+Bueno. Sí. Entonces. Pero yo como estoy. Yo estoy con ventas. Yo estoy con tal. Yo estoy con compras.
+
+Tengo que aprender de todo Y es. A veces es complicado Pero. Pues yo creo que. Vamos bastante bien. Ya con esta reunión. Pues quedo tranquilo yo. Porque ya te entregué.
+
+Ya hice lo que me estaba pidiendo. Y ya se le dedicó el tiempo Y pues Hacer pruebas. Y llegar resultados. Cuando me digas. Claro que sí Estamos. Solo me da Es. ¿Cómo pide esto?
+
+Nítido Ahí está. Sí. Mejor si. De que estar Vamos. Entonces ahí te va a llegar Tu correo Excelente Los campaneros. Creo que van a usar la sala Creo yo. Ahorita tienen tu correo.
+
+Perfecto. Ahora mandaré esto. Bueno si quieres. Voy a tomar el retorno Vamos Gracias Muchas gracias. Ustedes están esperando la sala. Sí. Pasen adelante por favor.
+
+Tienes Gracias.
+

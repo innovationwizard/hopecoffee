@@ -15,7 +15,7 @@ const BCRYPT_COST = 12;
 export interface Session {
   userId: string;
   email: string;
-  role: UserRole;
+  roles: UserRole[];
   name: string;
 }
 
@@ -48,18 +48,10 @@ export async function signToken(payload: Session): Promise<string> {
 export async function verifyToken(token: string): Promise<Session | null> {
   try {
     const { payload } = await jwtVerify(token, JWT_SECRET);
-    let role = payload.role as UserRole;
-
-    // Transition: map legacy OPERATOR to FIELD_OPERATOR
-    // REMOVE AFTER 2026-04-12 (one JWT expiry cycle)
-    if (role === ("OPERATOR" as unknown as UserRole)) {
-      role = "FIELD_OPERATOR" as UserRole;
-    }
-
     return {
       userId: payload.userId as string,
       email: payload.email as string,
-      role,
+      roles: payload.roles as UserRole[],
       name: payload.name as string,
     };
   } catch {
@@ -93,13 +85,13 @@ export async function requireAuth(): Promise<Session> {
 
 /**
  * Permission-based authorization. Checks a specific permission against the
- * user's role. Throws AuthorizationError on denial (not redirect).
+ * union of the user's assigned roles. Throws AuthorizationError on denial.
  */
 export async function requirePermission(permission: Permission): Promise<Session> {
   const session = await requireAuth();
-  if (!hasPermission(session.role, permission)) {
+  if (!hasPermission(session.roles, permission)) {
     throw new AuthorizationError(
-      `Rol ${session.role} no tiene permiso: ${permission}`
+      `Roles [${session.roles.join(", ")}] no tienen permiso: ${permission}`
     );
   }
   return session;
@@ -109,10 +101,10 @@ export async function requirePermission(permission: Permission): Promise<Session
  * Synchronous permission check for use inside actions that already have a session.
  * Throws AuthorizationError on denial.
  */
-export function requirePermissionSync(role: UserRole, permission: Permission): void {
-  if (!hasPermission(role, permission)) {
+export function requirePermissionSync(roles: UserRole[], permission: Permission): void {
+  if (!hasPermission(roles, permission)) {
     throw new AuthorizationError(
-      `Rol ${role} no tiene permiso: ${permission}`
+      `Roles [${roles.join(", ")}] no tienen permiso: ${permission}`
     );
   }
 }

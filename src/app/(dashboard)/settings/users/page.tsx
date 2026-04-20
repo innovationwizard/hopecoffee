@@ -5,6 +5,33 @@ import { formatDate } from "@/lib/utils/format";
 import { Badge } from "@/components/ui/badge";
 import { UserCreateForm } from "./_components/user-create-form";
 import { UserToggle } from "./_components/user-toggle";
+import type { UserRole } from "@prisma/client";
+
+const ROLE_LABELS: Record<UserRole, string> = {
+  MASTER: "Master",
+  GERENCIA: "Gerencia",
+  FINANCIERO: "Finanzas",
+  COMPRAS: "Compras",
+  VENTAS: "Ventas",
+  LAB: "Laboratorio",
+  ANALISIS: "Analisis",
+  CONTABILIDAD: "Contabilidad",
+  LOGISTICA: "Logistica",
+  LAB_ASISTENTE: "Lab Asistente",
+};
+
+const ROLE_BADGE_VARIANT: Record<UserRole, "purple" | "blue" | "emerald" | "gray"> = {
+  MASTER: "purple",
+  GERENCIA: "blue",
+  FINANCIERO: "blue",
+  COMPRAS: "emerald",
+  VENTAS: "emerald",
+  LAB: "emerald",
+  ANALISIS: "gray",
+  CONTABILIDAD: "gray",
+  LOGISTICA: "gray",
+  LAB_ASISTENTE: "gray",
+};
 
 export default async function UsersPage() {
   const users = await getUsers();
@@ -14,7 +41,7 @@ export default async function UsersPage() {
       <PageHeader
         title="Usuarios"
         breadcrumbs={[
-          { label: "Configuración" },
+          { label: "Configuracion" },
           { label: "Usuarios" },
         ]}
       />
@@ -33,9 +60,9 @@ export default async function UsersPage() {
                   <tr>
                     <th>Nombre</th>
                     <th>Email</th>
-                    <th>Rol</th>
+                    <th>Roles</th>
                     <th>Estado</th>
-                    <th>Último Login</th>
+                    <th>Ultimo Login</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -45,25 +72,19 @@ export default async function UsersPage() {
                       <td className="font-medium">{u.name}</td>
                       <td className="text-gray-500">{u.email}</td>
                       <td>
-                        <Badge
-                          variant={
-                            u.role === "ADMIN"
-                              ? "purple"
-                              : u.role === "FINANCIAL_OPERATOR"
-                              ? "blue"
-                              : u.role === "FIELD_OPERATOR"
-                              ? "emerald"
-                              : "gray"
-                          }
-                        >
-                          {u.role === "FIELD_OPERATOR"
-                            ? "Operaciones"
-                            : u.role === "FINANCIAL_OPERATOR"
-                            ? "Finanzas"
-                            : u.role === "ADMIN"
-                            ? "Administrador"
-                            : "Consulta"}
-                        </Badge>
+                        <div className="flex flex-wrap gap-1">
+                          {u.roleAssignments.map((ra) => (
+                            <Badge
+                              key={ra.role}
+                              variant={ROLE_BADGE_VARIANT[ra.role]}
+                            >
+                              {ROLE_LABELS[ra.role]}
+                            </Badge>
+                          ))}
+                          {u.roleAssignments.length === 0 && (
+                            <span className="text-xs text-gray-400">Sin rol</span>
+                          )}
+                        </div>
                       </td>
                       <td>
                         {u.isActive ? (

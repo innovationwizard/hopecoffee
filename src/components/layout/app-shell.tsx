@@ -27,52 +27,62 @@ import {
 } from "lucide-react";
 import type { Session } from "@/lib/services/auth";
 import type { UserRole } from "@prisma/client";
+import { hasPermission } from "@/lib/services/permissions";
 import { SidebarLink } from "./sidebar-link";
 
 const ROLE_LABELS: Record<UserRole, string> = {
-  ADMIN: "Administrador",
-  FIELD_OPERATOR: "Operaciones",
-  FINANCIAL_OPERATOR: "Finanzas",
-  VIEWER: "Consulta",
+  MASTER: "Master",
+  GERENCIA: "Gerencia",
+  FINANCIERO: "Finanzas",
+  COMPRAS: "Compras",
+  VENTAS: "Ventas",
+  LAB: "Laboratorio",
+  ANALISIS: "Analisis",
+  CONTABILIDAD: "Contabilidad",
+  LOGISTICA: "Logistica",
+  LAB_ASISTENTE: "Lab Asistente",
 };
 
-function getNavItems(role: UserRole) {
-  const FIELD_PRIMARY = [
-    { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-    { href: "/contracts", label: "Contratos", icon: FileText },
-    { href: "/inventory", label: "Inventario", icon: Package },
-    { href: "/purchase-orders", label: "Ordenes de Compra", icon: ShoppingCart },
-    { href: "/suppliers", label: "Proveedores", icon: Users },
-    { href: "/quality-lab", label: "Laboratorio", icon: FlaskConical },
-    { href: "/milling", label: "Trilla", icon: Factory },
-    { href: "/shipments", label: "Embarques", icon: Ship },
-    { href: "/farms", label: "Fincas", icon: TreePine },
-    { href: "/reports", label: "Reportes", icon: BarChart3 },
-  ];
-
-  const FINANCIAL_PRIMARY = [
-    { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-    { href: "/contracts", label: "Contratos", icon: FileText },
-    { href: "/shipments", label: "Embarques", icon: Ship },
-    { href: "/reports", label: "Reportes", icon: BarChart3 },
-    { href: "/inventory", label: "Inventario", icon: Package },
-    { href: "/suppliers", label: "Proveedores", icon: Users },
-    { href: "/purchase-orders", label: "Ordenes de Compra", icon: ShoppingCart },
-    { href: "/quality-lab", label: "Laboratorio", icon: FlaskConical },
-    { href: "/milling", label: "Trilla", icon: Factory },
-    { href: "/farms", label: "Fincas", icon: TreePine },
-  ];
-
-  if (role === "FINANCIAL_OPERATOR") return FINANCIAL_PRIMARY;
-  return FIELD_PRIMARY;
-}
+const ALL_NAV_ITEMS = [
+  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/contracts", label: "Contratos", icon: FileText },
+  { href: "/inventory", label: "Inventario", icon: Package },
+  { href: "/purchase-orders", label: "Ordenes de Compra", icon: ShoppingCart },
+  { href: "/suppliers", label: "Proveedores", icon: Users },
+  { href: "/quality-lab", label: "Laboratorio", icon: FlaskConical },
+  { href: "/milling", label: "Trilla", icon: Factory },
+  { href: "/shipments", label: "Embarques", icon: Ship },
+  { href: "/farms", label: "Fincas", icon: TreePine },
+  { href: "/reports", label: "Reportes", icon: BarChart3 },
+];
 
 const SETTINGS_ITEMS = [
   { href: "/settings/facilities", label: "Instalaciones" },
   { href: "/settings/export-costs", label: "Costos Exportacion" },
   { href: "/settings/exchange-rates", label: "Tipo de Cambio" },
-  { href: "/settings/users", label: "Usuarios", adminOnly: true },
+  { href: "/settings/users", label: "Usuarios", masterOnly: true },
 ];
+
+/** Build a display label from all assigned roles */
+function formatRoleBadge(roles: UserRole[]): string {
+  if (roles.length === 0) return "Sin rol";
+  return roles.map((r) => ROLE_LABELS[r] ?? r).join(" / ");
+}
+
+/** Pick badge color based on highest-priority role */
+function getRoleBadgeColor(roles: UserRole[]): string {
+  if (roles.includes("MASTER"))
+    return "bg-orion-100 text-orion-700 dark:bg-orion-800/50 dark:text-orion-300";
+  if (roles.includes("GERENCIA") || roles.includes("FINANCIERO"))
+    return "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300";
+  if (roles.includes("VENTAS") || roles.includes("LAB"))
+    return "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300";
+  if (roles.includes("COMPRAS"))
+    return "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300";
+  if (roles.includes("ANALISIS") || roles.includes("CONTABILIDAD"))
+    return "bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-300";
+  return "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400";
+}
 
 export function AppShell({
   session,
@@ -95,14 +105,9 @@ export function AppShell({
     router.refresh();
   }
 
-  const roleBadgeColor: Record<string, string> = {
-    ADMIN: "bg-orion-100 text-orion-700 dark:bg-orion-800/50 dark:text-orion-300",
-    FIELD_OPERATOR: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300",
-    FINANCIAL_OPERATOR: "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300",
-    VIEWER: "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400",
-  };
-
-  const navItems = getNavItems(session.role);
+  const canViewAuditLog = hasPermission(session.roles, "audit_log:view");
+  const canManageUsers = hasPermission(session.roles, "user:manage");
+  const canImport = hasPermission(session.roles, "import:execute");
 
   const sidebar = (
     <nav className="flex flex-col h-full">
@@ -122,7 +127,7 @@ export function AppShell({
       </div>
 
       <div className="flex-1 overflow-y-auto py-2 px-2 space-y-0.5">
-        {navItems.map((item) => (
+        {ALL_NAV_ITEMS.map((item) => (
           <SidebarLink
             key={item.href}
             href={item.href}
@@ -133,8 +138,8 @@ export function AppShell({
           />
         ))}
 
-        {/* Audit log — visible to operators and admin */}
-        {session.role !== "VIEWER" && (
+        {/* Audit log — permission-gated */}
+        {canViewAuditLog && (
           <SidebarLink
             href="/audit-log"
             label="Auditoria"
@@ -162,7 +167,7 @@ export function AppShell({
           {settingsOpen && (
             <div className="ml-8 mt-1 space-y-0.5">
               {SETTINGS_ITEMS.filter(
-                (item) => !item.adminOnly || session.role === "ADMIN"
+                (item) => !item.masterOnly || canManageUsers
               ).map((item) => (
                 <SidebarLink
                   key={item.href}
@@ -176,7 +181,7 @@ export function AppShell({
           )}
         </div>
 
-        {session.role === "ADMIN" && (
+        {canImport && (
           <SidebarLink
             href="/import"
             label="Importar Excel"
@@ -197,9 +202,9 @@ export function AppShell({
               {session.name}
             </p>
             <span
-              className={`inline-block text-[10px] font-mono px-1.5 py-0.5 rounded ${roleBadgeColor[session.role] ?? roleBadgeColor.VIEWER}`}
+              className={`inline-block text-[10px] font-mono px-1.5 py-0.5 rounded ${getRoleBadgeColor(session.roles)}`}
             >
-              {ROLE_LABELS[session.role] ?? session.role}
+              {formatRoleBadge(session.roles)}
             </span>
           </div>
           <button

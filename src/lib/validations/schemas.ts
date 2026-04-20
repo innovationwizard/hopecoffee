@@ -30,7 +30,10 @@ export const CoffeeRegionEnum = z.enum([
   "OTHER",
 ]);
 
-export const UserRoleEnum = z.enum(["ADMIN", "FIELD_OPERATOR", "FINANCIAL_OPERATOR", "VIEWER"]);
+export const UserRoleEnum = z.enum([
+  "MASTER", "GERENCIA", "FINANCIERO", "COMPRAS", "VENTAS",
+  "LAB", "ANALISIS", "CONTABILIDAD", "LOGISTICA", "LAB_ASISTENTE",
+]);
 
 export const PosicionBolsaEnum = z.enum(["MAR", "MAY", "JUL", "SEP", "DEC"]);
 
@@ -240,7 +243,7 @@ export const UserCreateSchema = z.object({
   email: z.string().email(),
   name: z.string().min(1).max(100),
   password: z.string().min(8).max(100),
-  role: UserRoleEnum.default("VIEWER"),
+  roles: z.array(UserRoleEnum).min(1, "At least one role is required"),
 });
 
 // ---------------------------------------------------------------------------

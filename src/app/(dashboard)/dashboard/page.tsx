@@ -169,7 +169,9 @@ export default async function DashboardPage() {
   // Role-prioritized section ordering:
   // Financial operator sees shipments (P&L) first, then contracts
   // Field operator sees contracts first, then shipments
-  const isFinancial = session.role === "FINANCIAL_OPERATOR";
+  const isFinancial = session.roles.includes("FINANCIERO") ||
+    session.roles.includes("ANALISIS") ||
+    session.roles.includes("GERENCIA");
 
   return (
     <>

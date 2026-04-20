@@ -1,0 +1,1086 @@
+Ah, no, no, no, señora, ahí está, por favor.
+Estoy ahorita, acaban he estado trabajando en lo tuyo, hay buenos avances.
+Qué bueno, qué bueno.
+De una vez te anticipo, vos también a un idioma distinto.
+Básicamente estoy haciendo una app para él, una app para vos, entonces yo lo que necesito es que tu app te sirva a vos.
+Correcto.
+Ya lo que a quien quiera te atrever.
+Si, digamos, la información de una puede servir a la otra, pero cada quien ve sus cosas.
+Sí, para no enterarlo.
+Acabas, acabas.
+Sí.
+Entonces, hoy en la mañana estuve con aquel, ya le logré cuadrar sus numeritos.
+Y me contó que le habías encontrado un error en un...
+Y ver a la puteada que no me acuerdo.
+Muy mal.
+Vieron, si ese número estaba...
+Y al final no.
+Y el tema es que yo no estaba seguro tampoco del número, pero como yo no entiendo el cuadro de aquel, luego...
+Sí, eso era un problema que podía decirlo, mirá, no.
+No, eso no me la traía, ¿verdad?
+Entonces, es un dolor porque aquí él mezcla todo con todo.
+Sí.
+Y como según él, él solito se entiende.
+Déjame ver, esto se llama...
+Preguntas para Héctor.
+Aquí está.
+Entonces, sobre esto, eso es lo que quería entrevistar.
+Te lo vamos a poner más grande porque aquí donde me ves que me las llevo, yo también con la otra chiquita ya peleo.
+Yo le voy a invitar a Héctor para definir la primera entrega del módulo de arquitectura y inventario.
+El objetivo es lograr que Héctor use el app todos los días, ¿no?
+Estas personas buscan entender exactamente cómo trabaja hoy, dónde le duele el flujo actual y qué...
+Características y funciones mínimas le haría abrir el app el lunes por la mañana.
+Ahora, sin que nadie se lo pida.
+Caminar por las secciones en orden, nos faltan todas las preguntas.
+Si Héctor se dio un tema específico, estamos ahí.
+Yo tengo una lectura general de tus necesidades, pero si ahorita te despoces en algo, a propiedad que yo no tengo en el mapa, dale, mano.
+Esto es tu app, tu tiempo, tus necesidades.
+Los bloques marcados con esto son los más importantes.
+Y comenzamos con la sección A, su día de trabajo.
+Contame tu día típico desde que llegas al beneficio hasta que te vas.
+¿Cuáles son las preguntas que yo llevo a la oficina?
+¿Quién es? ¿Cuál?
+¿Sí, señor?
+Aquí, donde dicen que llegas al beneficio, me dio trabajo aquí en la oficina.
+¿En la oficina?
+No, no.
+¿En la oficina?
+¿Cuáles son las preguntas que te llenando?
+El día típico de mí empieza viendo el mercado.
+Gracias, lo veo en mi casa a las 4.30 de la mañana, 4.45, 4.30.
+Creo que valdría la pena que la pudiéramos tener un área donde yo pudiera subir el nivel de mercado,
+que ahora lo subí.
+¿Verdad?
+Porque yo lo que hago es mandarle a Octavio a Screen, yo escribo,
+mirá, ahorita el mercado está tal nivel.
+¿Verdad?
+Muchas gracias.
+Entonces, eh...
+¿Verdad?
+¿Verdad?
+¿Verdad?
+Gracias.
+¿Verdad?
+¿Te opinaron?
+¿Verdad?
+Porque el mercado se mueve acá un poquito.
+Ya tenemos pantalla de mercado en tiempo real.
+No sé si la quieres ir a conocer a algún día como esta.
+Ajá.
+Esa solo, no sé cuál es la típica.
+Esta es Iseos.
+Iseos, si pues esta sabe tener un delay, digo yo.
+¿Cuál es la que seguís vos?
+Yo, esa la tenemos como módulo de prueba porque es pagada.
+Ajá.
+O sea, para tener el tiempo real es de Stonic.
+Directamente con el operador de bolsa.
+Stonics.
+¿Cómo se llama?
+Stonics.
+Con E.
+Stonics.
+Stonics.
+Ah, ellos no tienen página.
+Digamos, ellos, si quieres ver la página de ellos, pero con un poco de delay es BarChart.
+BarChart.
+Ajá.
+Entonces, lo que hicimos fue que le pedimos a Stonics cotización para tener mercado en tiempo real.
+Entonces, ya nos mandaron la cotización y nos dieron usuarios de un mes de prueba.
+Entonces, mañana es primer día que ya lo tenemos ahí en el laboratorio abierto.
+Y tienes una bonita pantalla.
+Así en alto.
+En tele, ¿no?
+Ajá.
+Ah, me digas, me digas.
+Ok.
+Entonces, digamos, la idea es ponerle yo en la mañana veo y si tenemos algún contrato
+por vender o algo, de todas maneras, yo le mando al pago el dato.
+Mira, está tan legal, está tan legal.
+Pero si tuviéramos un lugar donde yo pudiera poner eso y que el sistema le vaya dando horas.
+¿Por qué?
+Porque, digamos, puede pasar que el mercado cuando aquel no ve, se vino para abajo.
+Sí, pues, ¿qué cabrón es esto?
+¿A qué hora se subió el dato?
+¿A qué hora se subió el dato?
+A lo mejor.
+Sí, aquí usted lo ursina.
+¿Ustedes cómo van?
+¿Todo bien?
+Ah, bueno, está bueno.
+Pues, sí.
+Entonces, que él pudiera ver como el historial.
+Vamos a decir, ah, no sé, que él me puso a las cuatro y media, a las cinco, a las seis.
+Como para el mercado.
+Porque pasa que una vez que no me lo mandaste o no lo vi o no sé qué,
+pero que quede el registro ahí de que sí estuvo subido el nivel.
+¿Verdad?
+Bueno, de ahí, ya aquí, digamos, lo primero que hago es, pues, obviamente, desde el correo y ver el reporte de cataciones del laboratorio que se lo alimenta Douglas.
+Ok, entonces, para allá.
+¿Cómo alimenta él este reporte?
+Eh, todos los análisis de calidad que hacemos, yo ya en una hojita, así, checklist, ¿verdad?
+Ajá, ajá, ajá, ajá, ajá, ajá, ajá, se la doy, y él tiene un Excel, pues, ya él registra todo.
+Entonces, vos catás en papel, y él lo ingresa a un Excel.
+Sí, porque lo que yo cato está codificado, o sea, yo no sé qué estoy catando.
+Entonces, él va a poner una muestra a 600, 601, entonces, y eso lo que yo cato.
+Ya, ya después era en el reporte, entonces, ya mete.
+Entonces, ¿por qué lo bebo después?
+Porque entonces, yo ya quiero ver, dar el proveedor, que dio su café, porque ya no sé, me preguntan,
+mira, que dio el café de Walco, mira, que dio el café de Walco, mira, que dio el café de Walco.
+Entonces, yo necesito ver, y para mis órdenes de trigo.
+Así que.
+El, la cata está atada a un loto, a un recibo, a un recibo.
+Sí, aquí, ellos tienen un documento que se llama recibo de muestra.
+Entonces, la muestra puede ser una oferta, puede ser un ingreso a beneficio,
+puede ser una muestra de embarque, una muestra de tría, hay diferentes tipos de muestras.
+Entonces, cuando yo, Cato, yo veo el mismo de recibo de muestra.
+Va, porque Douglas, digamos, él tiene diez muestras en el laboratorio.
+Pues, el programa con condo mañana, mañana a las nueve.
+Para que cuadremos bien ahí en el radio.
+En ese papelito, él pone RM, ese correcto ya existe, RM615.
+Entonces, pone ahí, ¿qué tipo de muestra es?
+Si es un recibo, ¿qué número de recibo es?
+¿De quién es? ¿Cuántos quintales?
+¿El pergamino? ¿Si es oro? Bla, bla, bla.
+Y cuando me la pone a mí, solo dice RM615, ¿verdad?
+Entonces, después de eso, es lo que le ingresa al reporte.
+El RM615 correspondía al recibo tal, tanto rendimiento, tanta humedad, tatatata, tatatata.
+Entonces, ahí yo ya puedo ver qué era cada cosa.
+¿Qué tipos de muestras son? Si los quieres listar, si te puedes ir puntualmente, ¿cuáles son?
+¿Hay ofertas de compra?
+¿Qué tipo de muestras son? Si los quieres listar, si te puedes ir puntualmente, ¿cuáles son?
+¿Hay ofertas de compra?
+Oferta de compra, oferta de venta.
+Oferta de venta
+Muestra de ingreso de café
+Muestra de resultado de tría
+Muestra pre embarque
+Muestra tipo
+Tipo
+No creo que se me vaya a dar
+No
+Aparte de esto que otra cosa está en tu
+Todos los días
+Todos los días
+En el sistema de un poco todo lo demás es
+Hablar con clientes de venta
+En compradores
+Todos estar hablando con ellos para ver diferenciales
+Qué están comprando
+Qué les está ofreciendo otra gente
+Cómo está la demanda
+Todo eso
+Por ejemplo
+Vengo y
+Llamo tempranito
+Escribo con los del otro lado
+En Europa
+Entonces
+Es que
+Mira que
+Tienes para hoy no
+Mira hoy no estamos
+Pero que tenes
+Tengo esto y esto
+Dame un par de horas
+Después con el otro
+Cuando vengo aquí
+Hablo con los Estados Unidos
+O con los que están más cerca
+Bien
+Bien esa comunicación
+Ok
+Después de eso
+Si de ahí pues la parte práctica del laboratorio
+Que es evaluación de cámaras
+De calidad
+Básicamente yo lo que hago
+Es la parte
+¿Cómo se llama eso?
+Sensorial
+Te integré en la app
+Los 10 parámetros del SIE
+Buenísimo
+Ok
+Ahora nosotros tenemos una hoja
+Que hago en papel
+Ay
+Pásame
+Que la podríamos ver
+Porque esa es bien fácil
+Porque
+Solo la
+Digamos los 10 parámetros
+Fabuloso
+Porque eso te da el score
+Ajá
+Pero lo que yo hice aquí
+Pues ya a mí me gusta
+Mientras
+Menos haga y más resultados tenga
+Mejor vamos
+Totalmente de acuerdo
+Entonces
+Un checklist de todos los descriptores
+Por propiedad
+Digamos defectos
+Listados
+Fragancia
+Aroma
+O sea las 10 propiedades
+Pero con todos los descriptores
+Entonces yo lo que hago es que solo
+Pimpi
+Ya no escribo
+¿Verdad?
+Entonces si pudiéramos tener ese checklist
+Sería fabuloso
+Porque entonces
+Queda registrado de una vez
+¿Quieres que te la traigan?
+Sí, por favor
+Sí, por favor
+Sí, sí, sí, sí
+Sí, sí, sí
+Sí, sí, sí, sí
+Ahí lo vemos
+No hay
+analyse
+Ciudad
+hoor
+Entonces aquí están
+Aquí no están las 10 propiedades
+Pero tengo los defectos
+Fragancia, aroma
+Posgusto, cuerpo y sabor
+¿Esto lo imprimiste desde un Excel?
+Sí, creo que
+No sé si es Excel, sí creo que es un Excel
+¿Puedes enviármelo en digital?
+Sí, el Douglas lo tiene
+Pero ese te lo enviaré ya mañana
+Perfecto, perfecto
+Entonces yo apunto mis pendientes
+Para mañana
+Si es que encuentro mi mouse
+Y mientras tanto
+Prova un suelo en lo que
+En lo que eso llega
+Voy a ver si no voy a sacar la frase a esto
+Ahí está
+Ahí está
+Y ahí ya me ayuda
+A codificar
+Entonces vamos por aquí
+La parte práctica del back
+Entonces checklist
+Que están acá
+Al finalizar esto
+En la parte de evaluación de cafés
+También está la parte proyectada
+Evalúo ingresos
+Evaluamos ofertas
+Evaluamos resultados de tría
+Pero también
+Hacemos las calidades
+Digamos
+Hacemos el
+Que es la parte más
+Interesante
+Digamos
+Agarrar este ingreso
+Con este ingreso
+Para diseñar los planes
+Ajá
+Y decir
+Tal porcentaje de este
+Tal de este
+Tal de este
+Hacer tu orden de tría
+Para el beneficio
+Ahora
+Cuando decís
+Este, este, este
+Son lotes
+Son recibos
+Son recibos
+Sí
+Con eso
+Nosotros
+En tema de terminología
+Nos vamos a un cachobolas
+Porque vamos
+La finca
+Maneja lotes
+Yo manejo lotes
+Pero no son los mismos
+Para mí un lote
+Es exportación
+O sea
+Todo lo que tiene
+Un número de OIC
+Ah, ok
+Ok
+Todo lo que tiene
+Un número de OIC
+Para mí es un lote
+Sí
+Todo lo demás
+Son recibos
+Lo que yo proceso
+En el beneficio
+Es un recibo
+Y lo que sale
+Del beneficio
+Con su número de OIC
+Es un lote
+Correcto
+Para nosotros
+¿Cuál es el mando
+De la dilancia
+Para nosotros
+Hago los breves
+Que es lo que sí
+De la dilancia
+Que es lo que está
+Lo que está
+Lo que está
+Lo que está
+Los órdenes
+De tría
+Actualmente
+Se hacen
+De una manera
+En un beneficio
+Muy informal
+Y el otro
+Se hace
+Dentro de un sistema
+Pero es el de ellos
+Nosotros
+Internamente
+No tenemos más
+Deberíamos
+O sea
+Poder hacer
+Una orden de tría
+Que quede
+En nuestro sistema
+Para
+Rebajar
+Inventarios
+Para cuadrar
+Con la
+Y
+Para
+Todo lo que
+Hemos tenido
+Nosotros
+¿Viste ese lote?
+¿Lote?
+A lo que
+Tiene el número de OIC
+El mes pasado
+Solo los 15 días
+Entonces lo que dicen
+Ni verga
+Para pagar
+La factura
+De la ley
+De una manera
+De ser
+Así
+Sí
+Listo
+Seguimos
+Sí
+De ahí
+La parte
+De producción
+Digamos
+En beneficio
+Las órdenes
+De tría
+Esa la hacemos
+Nosotros
+Allá
+En el departamento
+También
+Para eso
+Yo necesito
+Tener
+Acceso
+A los inventarios
+Pero un inventario
+Que me refleje
+El número
+De recién
+De qué proveedor es
+Y los resultados
+De mi catación
+En términos
+De calidad
+Y rendimiento
+¿Verdad?
+Todo el input
+Que nosotros
+Vamos a hacer acá
+Tiene que ir al inventario
+Para que no agarrar
+Un recibo
+Yo pueda buscar
+En el reporte
+Inventario
+Ver un recibo
+Y que me dé
+Toda la función
+Porque eso
+Me permite
+A mí
+Poder tomar
+Decisiones
+De dónde
+Voy a usar
+Este café
+Para qué cliente
+Qué cantidades
+Estos
+Por ejemplo
+Ahorita
+Yo tenía
+Hecha una orden
+De tería
+Un beneficio
+Tenía dos
+Ordenes
+De tería
+Entonces hoy
+Estamos haciendo
+Una
+Pero el beneficio
+No está dando
+Ahora
+Entonces
+Lo voy a hacer
+Lo voy a tirar
+En otro lado
+¿Qué tal
+Pero con otro
+Café?
+Sí
+Pero es
+El mismo
+O sea
+Equivalente
+Equivalente
+En términos
+De calidad
+Entonces
+Eso
+Yo lo tendría
+Yo lo podría
+Ver en mi inventario
+Es decir
+Que tengo un SSL
+Tengo el A
+Ok
+Mi catación
+Dice que este
+Es igual a este
+Entonces esto
+Lo puedo
+Tener
+Entonces para eso
+Me sirve a mí
+Poder consultar
+Todos los reportes
+De inventarios
+¿Y esto
+Lo tienes ahorita
+En Excel?
+Yo reportes
+De inventario
+No tengo
+No tienes
+No
+Me dan los beneficios
+O
+De amor
+Los recibos
+¿Qué manda?
+Los recibos
+En Excel
+Ajá
+Eso yo lo tengo
+Todos
+En Excel
+Van
+Mira
+El archivo
+Que te compartí
+Ahí van
+Cómo agrupan
+Cómo integran
+Las órdenes
+De compra
+Ah
+Pero
+Eso es después
+De que ya
+Héctor tomó
+Decisiones
+Pero eso no es
+Un reporte inventario
+Ajá
+Vos necesitas
+La fuente
+Para tomar
+Esas decisiones
+Lo que aquel
+Tiene es una
+Integración
+De órdenes
+De compra
+Que eso
+A mí
+No me sirve
+No
+Sí pues
+Eso le sirve
+Ajá
+Ajá
+Pero de ahí nace
+Pues
+Ajá
+De ahí nace
+La info
+Este es el reporte
+De inventario
+De plantaciones
+De la planta
+Monte de Oro
+Pásame eso
+Sí
+Entonces
+Este vino
+Me gusta
+O sea
+Te anticipo
+Que este
+Hoy tú
+Que me vas a decir
+Y mira
+Explicame
+Yo te digo una cosa
+Si ellos tienen
+Un sistema
+Pura mierda
+Nosotros
+Los podemos
+Absorber
+Ajá
+Les diseñamos
+Su sistema
+De inventarios
+Verá
+Y lo que nosotros
+Ganamos
+Es tener la información
+En tiempo real
+Ajá
+El input
+De ellos
+Dicelo a nosotros
+Ajá
+Sí
+Mira pues
+El documento
+Dice
+Número de recibo
+Aquí no dice
+Ni siquiera
+Que este es el número
+De recibo
+Solo dice
+Documento
+Cliente beneficio
+Esto lo que me hace ver
+A mí
+Que es un sistema
+Genérico
+Sí
+Porque
+Cliente SCL
+Si ellos son SCL
+Este sistema
+Alguien se los vendió
+Sí
+Bueno
+Recibo
+Ubicación
+Fecha de ingreso
+La cosecha
+Es café oro
+Primeras
+Estrictamente duro
+1.52
+Y ese es un saco
+Eso tengo un oro
+Sí
+De ahí
+Ahora
+Ellos tienen algo
+Aquí que me
+No
+Este recibo
+268.49
+Pero ellos tienen
+Esta columna
+Que dice
+Requerida
+¿Qué quiere decir
+Que yo ya le metí
+Una orden de tría
+Pero no lo han triado
+Chocolate
+Entonces el control
+Está bien
+Porque entonces yo
+Aunque vea esto
+Sé que eso ya no lo puedo usar
+Porque aquí tienen
+La
+Sí pues ya estoy comprometido
+Y la columna
+Disponible
+Cero
+Es un repopio
+De algo así
+Es lo que necesito
+Aquí lo tienen
+Por orden de compra
+Y
+Digamos
+Como yo le digo
+A José
+¿Qué dos querían agarrar?
+¿Qué orden de compra
+Se usó para?
+Mira
+A mí me la pela
+O sea
+Yo veo la calidad
+Y que me sirva
+Y yo eso agarro
+Para un lote
+O sea
+No puede llevar
+Esta orden
+Se usó para tal lote
+Esta orden
+No
+Aquí yo puedo agarrar
+Uno de esta orden
+Uno de esta orden
+Otro de esta orden
+Y hago mi lote
+Vamos
+Vamos
+Vamos
+Hasta la final
+Bien salió
+¿Cuál es tu correo?
+Jorge.Contreras
+Jorge
+¿Sin tuve que podría
+Por el hombre?
+Entonces
+Íbamos
+Ok
+Ah bueno
+Por los reportes de inventario
+Que para mí
+Son súper útiles
+Pero un inventario real
+O sea
+Por el activo recibo
+Del recibo 1
+Al N
+Proveedor
+Cantidad
+¿Cuánto se usado?
+¿Cuánto queda?
+¿Verdad?
+Entonces yo
+Al final
+De cosecha
+Yo tendría un reporte
+De inventario
+Que me diga
+Todo lo que yo tuve
+Encerro
+Porque lo usé todo
+Idealmente
+Que digamos
+Que era
+Por poner tu ejemplo
+Revolución
+Usado
+Tanto
+Y en donde lo usé
+Por lo menos
+O te tal
+O te tal
+Orden de tres
+O en que tres lo usé
+Aquí ahorita
+Normalmente
+No hay mucho
+Mucha división
+Siempre un recibo
+Se da una triga
+Porque no hay mucho
+De donde
+Pero
+Pero es
+Toda esa información
+Para mí es importante
+Porque
+Yo estoy sujeto
+A reclamos de calidades
+Digamos
+Cuando yo mando
+Un lote de café
+Me lo pagan
+Pero cuando llega allá
+Se someten
+A un control de calidad
+Y me abrió
+Y me podrían decir
+Esta mañana
+Me podrían decir
+Mira
+Este café
+Me salió una taza mala
+Entonces yo puedo decir
+Mira
+En esta triga
+Yo sé
+Estos recibos
+Entonces vámonos para atrás
+Que acá toca uno
+Como salen las tazas
+Muestras de archivo
+Tal, tal, tal
+Entonces toda esa historia
+A mí me sirve un montón
+¿Qué más?
+Y eso
+Ahora eso se me ocurre ahorita
+Ok
+Entonces
+Órdenes de tría
+¿Y qué otra cosa hay?
+Ocupa tus horas
+Sí
+Básicamente eso
+Eso es lo que me ocupa
+Siguiente pregunta
+¿Cuántos días a la semana
+Estás en el beneficio?
+Mira
+Oficina
+¿Qué es oficina?
+¿Campo?
+Fincas
+Las salidas
+Tengo salidas a beneficio
+A campo
+Y a ferias
+A visitas finantes
+A beneficio
+Digamos
+En cosecha
+Que son
+Diciembre
+A agosto
+Sí
+Sí
+Dos veces al mes
+Un día
+O sea dos días
+Al mes
+A campo
+Visitando
+Provadores
+Muy poco
+Porque
+Toda la parte
+De compras
+Lo ve
+José
+Entonces aquel
+Es el que debería estar
+Más
+Metido
+En campo
+A ver
+Tu equipo de trabajo
+Sí
+Es Evelyn
+Y Douglas
+Ahorita
+¿Evelyn con Y?
+Con Y
+No te burlas
+Solo con
+Ah
+Bueno
+Después arreglo
+¿Qué hacen ellos?
+Evelyn
+Ve toda la parte
+Logística
+Y exportación
+Me faltó
+Y mi día
+Digamos
+También
+Toda la
+Supervisión
+Del trabajo
+De él
+Ver bookings
+Ver fechas
+De despachos
+Ver días
+De carga
+Ver
+Que
+Los acos
+El diseño
+De los acos
+Digamos
+Cuando hacemos
+Un embarque
+El cliente
+Pide un montón
+De cosas
+Dentro de ellos
+Los acos
+De exportación
+Entonces Evelyn
+Manda a pedir un diseño
+De acuerdo al requerimiento
+El cliente
+Yo lo veo
+Lo apruebo
+Y se manda el cliente
+Para que lo apruebe
+¿Verdad?
+Sí
+También yo le veo
+Fechas de booking
+Y de carga
+Veamos
+Ella tiene
+Algo por ver
+En nuestra
+Pizarra
+Súper tecnológica
+Sí
+Improvisada
+Mandamos la muestra
+Prepar
+Que la aprueban
+Entonces ya mandan
+Instrucciones de embarque
+Entonces ya hay que hacer
+Un booking
+Entonces ya ya me dicen
+Mire
+Tengo estos itinerarios
+De barcos
+Para tal y tal fecha
+Para que fecha
+Oeste
+Para que fecha
+Oeste
+Entonces ya yo le voy
+Diciendo
+Mire este
+Pongo la tal fecha
+Esta tal fecha
+Esta tal fecha
+El coordinar
+Con los beneficios
+Todo eso
+Le damos
+Al tener fechas de carga
+Programar la tría
+Y que la carga
+Este lista
+Para el día que
+Evelyn
+Necesita que se cargue
+Ok
+Ahí estamos con Evelyn
+Ahora nos toca Douglas
+Sí
+Entonces pues
+Evelyn hace muchas más cosas
+Digamos
+Pero no
+No en todas
+Estoy yo
+Involucrado
+Básicamente
+Estoy con ella
+Involucrado
+En estos temas
+Que involucran
+A los clientes
+En la producción
+Digamos
+A veces
+Algún cliente
+Le
+Ella no tiene
+Comunicación directa
+Con el cliente
+Hasta que ya
+Vamos a embarcar
+Entonces por ejemplo
+La empresa que nos compra
+Tiene su Evelyn
+Allá
+Y se comunican
+Entre ellas
+Entonces de repente
+La persona de logística
+Del comprador
+Le pide a ella
+Algo que yo no quede
+Con el cliente
+Entonces me dicen
+Mire
+Entonces yo hablo
+Con el cliente
+Y le digo
+Mira ta ta ta ta
+Es pura comunicación
+Es pura
+Relación
+Y con Douglas
+Toda la parte
+De control de calidad
+Y Douglas si va al beneficio
+Él va a hacer
+El control de calidad
+Durante las producciones
+Ahorita porque es
+Poco
+Ya muda
+Entonces si puede
+Ir por ejemplo
+Hoy se va a dar una tría
+Todo el día
+Mañana viene aquí
+El viernes se vuelve a ir
+Pero en algún momento
+Pero en algún momento
+Se nos cruzan
+Las actividades
+Entonces
+Ahí es donde vamos a ver
+Qué hacemos
+Es la siguiente pregunta
+¿Cuáles son las épocas
+En que se puede
+En que el trabajo
+Se
+Se
+Implica
+Si yo te diría
+Que es
+Febrero
+No
+Febrero
+Maio
+Junio
+Pero es de febrero
+Junio
+Nosotros empezamos
+A embarcar
+En diciembre
+Enero
+Febrero
+Junio
+Y terminamos
+Agosto
+Más o menos
+Ay
+Que me ve
+Que si está distribuido
+Si vos ves
+Digamos nosotros
+No sé si te enseñé
+El Excel
+Que tenemos
+El que te compartió
+Si vos ves los meses
+Digamos ahorita
+Abril y mayo
+Somos más cargados
+Si
+Entonces por eso
+Que siempre es una campanita
+Casi siempre
+Entonces ahorita
+Yo paré de vender
+Pues temas comerciales
+Vamos
+Porque la compra
+Está algo difícil
+Pero si estuéramos
+Trabajando normal
+Yo ahorita estaría
+Tratando de vender
+Embarquejunio
+Julio
+Correcto
+Para alargar
+El lomito
+Si
+Entonces
+Eso es
+Ay para largo
+Mira aquí está
+La visión
+De la entrevista
+Aquí está el pedacito
+Que tenemos
+En pantalla
+No te sientas comprometido
+A terminar hoy
+Si
+No si querés
+Parémoslo ahí
+Ah muy bien
+Si porque por la hora
+Yo pensé que ibas a hacer
+Una pregunta más
+Solo una
+Pero entonces
+Cuando vos vengas
+Tengas el tiempo
+Avísame
+Ya vine
+Tengo un par de horas
+Y nos damos
+Para
+Buenísimo
+Muchas gracias hermano
+Feliz noche
+Muy feliz noche
+Gracias

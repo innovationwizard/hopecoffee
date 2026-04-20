@@ -2,16 +2,17 @@
 // HOPE COFFEE — Database Seed
 // ============================================================================
 // Run with: npm run db:seed
-// Creates: admin user, default clients, suppliers, exchange rate, export config
+// Creates: admin user with MASTER role, default clients, suppliers,
+//          exchange rate, export config, farms
 // ============================================================================
 
-import { PrismaClient, UserRole } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { hash } from "bcryptjs";
 
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log("🌱 Seeding database...\n");
+  console.log("Seeding database...\n");
 
   // ── Users ──
   const defaultPassword = await hash("HopeCoffee2026", 12);
@@ -22,10 +23,15 @@ async function main() {
       email: "octavio@hopecoffee.com",
       name: "Octavio",
       passwordHash: defaultPassword,
-      role: UserRole.ADMIN,
+      roleAssignments: {
+        create: [
+          { role: "GERENCIA" },
+          { role: "FINANCIERO" },
+        ],
+      },
     },
   });
-  console.log(`  ✅ Admin user: ${admin.email}`);
+  console.log(`  Admin user: ${admin.email} (GERENCIA + FINANCIERO)`);
 
   // ── Clients ──
   const clients = [
@@ -45,12 +51,12 @@ async function main() {
       create: c,
     });
   }
-  console.log(`  ✅ ${clients.length} clients seeded`);
+  console.log(`  ${clients.length} clients seeded`);
 
   // ── Suppliers ──
   const suppliers = [
     { name: "K-Finos", code: "KFI" },
-    { name: "José David Guerra", code: "JDG" },
+    { name: "Jose David Guerra", code: "JDG" },
     { name: "Walco", code: "WAL" },
   ];
 
@@ -61,7 +67,7 @@ async function main() {
       create: s,
     });
   }
-  console.log(`  ✅ ${suppliers.length} suppliers seeded`);
+  console.log(`  ${suppliers.length} suppliers seeded`);
 
   // ── Exchange Rate ──
   await prisma.exchangeRate.create({
@@ -73,7 +79,7 @@ async function main() {
       notes: "Default rate from Excel workbook",
     },
   });
-  console.log("  ✅ Exchange rate: Q7.65/USD");
+  console.log("  Exchange rate: Q7.65/USD");
 
   // ── Default Export Cost Config ──
   await prisma.exportCostConfig.create({
@@ -97,7 +103,7 @@ async function main() {
       isDefault: true,
     },
   });
-  console.log("  ✅ Default export cost config seeded");
+  console.log("  Default export cost config seeded");
 
   // ── Farms ──
   const farms = [
@@ -132,9 +138,9 @@ async function main() {
       create: f,
     });
   }
-  console.log(`  ✅ ${farms.length} farms seeded`);
+  console.log(`  ${farms.length} farms seeded`);
 
-  console.log("\n🎉 Seed complete!\n");
+  console.log("\nSeed complete!\n");
   console.log("  Login credentials:");
   console.log("  Email:    octavio@hopecoffee.com");
   console.log("  Password: HopeCoffee2026");
@@ -143,7 +149,7 @@ async function main() {
 
 main()
   .catch((e) => {
-    console.error("❌ Seed failed:", e);
+    console.error("Seed failed:", e);
     process.exit(1);
   })
   .finally(async () => {

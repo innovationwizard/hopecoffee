@@ -264,9 +264,9 @@ export async function updateContract(data: ContractUpdateInput) {
   );
 
   if (touchesFinancial) {
-    requirePermissionSync(session.role, "contract:update_financial");
+    requirePermissionSync(session.roles, "contract:update_financial");
   } else {
-    requirePermissionSync(session.role, "contract:update");
+    requirePermissionSync(session.roles, "contract:write");
   }
 
   // Business rule: price is frozen once FIJADO

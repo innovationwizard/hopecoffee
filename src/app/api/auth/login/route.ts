@@ -17,7 +17,14 @@ export async function POST(request: NextRequest) {
 
     const { email, password } = parsed.data;
 
-    const user = await prisma.user.findUnique({ where: { email } });
+    const user = await prisma.user.findUnique({
+      where: { email },
+      include: {
+        roleAssignments: {
+          select: { role: true },
+        },
+      },
+    });
     if (!user) {
       return NextResponse.json(
         { error: "Invalid credentials" },
@@ -40,10 +47,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const roles = user.roleAssignments.map((ra) => ra.role);
+
     const token = await signToken({
       userId: user.id,
       email: user.email,
-      role: user.role,
+      roles,
       name: user.name,
     });
 
@@ -54,7 +63,7 @@ export async function POST(request: NextRequest) {
 
     const response = NextResponse.json({
       success: true,
-      user: { name: user.name, email: user.email, role: user.role },
+      user: { name: user.name, email: user.email, roles },
     });
 
     const cookieOptions = getCookieOptions();
