@@ -54,19 +54,21 @@ Implementation plan:
 - `src/app/(auth)/login/page.tsx` — login form
 - `src/app/api/auth/login/route.ts` — POST endpoint, returns JWT in httpOnly cookie
 
-Role guard pattern:
+Permission guard pattern (as of 2026-04-20 — multi-role RBAC):
 ```typescript
 // src/lib/services/auth.ts
-export function requireRole(role: UserRole) {
-  return async function guard() {
-    const session = await getSession();
-    if (!session || !hasRole(session.user.role, role)) {
-      redirect("/login");
-    }
-    return session;
-  };
+export async function requirePermission(permission: Permission): Promise<Session> {
+  const session = await requireAuth();
+  if (!hasPermission(session.roles, permission)) {
+    throw new AuthorizationError(
+      `Roles [${session.roles.join(", ")}] no tienen permiso: ${permission}`
+    );
+  }
+  return session;
 }
 ```
+
+`Session.roles` is a `UserRole[]` — `hasPermission` returns true if any assigned role grants the permission. See [11-RBAC-MULTI-ROLE-PROPOSAL.md](11-RBAC-MULTI-ROLE-PROPOSAL.md) for the full role catalog and [src/lib/services/permissions.ts](../src/lib/services/permissions.ts) for the permission-to-role map.
 
 **1.3 — Prisma Client Singleton** (~30 min)
 
@@ -120,7 +122,7 @@ Server actions:
 "use server";
 
 export async function createContract(data: ContractFormData) {
-  const session = await requireRole("OPERATOR")();
+  const session = await requirePermission("contract:create");
   const validated = ContractSchema.parse(data);
   const calcs = calculateContract({ ... });
   

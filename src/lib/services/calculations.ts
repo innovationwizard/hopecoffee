@@ -17,7 +17,15 @@ Decimal.set({ precision: 20, rounding: Decimal.ROUND_HALF_UP });
 
 export interface ContractInput {
   sacos69kg: number;
-  puntaje: number;
+  /**
+   * SCA-style cupping score (typically 81-85+). Required for EXPORTADORA /
+   * FINCA_DANILANDIA contracts where the exporter physically cupped the
+   * coffee; null/undefined for STOCK_LOT_AFLOAT contracts where the broker never
+   * touched the coffee and quality is expressed via `defectos` instead.
+   * Not used in any formula — stored for display / legal pass-through.
+   * See feedback_no_data_dismissed_quality.md.
+   */
+  puntaje?: number | null;
   precioBolsa: number;       // USD per 100lb sack
   diferencial: number;        // USD differential
   gastosExportPerSaco: number; // Export cost per 69kg sack
@@ -31,6 +39,15 @@ export interface ContractInput {
    */
   facturacionKgsOverride?: number;
   montoCredito?: number;      // Credit amount in GTQ (for auto financial cost)
+  /**
+   * Stock-lock cost of goods sold, USD per quintal (= per sacos46kg).
+   * Used exclusively for STOCK_LOT_AFLOAT contracts (buy FOB, sell FOB, no MP).
+   * When set, calculateContract subtracts `stockLotAfloatCostPerQQ × sacos46kg`
+   * from utilidadSinCF before totalPagoQTZ, reflecting the real ~$15/qq
+   * financial margin described in business_rules §1.2. Null/undef means no
+   * deduction (default for all non-stock-lot-afloat contracts).
+   */
+  stockLotAfloatCostPerQQ?: number;
 }
 
 export interface ContractCalculation {
@@ -42,6 +59,11 @@ export interface ContractCalculation {
   utilidadSinGastosExport: Decimal;
   costoFinanciero: Decimal;
   utilidadSinCostoFinanciero: Decimal;
+  /**
+   * Stock-lock cost of goods in USD = stockLotAfloatCostPerQQ × sacos46kg.
+   * 0 when the input has no stockLotAfloatCostPerQQ (every non-stock-lot-afloat case).
+   */
+  stockLotAfloatCost: Decimal;
   totalPagoQTZ: Decimal;
   comisionCompra: Decimal;
   comisionVenta: Decimal;
@@ -213,7 +235,19 @@ export function calculateContract(input: ContractInput): ContractCalculation {
   }
 
   const utilidadSinCostoFinanciero = utilidadSinGastosExport.minus(costoFinanciero);
-  const totalPagoQTZ = utilidadSinCostoFinanciero.mul(tc);
+
+  // Stock-lock COGS branch (business_rules §1.2). For Buy-FOB/Sell-FOB
+  // contracts, the full facturación is NOT profit — we must deduct the cost
+  // of goods to reveal the real ~$15/qq financial margin. stockLotAfloatCostPerQQ
+  // is nullable: when unset (every non-stock-lot-afloat contract) stockLotAfloatCost = 0
+  // and this branch is a no-op, so existing callers are unaffected.
+  const stockLotAfloatCost =
+    input.stockLotAfloatCostPerQQ != null && input.stockLotAfloatCostPerQQ > 0
+      ? new Decimal(input.stockLotAfloatCostPerQQ).mul(sacos46kg)
+      : new Decimal(0);
+  const utilAfterStockLotAfloatCost = utilidadSinCostoFinanciero.minus(stockLotAfloatCost);
+
+  const totalPagoQTZ = utilAfterStockLotAfloatCost.mul(tc);
 
   return {
     sacos46kg,
@@ -224,6 +258,7 @@ export function calculateContract(input: ContractInput): ContractCalculation {
     utilidadSinGastosExport,
     costoFinanciero,
     utilidadSinCostoFinanciero,
+    stockLotAfloatCost,
     totalPagoQTZ,
     comisionCompra,
     comisionVenta,

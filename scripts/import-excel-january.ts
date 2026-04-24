@@ -1,5 +1,22 @@
 // ============================================================================
-// HOPE COFFEE — Excel Data Import Script
+// ⚠️  JAN-SCOPED FROZEN REFERENCE — 2026-04-23
+// ============================================================================
+// Per RECONCILIATION_PLAN_2026_JAN_MAY.md §1.2 and user directive 2026-04-23,
+// Jan 2026 prod DB is frozen. This script (formerly scripts/import-excel.ts)
+// has been renamed to scripts/import-excel-january.ts and scoped so its
+// sheet iteration processes only the Enero sheet.
+//
+// The top-level `throw` below prevents accidental execution via `npm run
+// db:import` or `npx tsx ...`. Do not run. Do not remove the throw. For any
+// non-January month, build a dedicated scripts/etl-{month}-2026.ts.
+// ============================================================================
+
+throw new Error(
+  "scripts/import-excel-january.ts — decommissioned 2026-04-23. Jan prod DB is frozen; see RECONCILIATION_PLAN_2026_JAN_MAY.md §1.2."
+);
+
+// ============================================================================
+// HOPE COFFEE — Excel Data Import Script (original header, preserved)
 // ============================================================================
 // Parses docs/hopecoffee.xlsx and imports ALL business data into the database.
 // Run with: npm run db:import
@@ -649,8 +666,12 @@ async function main() {
   const wb = XLSX.readFile(EXCEL_PATH);
 
   // ── Parse all sheets ──
-  const MONTHLY_SHEETS = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Negociacion"];
-  const CLIENT_SHEETS = ["SERENGETTI", "SUCAFINA SPECIALTY", "onyx"];
+  // Jan-scoped 2026-04-23: restricted to Enero only. Other months are handled
+  // by per-month ETL scripts — see RECONCILIATION_PLAN_2026_JAN_MAY.md §3.
+  // Client sheets also emptied — their contracts span months and would
+  // therefore touch non-Jan data.
+  const MONTHLY_SHEETS = ["Enero"];
+  const CLIENT_SHEETS: string[] = [];
 
   const allBlocks: ParsedBlock[] = [];
   for (const name of [...MONTHLY_SHEETS, ...CLIENT_SHEETS]) {

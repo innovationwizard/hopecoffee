@@ -173,6 +173,46 @@ describe("calculateContract", () => {
     // 500000 * (0.08/12) * 2 / 7.65 ≈ 871.46
     expect(result.costoFinanciero.toNumber()).toBeCloseTo(871.46, 0);
   });
+
+  // Stock-lock COGS branch — business_rules §1.2
+  it("stockLotAfloatCostPerQQ deducts COGS from utilidad before totalPagoQTZ", () => {
+    const result = calculateContract({
+      sacos69kg: 100,
+      puntaje: 0,
+      precioBolsa: 300,
+      diferencial: 20,
+      gastosExportPerSaco: 20,
+      tipoCambio: 7.65,
+      montoCredito: 0, // stock-lot-afloat: no MP, no financial cost
+      stockLotAfloatCostPerQQ: 300, // hypothetical FOB buy price
+    });
+    // sacos46 = 150
+    // facturacionKgs = 100 × 69 × 2.2046 × 3.20 = 48,677.568
+    // gastos = 20 × 150 = 3,000
+    // utilSinGE = utilSinCF = 45,677.568 (costoFin=0 for montoCredito=0)
+    // stockLotAfloatCost = 300 × 150 = 45,000.00
+    // utilAfterSLCost = 677.568 → totalPago = 5,183.39
+    expect(result.stockLotAfloatCost.toNumber()).toBeCloseTo(45000, 2);
+    expect(result.utilidadSinCostoFinanciero.toNumber()).toBeCloseTo(45677.568, 2);
+    expect(result.totalPagoQTZ.toNumber()).toBeCloseTo(5183.39, 1);
+  });
+
+  it("stockLotAfloatCost defaults to 0 when stockLotAfloatCostPerQQ is not set (no behavioural change)", () => {
+    const result = calculateContract({
+      sacos69kg: 275,
+      puntaje: 82,
+      precioBolsa: 376,
+      diferencial: 40,
+      gastosExportPerSaco: 23,
+      tipoCambio: 7.65,
+      montoCredito: 0,
+    });
+    // No stockLotAfloatCostPerQQ ⇒ stockLotAfloatCost must be 0 and totalPagoQTZ matches
+    // the pre-feature behaviour: utilSinCF × TC (i.e., original pre-COGS totalPago).
+    expect(result.stockLotAfloatCost.toNumber()).toBe(0);
+    const expectedPagoQ = result.utilidadSinCostoFinanciero.toNumber() * 7.65;
+    expect(result.totalPagoQTZ.toNumber()).toBeCloseTo(expectedPagoQ, 2);
+  });
 });
 
 describe("calculateFinancialCost", () => {

@@ -48,7 +48,7 @@ type ContractTarget = {
   utilidadSinCfUsd: string; // T
   totalPagoQtz: string; // V
   // Expected exporting entity
-  exportingEntity: "EXPORTADORA" | "FINCA_DANILANDIA" | "STOCK_LOCK";
+  exportingEntity: "EXPORTADORA" | "FINCA_DANILANDIA" | "STOCK_LOT_AFLOAT";
   // Optional facturacion override
   facturacionKgsOverride?: string;
 };

@@ -1,5 +1,9 @@
 # Operations Refactor Plan
 
+> **ROLE TERMINOLOGY NOTE (2026-04-20)** — This plan was authored when the system used 4 roles (`ADMIN`, `FIELD_OPERATOR`, `FINANCIAL_OPERATOR`, `VIEWER`). The RBAC was refactored on 2026-04-20 into 10 domain-specific roles with multi-role assignment. References below to `OPERATOR`, `FIELD_OPERATOR`, `ADMIN`, etc. should be read as historical. Current role mappings for the concerns in this plan: field/quality → `LAB`, sales/contract → `VENTAS`, sourcing → `COMPRAS`, admin operations → `MASTER`. See [11-RBAC-MULTI-ROLE-PROPOSAL.md](11-RBAC-MULTI-ROLE-PROPOSAL.md) for the current design.
+
+---
+
 > Integrating the COO's field operations requirements with the CFO's financial management system.
 > Based on: interview with Héctor (field COO), industry best practices research, and current codebase analysis.
 

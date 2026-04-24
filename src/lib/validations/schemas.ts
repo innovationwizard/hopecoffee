@@ -55,11 +55,24 @@ export const ContractCreateSchema = z.object({
   shipmentId: z.string().cuid().optional().nullable(),
   status: ContractStatusEnum.default("NEGOCIACION"),
   regions: z.array(CoffeeRegionEnum).min(1, "At least one region required"),
+  // Puntaje is the SCA-style cupping score (exporter-cupped contracts).
+  // Nullable — stock-lot-afloat contracts never get cupped by the broker and use
+  // `defectos` instead. See feedback_no_data_dismissed_quality.md.
   puntaje: z
     .number()
     .int("Puntaje must be an integer")
     .min(60, "Puntaje minimum is 60")
-    .max(100, "Puntaje maximum is 100"),
+    .max(100, "Puntaje maximum is 100")
+    .nullable()
+    .optional(),
+  // Defect count per sample — the legally-binding quality descriptor used
+  // on stock-lot-afloat / broker-passthrough BLs when no cupping score exists.
+  defectos: z
+    .number()
+    .int("Defectos must be an integer")
+    .min(0, "Defectos cannot be negative")
+    .nullable()
+    .optional(),
   sacos69kg: z
     .number()
     .positive("Sacos must be positive")

@@ -1,5 +1,13 @@
 # RBAC Refactor Plan: Field Operator / Financial Operator Separation
 
+> **STATUS: SUPERSEDED (2026-04-20)** — This plan was implemented on 2026-04-10, then replaced 10 days later by a broader multi-role refactor. The `FIELD_OPERATOR` / `FINANCIAL_OPERATOR` split has been decommissioned.
+>
+> **Current RBAC design:** 10 domain-specific roles (`MASTER`, `GERENCIA`, `FINANCIERO`, `COMPRAS`, `VENTAS`, `LAB`, `ANALISIS`, `CONTABILIDAD`, `LOGISTICA`, `LAB_ASISTENTE`) with multi-role assignment via `UserRoleAssignment` join table. See [11-RBAC-MULTI-ROLE-PROPOSAL.md](11-RBAC-MULTI-ROLE-PROPOSAL.md) (design) and [../changelog/2026-04-20-rbac-multi-role-domain-system.md](../changelog/2026-04-20-rbac-multi-role-domain-system.md) (implementation log).
+>
+> This document is retained for historical context only. Any code example, permission name, or role reference below may no longer reflect the live system.
+
+---
+
 > Splitting the monolithic `OPERATOR` role into two domain-specific roles that reflect how HopeCoffee actually operates.
 > Integrated with Phase 5A of the Operations Refactor (doc 08).
 > Date: 2026-04-10

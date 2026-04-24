@@ -1,9 +1,13 @@
 # HopeCoffee RBAC Architecture Proposal
 
-> **Version:** 1.0  
-> **Date:** 2026-04-16  
-> **Status:** Proposal — pending José Herrera interview and team alignment session  
-> **Constraint:** José Herrera (COMPRAS) has not been interviewed. His role is inferred from what Hector and Roberto described. All COMPRAS permissions must be validated after his interview.
+> **Version:** 1.0
+> **Date:** 2026-04-16
+> **Status:** IMPLEMENTED — deployed to production 2026-04-20
+> **Implementation log:** [../changelog/2026-04-20-rbac-multi-role-domain-system.md](../changelog/2026-04-20-rbac-multi-role-domain-system.md)
+> **Migration artifacts:** [../prisma/migrations/20260420_rbac_multi_role/](../prisma/migrations/20260420_rbac_multi_role/)
+> **Known open item:** José Herrera (COMPRAS) has not been interviewed. His role is inferred from what Hector and Roberto described. All COMPRAS permissions must be validated after his interview.
+>
+> The sections below reflect the design as proposed; minor deviations between the proposal and the implementation are captured in the implementation log.
 
 ---
 

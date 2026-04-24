@@ -221,7 +221,7 @@ Per the "foot in the door" strategy, these are out of scope:
 - **Any touching of `MateriaPrima` or financial aggregation.** CFO-world stays parallel. The commit `4103987` best-effort path handles the one place (yield adjustment apply) where Lab-world tries to reach into Contract-world; that's enough until unification is organic.
 - **The full `Lot ↔ MateriaPrima` unification refactor.** Archived as §5 onward / "Future Phase V."
 - **Historical backfill.** Per user direction 2026-04-15, Lab starts from the first post-MVP bodega receipt.
-- **Stock Lock contract handling.** Stock Lock contracts bypass the MP chain entirely per business_rules §1.2; they're not a Lab concern.
+- **Stock-lot-afloat contract handling.** `STOCK_LOT_AFLOAT` contracts (and their sibling stock-lot states) bypass the MP chain entirely per business_rules §1.2; they're not a Lab concern.
 - **Subproducto / rechazo sale tracking.** Hector mentioned it but it's not daily and not the beachhead.
 - **Client-side broker/importer separation.** He mentioned this for the Contract side, not Lab.
 - **Roasted coffee operation** (hector.txt is mostly about this). Entirely separate business line; not MVP.
@@ -664,7 +664,7 @@ The refactor is considered complete when **all** of these are true:
 The following are out of scope for item 5b as defined, but are related and may surface during implementation. Flagging so they're not forgotten:
 
 - **Container-level aggregation.** The `Container` and `ContainerLot` models exist. Are they part of the Lot-first refactor or independent? Phase 0 should clarify.
-- **Inventory valuation for stock-lock contracts.** Per business rules §1.12, coffee is valued at cost, not realizable value. Stock-lock contracts (§1.2) bypass the MP chain entirely. The derivation service must handle this cleanly — probably by returning an empty `MateriaPrimaSnapshot` for `STOCK_LOCK` contracts.
+- **Inventory valuation for stock-lot-afloat contracts.** Per business rules §1.12, coffee is valued at cost, not realizable value. `STOCK_LOT_AFLOAT` contracts (§1.2) bypass the MP chain entirely. The derivation service must handle this cleanly — probably by returning an empty `MateriaPrimaSnapshot` for any stock-lot-* entity.
 - **Reject/subproducto tracking at the Lot level.** Hector tracks rejects separately. If they become part of the Lot-first model, the derivation needs to handle it.
 - **Audit log volume.** Every applied yield adjustment already writes 3–4 audit log entries. After Phase 4, every snapshot invalidation also writes an entry. Check the audit table doesn't balloon.
 

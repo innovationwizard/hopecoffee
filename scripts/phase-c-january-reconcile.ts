@@ -1,4 +1,19 @@
 // ============================================================================
+// ⚠️  JAN-SCOPED FROZEN REFERENCE — 2026-04-23
+// ============================================================================
+// Per RECONCILIATION_PLAN_2026_JAN_MAY.md §1.2, Jan 2026 prod DB is frozen.
+// This reconciliation script has already executed once (see §11 of the
+// original RECONCILIATION_PLAN.md). Re-running it would attempt to re-reconcile
+// Jan state, which directive 1 (2026-04-23) forbids.
+//
+// The top-level `throw` below prevents accidental execution. Do not run.
+// ============================================================================
+
+throw new Error(
+  "scripts/phase-c-january-reconcile.ts — decommissioned 2026-04-23. Jan prod DB is frozen; see RECONCILIATION_PLAN_2026_JAN_MAY.md §1.2."
+);
+
+// ============================================================================
 // Phase C — January SSOT ↔ DB reconciliation (one-shot, idempotent)
 // ============================================================================
 // Updates the four January contracts + their MP rows + allocations so the DB

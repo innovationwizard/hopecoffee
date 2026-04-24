@@ -145,8 +145,9 @@ model Client {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  contracts      Contract[]
-  shipmentParties ShipmentParty[]
+  contracts         Contract[] @relation("ContractClient")
+  importedContracts Contract[] @relation("ContractImporter")
+  shipmentParties   ShipmentParty[]
 
   @@map("clients")
 }
@@ -206,9 +207,14 @@ enum ShipmentStatus {
 }
 
 enum ExportingEntity {
-  EXPORTADORA       // Main export company (business_rules §1.1, §1.15)
-  FINCA_DANILANDIA  // Farm entity
-  STOCK_LOCK        // Buy FOB / sell FOB, no materia prima (§1.2)
+  EXPORTADORA          // Main export company (business_rules §1.1, §1.15)
+  FINCA_DANILANDIA     // Farm entity
+  STOCK_LOT_AFLOAT     // Buy-FOB + Sell-FOB while cargo is on a vessel in
+                       // transit; trade lifecycle completes before arrival (§1.2)
+  STOCK_LOT_SPOT       // Warehoused at origin, sold from stock
+  STOCK_LOT_LANDED     // Arrived at destination warehouse
+  STOCK_LOT_LOADING    // At origin port being loaded onto a vessel
+  STOCK_LOT_CONSIGNED  // On consignment with a broker
 }
 
 enum PosicionBolsa {
@@ -263,13 +269,37 @@ model Contract {
   contractNumber      String          @unique // P40129, P40028, etc. — CFO's reference
   officialCorrelative String?         @unique // Auto: HC-{YEAR}-{SEQ} — canonical company-wide ID
   cooContractName     String?         // COO's field reference (e.g., "Serengeti Enero EP")
+  /**
+   * Counterparty's own contract number for the same underlying contract.
+   * Populated when the sheet shows a "CodeA (CodeB)" parenthesis pattern —
+   * one company's code is stored here verbatim. Per user 2026-04-24, this
+   * is a case-by-case annotation, not a general convention.
+   */
+  alternateContractNumber String?
   clientId            String
+  /**
+   * Importer (when different from clientId). Per user 2026-04-24, an
+   * importer and a buyer are both Client rows — the same company can act
+   * as either in different contracts. Populated for "Name (Name)" parenthesis
+   * patterns per feedback_importer_client_parenthesis.md (plain=IMPORTER,
+   * paren=CLIENT in confirmed Falcon/ICC cases).
+   */
+  importerId          String?
   shipmentId          String?
   status              ContractStatus  @default(NEGOCIACION)
   regions             CoffeeRegion[]  // Can span multiple regions
 
-  // Coffee specs
-  puntaje         Int             // Cupping score: 81-85+
+  // Coffee specs — quality assessment is legally binding via the BL.
+  // See feedback_no_data_dismissed_quality.md.
+  //   puntaje — SCA-style cupping score. Present when the EXPORTER has the
+  //     coffee and cupped it (normal contracts). Null for broker / stock-lot-afloat
+  //     contracts that never touched the coffee.
+  //   defectos — defect count per sample, typical in stock-lot-afloat BLs. Present
+  //     when the contract quality is expressed as a defect count instead of
+  //     (or in addition to) a cupping score.
+  // A contract typically has ONE of puntaje / defectos, but both may coexist.
+  puntaje         Int?            // Cupping score: 81-85+ (nullable; see above)
+  defectos        Int?            // Defect count per sample (stock-lot-afloat / BL pass-through)
   sacos69kg       Decimal         @db.Decimal(10, 2) // Bags at 69kg
   sacos46kg       Decimal         @db.Decimal(10, 2) // Calculated: sacos69kg × 1.5
 
@@ -295,6 +325,13 @@ model Contract {
   montoCredito    Decimal?        @db.Decimal(14, 2) // Credit amount in GTQ for financial cost
   cfTasaAnual     Decimal?        @db.Decimal(6, 4)  // Annual interest rate (default 0.08)
   cfMeses         Int?                                // Financing months (default 2)
+
+  // Stock-lock COGS (§1.2) — for Buy-FOB/Sell-FOB contracts, the cost of
+  // goods must be deducted to reveal the real ~$15/qq financial margin.
+  // USD per quintal (= per sacos46). Null for normal contracts (they use
+  // MateriaPrima instead). When set, calculateContract subtracts
+  // stockLotAfloatCostPerQQ × sacos46kg from utilSinCF before totalPagoQTZ.
+  stockLotAfloatCostPerQQ Decimal? @db.Decimal(10, 2)
 
   // ISR — Impuesto Sobre la Renta (subject to fiscal incentives per contract)
   isrRate         Decimal?        @db.Decimal(6, 4)  // Percentage as decimal (e.g. 0.06 = 6%)
@@ -350,7 +387,8 @@ model Contract {
   // Snapshot references
   exportCostConfigId String?
 
-  client           Client            @relation(fields: [clientId], references: [id])
+  client           Client            @relation("ContractClient", fields: [clientId], references: [id])
+  importer         Client?           @relation("ContractImporter", fields: [importerId], references: [id])
   shipment         Shipment?         @relation(fields: [shipmentId], references: [id])
   exportCostConfig ExportCostConfig? @relation("ContractExportCostConfig", fields: [exportCostConfigId], references: [id])
 

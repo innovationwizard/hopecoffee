@@ -1,5 +1,22 @@
 // ============================================================================
-// Recalculate every contract's stored calc fields + every shipment aggregate.
+// ⚠️  JAN-SCOPED FROZEN REFERENCE — 2026-04-23
+// ============================================================================
+// Per RECONCILIATION_PLAN_2026_JAN_MAY.md §1.2, the Jan 2026 prod DB is frozen.
+// The original script swept every shipment + every contract in the DB
+// (whole-DB scope forbidden by directive 6 of 2026-04-23). It has been
+// renamed to scripts/recalc-january.ts and scoped to Jan 2026 shipments.
+//
+// The top-level `throw` below prevents accidental execution. Do not run.
+// For any non-Jan month, call calculateContract + recalculateShipment inline
+// from the per-month ETL script.
+// ============================================================================
+
+throw new Error(
+  "scripts/recalc-january.ts — decommissioned 2026-04-23. Jan prod DB is frozen; see RECONCILIATION_PLAN_2026_JAN_MAY.md §1.2."
+);
+
+// ============================================================================
+// Recalculate Jan 2026 contracts + Jan 2026 shipment aggregates.
 // Delegates to the canonical calculateContract + recalculateShipment services
 // so this script stays a thin wrapper around the shared calc engine.
 // ============================================================================
@@ -14,10 +31,11 @@ const prisma = new PrismaClient();
 
 async function recalc() {
   const allShipments = await prisma.shipment.findMany({
+    where: { year: 2026, month: 1 },
     include: { contracts: true },
   });
 
-  console.log("Recalculating", allShipments.length, "shipments...");
+  console.log("Recalculating", allShipments.length, "Jan 2026 shipments...");
 
   for (const ship of allShipments) {
     const shipmentGastosPerSaco = Number(ship.gastosPerSaco) || 23;

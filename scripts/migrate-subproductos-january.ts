@@ -1,12 +1,27 @@
+// ============================================================================
+// ⚠️  JAN-SCOPED FROZEN REFERENCE — 2026-04-23
+// ============================================================================
+// Per RECONCILIATION_PLAN_2026_JAN_MAY.md §1.2, the Jan 2026 prod DB is frozen.
+// The original script iterated every Subproducto in the DB (whole-DB scope
+// forbidden by directive 6 of 2026-04-23). It has been renamed to
+// scripts/migrate-subproductos-january.ts and scoped to Jan 2026 subproductos.
+//
+// The top-level `throw` below prevents accidental execution. Do not run.
+// For any non-Jan month, build an equivalent per-month migration step inside
+// the per-month ETL script.
+// ============================================================================
+
+throw new Error(
+  "scripts/migrate-subproductos-january.ts — decommissioned 2026-04-23. Jan prod DB is frozen; see RECONCILIATION_PLAN_2026_JAN_MAY.md §1.2."
+);
+
 /**
- * Migration script: Subproducto records -> MillingOutput
+ * Migration script: Subproducto records -> MillingOutput (Jan 2026 scope only)
  *
- * For each existing Subproducto record, creates:
+ * For each existing Jan 2026 Subproducto record, creates:
  * 1. A synthetic MillingOrder (status: COMPLETADO)
  * 2. A MillingOutput (outputType: SEGUNDA)
  * 3. A corresponding Lot (stage: SUBPRODUCTO)
- *
- * Run: npx tsx scripts/migrate-subproductos.ts
  */
 
 const { PrismaClient } = require("@prisma/client");
@@ -14,9 +29,10 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log("Starting Subproducto -> MillingOutput migration...\n");
+  console.log("Starting Subproducto -> MillingOutput migration (Jan 2026 only)...\n");
 
   const subproductos = await prisma.subproducto.findMany({
+    where: { shipment: { year: 2026, month: 1 } },
     orderBy: { createdAt: "asc" },
   });
 

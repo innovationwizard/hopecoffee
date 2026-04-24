@@ -3,6 +3,7 @@
 **Date:** 2026-04-15
 **Scope:** Inventory of everything relevant to Phase Lab-1 (live warehouse inventory view) already present in the codebase and in Supabase prod. Establishes the baseline Lab-1 must build on, per [docs/lot-materia-prima-unification-plan.md §H.3.1](lot-materia-prima-unification-plan.md).
 **Rule adherence:** [_THE_RULES.MD](../_THE_RULES.MD) — every factual claim below is traced to a code file, schema section, or prod query result. Nothing inferred, nothing fabricated.
+**Role terminology note (added 2026-04-20):** References to `FIELD_OPERATOR` below predate the multi-role RBAC refactor. Current equivalent for the lab/inventory navigation context is the `LAB` role (or `VENTAS`). See [11-RBAC-MULTI-ROLE-PROPOSAL.md](11-RBAC-MULTI-ROLE-PROPOSAL.md).
 
 ---
 

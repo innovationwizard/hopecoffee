@@ -16,7 +16,7 @@
     "db:seed": "tsx prisma/seed.ts",
     "db:studio": "prisma studio",
     "db:reset": "prisma migrate reset",
-    "db:import": "tsx scripts/import-excel.ts",
+    "db:import": "tsx scripts/import-excel-january.ts",
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:calcs": "vitest src/lib/services/__tests__/calculations.test.ts",

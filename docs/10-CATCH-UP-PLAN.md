@@ -262,12 +262,12 @@ Seed La Joya with 3 facilities:
 #### B5. Zod Schemas + Permissions
 
 - Add Zod schemas for all new entities
-- Add permissions to `src/lib/services/permissions.ts`:
-  - `lot:write` → FIELD_OPERATOR, ADMIN
-  - `cupping:write` → FIELD_OPERATOR, ADMIN
-  - `milling:write` → FIELD_OPERATOR, ADMIN
-  - `yield_adjustment:write` → FIELD_OPERATOR, ADMIN
-  - `facility:manage` → ADMIN
+- Add permissions to `src/lib/services/permissions.ts` (roles as of 2026-04-20 multi-role RBAC):
+  - `lot:write` → `VENTAS`, `MASTER`
+  - `cupping:write` → `LAB`, `MASTER`
+  - `milling:write` → `LAB`, `MASTER`
+  - `yield_adjustment:write` → `LAB`, `MASTER`
+  - `facility:manage` → `MASTER`
 
 **Verification**:
 - `prisma db push` succeeds
@@ -288,13 +288,13 @@ These have no dependency on inventory/quality modules — only on Wave B (models
 **UI changes**:
 - Contract list: show `officialCorrelative` as primary column, `contractNumber` (CFO ref) and `cooContractName` as secondary
 - Contract detail: display all 3 human-readable identifiers
-- Contract create/edit: `cooContractName` editable by FIELD_OPERATOR+
+- Contract create/edit: `cooContractName` editable by `VENTAS`, `LAB`, `MASTER`
 - Reports: use `officialCorrelative` exclusively
 - Search: match across all 3 text identifiers
 
 **Action changes**:
 - `createContract`: auto-generate `officialCorrelative` via correlative service
-- `updateContract`: allow editing `cooContractName` (field domain), `contractNumber` (admin only)
+- `updateContract`: allow editing `cooContractName` (field domain — `VENTAS`), `contractNumber` (financial — `FINANCIERO` / `MASTER`)
 
 #### C2. Per-Shipment Client Roles (OPS-9A)
 
@@ -326,7 +326,7 @@ This is the COO's most requested feature set. Depends on Wave B (Facility and Lo
 **New route**: `/settings/facilities`
 - Full CRUD page for physical locations
 - Fields: name, code, type (BENEFICIO | BODEGA | PATIO), capacity, isActive
-- Permission: `facility:manage` (ADMIN only for creation/deletion)
+- Permission: `facility:manage` (`MASTER` only for creation/deletion)
 - Seed data already present from Wave B4
 
 #### D2. Lot Reception (OPS-7B)
@@ -385,7 +385,7 @@ Depends on Wave D (lots must exist to cup). This is Hector's primary daily workf
 - On save: compare `|yieldMeasured - contractedYield|` vs tolerance (default 0.01)
   - If outside tolerance: auto-create `YieldAdjustment` with status PENDIENTE
 - COO can inline-update yield tolerance (persisted in YieldToleranceConfig)
-- Permission: `cupping:write` (FIELD_OPERATOR, ADMIN)
+- Permission: `cupping:write` (`LAB`, `MASTER`)
 
 #### E2. Yield Reconciliation (OPS-6B)
 
@@ -394,7 +394,7 @@ Depends on Wave D (lots must exist to cup). This is Hector's primary daily workf
 - Shows: lot, supplier, contracted yield, actual yield, computed price adjustment
 - COO approves/rejects adjustment
 - On approval: adjustment flows to SupplierAccountEntry as a line item
-- Permission: `yield_adjustment:write` (FIELD_OPERATOR, ADMIN)
+- Permission: `yield_adjustment:write` (`LAB`, `MASTER`)
 
 #### E3. Quality Dashboard Widget (OPS-6C)
 
@@ -425,7 +425,7 @@ Depends on Wave D (lots in PERGAMINO_BODEGA state). This is the inventory transf
 - Record outputs: oro exportable QQ, segunda QQ, cascarilla QQ, merma QQ
 - Output lots created with appropriate stage and `parentLotId` for traceability
 - System enforces balance: `SUM(outputs) + merma = SUM(inputs)` (within tolerance)
-- Permission: `milling:write` (FIELD_OPERATOR, ADMIN)
+- Permission: `milling:write` (`LAB`, `MASTER`)
 - Auto-generated order number: TRIA-{YEAR}-{SEQ}
 
 #### F2. Milling Yield Analysis (OPS-8B)
@@ -504,13 +504,13 @@ Restructure `/dashboard` into role-prioritized sections:
 **Shared KPIs** (top, all roles):
 - Revenue total, weighted margin, containers, active contracts, break-even progress
 
-**Financial Section** (FINANCIAL_OPERATOR sees first):
+**Financial Section** (`FINANCIERO` / `ANALISIS` / `GERENCIA` see first):
 - Gross margin per QQ oro
 - Revenue by client breakdown
 - Position exposure (unfixed contracts)
 - Cash conversion cycle estimate
 
-**Operations Section** (FIELD_OPERATOR sees first):
+**Operations Section** (`VENTAS` / `LAB` / `COMPRAS` see first):
 - Yield Performance Index: `AVG(Contracted Rendimiento / Actual Rendimiento)`
 - Contract Fulfillment Rate: `QQ Shipped / QQ Contracted`
 - Inventory by Stage (visual breakdown)

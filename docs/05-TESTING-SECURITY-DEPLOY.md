@@ -166,29 +166,41 @@ describe("Excel import", () => {
 - 24-hour expiry, no refresh tokens (small team, acceptable UX tradeoff)
 - Passwords hashed with bcryptjs (cost factor 12)
 
-### Authorization Matrix
+### Authorization Model (2026-04-20 — multi-role RBAC)
 
-| Action                    | ADMIN | OPERATOR | VIEWER |
-| ------------------------- | ----- | -------- | ------ |
-| View contracts/shipments  | ✅    | ✅       | ✅     |
-| Create/edit contracts     | ✅    | ✅       | ❌     |
-| Delete contracts          | ✅    | ❌       | ❌     |
-| Manage shipments          | ✅    | ✅       | ❌     |
-| Import from Excel         | ✅    | ❌       | ❌     |
-| Manage users              | ✅    | ❌       | ❌     |
-| View audit logs           | ✅    | ✅       | ❌     |
-| Change exchange rate      | ✅    | ❌       | ❌     |
-| Export cost config        | ✅    | ✅       | ❌     |
+Authorization is **permission-based**, not role-based. Each user holds one or more roles; effective permissions are the union of all role grants. See [11-RBAC-MULTI-ROLE-PROPOSAL.md](11-RBAC-MULTI-ROLE-PROPOSAL.md) for the full permission catalog (~90 permissions across 15 domains) and role mappings.
+
+**Roles:** `MASTER`, `GERENCIA`, `FINANCIERO`, `COMPRAS`, `VENTAS`, `LAB`, `ANALISIS`, `CONTABILIDAD`, `LOGISTICA` (future), `LAB_ASISTENTE` (future).
+
+**Key domain cuts:**
+
+| Action | Primary role(s) |
+|--------|-----------------|
+| Create sales contract | `VENTAS` |
+| Update contract financial fields (price, diferencial) | `FINANCIERO` |
+| Update contract non-financial fields | `VENTAS` |
+| Delete contract / PO / shipment | `MASTER` only |
+| Create purchase order, manage suppliers | `COMPRAS` |
+| Cupping, samples, yield adjustments, milling | `LAB` |
+| Cost analysis, margin scenarios, financial reporting | `ANALISIS` |
+| Payments, journal entries, fiscal documents | `CONTABILIDAD` |
+| Exchange rate, export cost config | `FINANCIERO` |
+| Manage users, execute imports, manage facilities | `MASTER` |
+| View audit log | `ANALISIS`, `CONTABILIDAD`, `MASTER` |
+| Read any operational data | `GERENCIA` (read-only) |
+
+Servers guard every action with `requirePermission("<permission>")` (async) or `requirePermissionSync(session.roles, "<permission>")` (inside actions that already hold a session). UI gates rendering with `hasPermission(session.roles, "<permission>")`.
 
 ### Middleware Implementation
 
 ```typescript
 // src/middleware.ts
 import { NextRequest, NextResponse } from "next/server";
-import { verifyToken } from "./lib/services/auth";
+import { verifyToken } from "@/lib/services/auth";
+import { hasPermission } from "@/lib/services/permissions";
 
 const PUBLIC_ROUTES = ["/login"];
-const ADMIN_ROUTES = ["/settings/users", "/import"];
+const MASTER_ONLY_ROUTES = ["/settings/users", "/import"];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -204,18 +216,26 @@ export async function middleware(request: NextRequest) {
 
   const session = await verifyToken(token);
   if (!session) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    const response = NextResponse.redirect(new URL("/login", request.url));
+    response.cookies.delete("auth-token");
+    return response;
   }
 
-  if (ADMIN_ROUTES.some((r) => pathname.startsWith(r)) && session.role !== "ADMIN") {
+  if (
+    MASTER_ONLY_ROUTES.some((r) => pathname.startsWith(r)) &&
+    !hasPermission(session.roles, "user:manage")
+  ) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
-  return NextResponse.next();
+  const response = NextResponse.next();
+  response.headers.set("x-user-id", session.userId);
+  response.headers.set("x-user-roles", session.roles.join(","));
+  return response;
 }
 
 export const config = {
-  matcher: ["/((?!api/auth|_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?!api/auth|_next/static|_next/image|favicon\\.ico|.*\\.png|.*\\.jpg|.*\\.svg|.*\\.ico).*)"],
 };
 ```
 
@@ -336,7 +356,7 @@ POST-DEPLOY
   □ Mobile layout renders correctly
 
 TEAM ONBOARDING
-  □ Admin creates OPERATOR accounts for team
+  □ MASTER user creates role-specific accounts (VENTAS+LAB for sales/quality, COMPRAS for sourcing, ANALISIS+CONTABILIDAD for financial analysis, GERENCIA+FINANCIERO for executive)
   □ 30-minute walkthrough session
   □ Bookmark the URL
   □ Delete the Excel (just kidding — archive it)

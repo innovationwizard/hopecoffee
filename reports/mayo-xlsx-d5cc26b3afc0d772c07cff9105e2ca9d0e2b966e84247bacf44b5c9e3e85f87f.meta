@@ -1,0 +1,7 @@
+file: Mayo.xlsx
+size: 60842
+sha256: d5cc26b3afc0d772c07cff9105e2ca9d0e2b966e84247bacf44b5c9e3e85f87f
+mtime: 2026-04-24T02:04:43.412Z
+sheets: Enero,Febrero,Marzo,Abril,MAYO,PROMEDIOS
+expected_missing: (none)
+unexpected_present: (none)

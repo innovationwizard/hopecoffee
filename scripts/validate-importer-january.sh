@@ -1,10 +1,22 @@
 #!/usr/bin/env bash
 # ============================================================================
+# ⚠️  JAN-SCOPED FROZEN REFERENCE — 2026-04-23
+# ============================================================================
+# Per RECONCILIATION_PLAN_2026_JAN_MAY.md §1.2, Jan prod DB is frozen and
+# scripts/import-excel-january.ts now throws on startup. This orchestrator
+# was formerly scripts/validate-importer.sh; it is renamed to
+# scripts/validate-importer-january.sh and references updated. The disposable
+# Postgres cluster pattern is preserved as reference for building future
+# per-month validator orchestrators — but this shell script will exit at the
+# tsx invocation below because the imported Jan script is decommissioned.
+#
+# Do not run. Reference only.
+# ============================================================================
 # Importer fix validation — end-to-end against a disposable Postgres
 # ============================================================================
 # Spins up a temporary local Postgres cluster via brew's postgres binaries,
-# pushes the Prisma schema, runs scripts/import-excel.ts against
-# docs/hopecoffee.xlsx, then runs scripts/validate-importer-assertions.ts
+# pushes the Prisma schema, runs scripts/import-excel-january.ts against
+# docs/hopecoffee.xlsx, then runs scripts/validate-importer-assertions-january.ts
 # to verify the three structural fixes from commit 3554d2b:
 #
 #   (1) MateriaPrimaAllocation rows are created linking contracts to MP.
@@ -92,7 +104,7 @@ if ! npx prisma db push --skip-generate --accept-data-loss >"$TMPDIR_ROOT/prisma
 fi
 
 echo "→ running importer against docs/hopecoffee.xlsx"
-if ! npx tsx scripts/import-excel.ts >"$TMPDIR_ROOT/import.log" 2>&1; then
+if ! npx tsx scripts/import-excel-january.ts >"$TMPDIR_ROOT/import.log" 2>&1; then
   echo "✗ importer failed:"
   tail -40 "$TMPDIR_ROOT/import.log"
   exit 1
@@ -105,4 +117,4 @@ tail -20 "$TMPDIR_ROOT/import.log" | sed 's/^/    /'
 
 echo ""
 echo "→ running assertions"
-npx tsx scripts/validate-importer-assertions.ts
+npx tsx scripts/validate-importer-assertions-january.ts
