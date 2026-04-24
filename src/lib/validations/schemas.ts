@@ -259,6 +259,16 @@ export const UserCreateSchema = z.object({
   roles: z.array(UserRoleEnum).min(1, "At least one role is required"),
 });
 
+export const UpdateUserRolesSchema = z.object({
+  userId: z.string().cuid(),
+  roles: z.array(UserRoleEnum).min(1, "At least one role is required"),
+});
+
+export const PasswordChangeSchema = z.object({
+  currentPassword: z.string().min(1, "Current password is required"),
+  newPassword: z.string().min(8).max(100),
+});
+
 // ---------------------------------------------------------------------------
 // SETTINGS
 // ---------------------------------------------------------------------------
@@ -457,6 +467,8 @@ export type PurchaseOrderUpdateInput = z.infer<typeof PurchaseOrderUpdateSchema>
 export type FarmCreateInput = z.infer<typeof FarmCreateSchema>;
 export type LoginInput = z.infer<typeof LoginSchema>;
 export type UserCreateInput = z.infer<typeof UserCreateSchema>;
+export type UpdateUserRolesInput = z.infer<typeof UpdateUserRolesSchema>;
+export type PasswordChangeInput = z.infer<typeof PasswordChangeSchema>;
 export type ExchangeRateInput = z.infer<typeof ExchangeRateSchema>;
 export type ExportCostConfigInput = z.infer<typeof ExportCostConfigSchema>;
 export type ContainerCreateInput = z.infer<typeof ContainerCreateSchema>;

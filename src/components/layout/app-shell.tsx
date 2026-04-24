@@ -61,6 +61,7 @@ const SETTINGS_ITEMS = [
   { href: "/settings/export-costs", label: "Costos Exportacion" },
   { href: "/settings/exchange-rates", label: "Tipo de Cambio" },
   { href: "/settings/users", label: "Usuarios", masterOnly: true },
+  { href: "/settings/password", label: "Cambiar Contraseña" },
 ];
 
 /** Build a display label from all assigned roles */

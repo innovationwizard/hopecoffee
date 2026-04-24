@@ -9,7 +9,7 @@ const JWT_SECRET = new TextEncoder().encode(
   process.env.JWT_SECRET || "dev-secret-change-me"
 );
 const JWT_EXPIRY = process.env.JWT_EXPIRY || "24h";
-const AUTH_COOKIE = "auth-token";
+export const AUTH_COOKIE = "auth-token";
 const BCRYPT_COST = 12;
 
 export interface Session {
@@ -23,6 +23,13 @@ export class AuthorizationError extends Error {
   constructor(message: string) {
     super(message);
     this.name = "AuthorizationError";
+  }
+}
+
+export class ConflictError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "ConflictError";
   }
 }
 

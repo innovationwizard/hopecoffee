@@ -1,6 +1,8 @@
+import Link from "next/link";
 import { getUsers } from "../actions";
 import { PageHeader } from "@/components/ui/page-header";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/utils/format";
 import { Badge } from "@/components/ui/badge";
 import { UserCreateForm } from "./_components/user-create-form";
@@ -101,7 +103,14 @@ export default async function UsersPage() {
                         {u.lastLoginAt ? formatDate(u.lastLoginAt) : "Nunca"}
                       </td>
                       <td>
-                        <UserToggle userId={u.id} isActive={u.isActive} />
+                        <div className="flex gap-2">
+                          <Link href={`/settings/users/${u.id}/edit`}>
+                            <Button variant="outline" size="sm">
+                              Editar
+                            </Button>
+                          </Link>
+                          <UserToggle userId={u.id} isActive={u.isActive} />
+                        </div>
                       </td>
                     </tr>
                   ))}

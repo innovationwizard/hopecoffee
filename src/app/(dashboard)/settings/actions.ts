@@ -1,18 +1,26 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/db";
-import { requireAuth, requirePermission } from "@/lib/services/auth";
+import {
+  ConflictError,
+  hashPassword,
+  requireAuth,
+  requirePermission,
+} from "@/lib/services/auth";
 import { createAuditLog } from "@/lib/services/audit";
+import { diffRoles } from "@/lib/services/user-roles-diff";
 import {
   ExportCostConfigSchema,
   ExchangeRateSchema,
+  UpdateUserRolesSchema,
   UserCreateSchema,
 } from "@/lib/validations/schemas";
-import { hashPassword } from "@/lib/services/auth";
 import type {
   ExportCostConfigInput,
   ExchangeRateInput,
+  UpdateUserRolesInput,
   UserCreateInput,
 } from "@/lib/validations/schemas";
 
@@ -147,19 +155,30 @@ export async function createUser(data: UserCreateInput) {
 
   const hashed = await hashPassword(validated.password);
 
-  const user = await prisma.user.create({
-    data: {
-      email: validated.email,
-      name: validated.name,
-      passwordHash: hashed,
-      roleAssignments: {
-        create: validated.roles.map((role) => ({
-          role,
-          assignedBy: session.userId,
-        })),
+  let user;
+  try {
+    user = await prisma.user.create({
+      data: {
+        email: validated.email,
+        name: validated.name,
+        passwordHash: hashed,
+        roleAssignments: {
+          create: validated.roles.map((role) => ({
+            role,
+            assignedBy: session.userId,
+          })),
+        },
       },
-    },
-  });
+    });
+  } catch (err) {
+    if (
+      err instanceof Prisma.PrismaClientKnownRequestError &&
+      err.code === "P2002"
+    ) {
+      throw new ConflictError("Ya existe un usuario con ese correo");
+    }
+    throw err;
+  }
 
   await createAuditLog(
     session.userId,
@@ -172,6 +191,76 @@ export async function createUser(data: UserCreateInput) {
 
   revalidatePath("/settings/users");
   return user;
+}
+
+export async function getUser(id: string) {
+  await requirePermission("user:manage");
+  return prisma.user.findUnique({
+    where: { id },
+    select: {
+      id: true,
+      email: true,
+      name: true,
+      isActive: true,
+      roleAssignments: {
+        select: { role: true },
+      },
+    },
+  });
+}
+
+export async function updateUserRoles(input: UpdateUserRolesInput) {
+  const session = await requirePermission("user:manage");
+  const validated = UpdateUserRolesSchema.parse(input);
+  const { userId, roles: requested } = validated;
+
+  const user = await prisma.user.findUniqueOrThrow({
+    where: { id: userId },
+    include: { roleAssignments: { select: { role: true } } },
+  });
+  const current = user.roleAssignments.map((ra) => ra.role);
+
+  const { toRemove, toAdd } = diffRoles(current, requested);
+
+  if (toRemove.length === 0 && toAdd.length === 0) {
+    return;
+  }
+
+  // Atomic: role mutations and audit log commit together — partial state would
+  // make the audit trail lie about who currently holds which role.
+  await prisma.$transaction([
+    ...(toRemove.length > 0
+      ? [
+          prisma.userRoleAssignment.deleteMany({
+            where: { userId, role: { in: toRemove } },
+          }),
+        ]
+      : []),
+    ...(toAdd.length > 0
+      ? [
+          prisma.userRoleAssignment.createMany({
+            data: toAdd.map((role) => ({
+              userId,
+              role,
+              assignedBy: session.userId,
+            })),
+          }),
+        ]
+      : []),
+    prisma.auditLog.create({
+      data: {
+        userId: session.userId,
+        action: "UPDATE",
+        entity: "User.roles",
+        entityId: userId,
+        oldValue: { roles: [...current].sort() },
+        newValue: { roles: [...requested].sort() },
+      },
+    }),
+  ]);
+
+  revalidatePath("/settings/users");
+  revalidatePath(`/settings/users/${userId}/edit`);
 }
 
 export async function toggleUserActive(userId: string) {
