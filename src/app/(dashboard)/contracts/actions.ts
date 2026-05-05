@@ -228,6 +228,9 @@ export async function createContract(data: ContractCreateInput) {
       condicionesPago: validated.condicionesPago ?? null,
       estatusPago: validated.estatusPago ?? null,
       ...computed,
+      // User-supplied comision overrides the engine default (Octavio's silo)
+      ...(validated.comisionVenta != null && { comisionVenta: validated.comisionVenta }),
+      ...(validated.comisionCompra != null && { comisionCompra: validated.comisionCompra }),
     },
   });
 
@@ -357,6 +360,9 @@ export async function updateContract(data: ContractUpdateInput) {
       precioBolsa,
       diferencial,
       ...computed,
+      // User-supplied comision overrides the engine default (Octavio's silo)
+      ...(validated.comisionVenta != null && { comisionVenta: validated.comisionVenta }),
+      ...(validated.comisionCompra != null && { comisionCompra: validated.comisionCompra }),
     },
   });
 

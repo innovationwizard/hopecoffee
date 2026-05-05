@@ -34,6 +34,7 @@ interface OctavioResumenProps {
   qqRechazos: number;
   precioRechazos: number;
   precioPromedioInv: number;
+  comisionTotal: number;
 }
 
 function Row({
@@ -102,6 +103,7 @@ export function OctavioResumen({
   qqRechazos,
   precioRechazos,
   precioPromedioInv,
+  comisionTotal,
 }: OctavioResumenProps) {
   const n = (v: number) => (isNaN(v) || v == null ? 0 : v);
 
@@ -115,17 +117,13 @@ export function OctavioResumen({
   const totalVentaRechazos = n(qqRechazos) * n(precioRechazos);
   const quintalesPergamino = sacos46 * RENDIMIENTO_ESTIMATE;
   const totalMateriaPrima = quintalesPergamino * n(precioPromedioInv);
-  const comisionVenta = calc ? n(calc.comisionVenta.toNumber()) : 0;
-  const comisionCompra = calc ? n(calc.comisionCompra.toNumber()) : 0;
-
   const utilidadBruta =
     facturacionKgs -
     totalGastosExport -
     totalCostosFinancieros +
     totalVentaRechazos -
     totalMateriaPrima -
-    comisionVenta -
-    comisionCompra;
+    n(comisionTotal);
 
   const margenBruto = facturacionKgs > 0 ? utilidadBruta / facturacionKgs : 0;
 
@@ -177,14 +175,8 @@ export function OctavioResumen({
         />
         <Row
           tipo="F"
-          label="Total Comisión Venta"
-          value={formatUSD(comisionVenta)}
-          className="text-red-600"
-        />
-        <Row
-          tipo="F"
-          label="Total Comisión Compras"
-          value={formatUSD(comisionCompra)}
+          label="Comisión Compra/Venta"
+          value={formatUSD(n(comisionTotal))}
           className="text-red-600"
         />
         <Row

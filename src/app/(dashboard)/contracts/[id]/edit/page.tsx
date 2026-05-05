@@ -55,6 +55,8 @@ export default async function EditContractPage({
           tipoCambio: toNum(contract.tipoCambio),
           lote: contract.lote,
           notes: contract.notes,
+          comisionVenta: contract.comisionVenta != null ? toNum(contract.comisionVenta) : undefined,
+          comisionCompra: contract.comisionCompra != null ? toNum(contract.comisionCompra) : undefined,
           gastosPerSaco: contract.gastosPerSaco != null ? toNum(contract.gastosPerSaco) : undefined,
           exportTrillaPerQQ: contract.exportTrillaPerQQ != null ? toNum(contract.exportTrillaPerQQ) : undefined,
           exportSacoYute: contract.exportSacoYute != null ? toNum(contract.exportSacoYute) : undefined,

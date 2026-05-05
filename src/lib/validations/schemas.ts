@@ -114,6 +114,8 @@ export const ContractCreateSchema = z.object({
   subproductosQty: z.number().min(0).optional().nullable(),
   precioSubproducto: z.number().min(0).optional().nullable(),
   // Export cost breakdown (per-saco components)
+  comisionVenta: z.number().min(0).optional().nullable(),
+  comisionCompra: z.number().min(0).optional().nullable(),
   gastosPerSaco: z.number().min(0).optional().nullable(),
   exportTrillaPerQQ: z.number().min(0).optional().nullable(),
   exportSacoYute: z.number().min(0).optional().nullable(),

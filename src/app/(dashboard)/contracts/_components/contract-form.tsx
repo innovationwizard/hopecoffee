@@ -111,6 +111,17 @@ export function ContractForm({
   const [gastosDirectos, setGastosDirectos] = useState<number>(
     initialData?.gastosPerSaco ?? 0
   );
+  // Comisión Compra/Venta — one combined figure per SSOT, toggle between $/saco and $/contrato
+  const _initialSacos46 = (initialData?.sacos69kg ?? 275) * 1.5;
+  const _initialComisionTotal = (initialData?.comisionVenta ?? 0) + (initialData?.comisionCompra ?? 0);
+  const [comisionInputMode, setComisionInputMode] = useState<"per_saco" | "per_contrato">("per_saco");
+  const [comisionPerSaco, setComisionPerSaco] = useState<number>(
+    _initialComisionTotal > 0 && _initialSacos46 > 0
+      ? _initialComisionTotal / _initialSacos46
+      : 3.0
+  );
+  const [comisionContrato, setComisionContrato] = useState<number>(_initialComisionTotal);
+
   const [qqRechazos, setQqRechazos] = useState<number>(initialData?.qqRechazos ?? 0);
   const [precioRechazos, setPrecioRechazos] = useState<number>(initialData?.precioRechazos ?? 0);
   const [condicionesPago, setCondicionesPago] = useState<string>(initialData?.condicionesPago ?? "");
@@ -157,6 +168,10 @@ export function ContractForm({
 
   // Octavio's gastos drives all calculations in his silo
   const gastosPerSaco = gastosDirectos;
+
+  // comisionTotalUSD: derived live — updates when sacos46 changes in per_saco mode
+  const comisionTotalUSD =
+    comisionInputMode === "per_saco" ? comisionPerSaco * sacos46 : comisionContrato;
 
   const {
     register,
@@ -237,6 +252,9 @@ export function ContractForm({
         cfMeses: cfMeses || undefined,
         isrRate: isrInputMode === "pct" && isrPct > 0 ? isrPct / 100 : null,
         isrAmount: isrInputMode === "monto" && isrMonto > 0 ? isrMonto : null,
+        // Octavio's silo — comisión split 50/50 for DB storage (SSOT: combined figure)
+        comisionVenta: comisionTotalUSD / 2,
+        comisionCompra: comisionTotalUSD / 2,
         // Octavio's direct gastos figure (his silo)
         gastosPerSaco: gastosPerSaco,
         // Hector's breakdown preserved from DB — not shown to Octavio but not overwritten
@@ -473,15 +491,39 @@ export function ContractForm({
                   />
                 </ListRow>
 
-                <ListRow label="Comisiones Venta">
-                  <div className={readonlyCls}>
-                    {calc ? `$${calc.comisionVenta.toFixed(2)}` : "—"}
-                  </div>
-                </ListRow>
-
-                <ListRow label="Comisiones Compra">
-                  <div className={readonlyCls}>
-                    {calc ? `$${calc.comisionCompra.toFixed(2)}` : "—"}
+                <ListRow label="Comisión Compra/Venta" badge="D">
+                  <div className="space-y-1.5">
+                    <div className="flex rounded-md overflow-hidden border border-gray-300 dark:border-gray-600 text-xs w-fit">
+                      {(["per_saco", "per_contrato"] as const).map((mode) => (
+                        <button
+                          key={mode}
+                          type="button"
+                          onClick={() => setComisionInputMode(mode)}
+                          className={`px-2.5 py-1 ${
+                            comisionInputMode === mode
+                              ? "bg-blue-600 text-white"
+                              : "bg-white dark:bg-gray-800 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-gray-700"
+                          }`}
+                        >
+                          {mode === "per_saco" ? "$/saco" : "$/contrato"}
+                        </button>
+                      ))}
+                    </div>
+                    <input
+                      type="number"
+                      step="0.01"
+                      value={comisionInputMode === "per_saco" ? (comisionPerSaco || "") : (comisionContrato || "")}
+                      onChange={(e) => {
+                        const v = parseFloat(e.target.value) || 0;
+                        if (comisionInputMode === "per_saco") setComisionPerSaco(v);
+                        else setComisionContrato(v);
+                      }}
+                      placeholder={comisionInputMode === "per_saco" ? "3.00" : "0.00"}
+                      className={inputCls}
+                    />
+                    <p className="text-xs text-slate-400 font-mono">
+                      Total: ${comisionTotalUSD.toFixed(2)}
+                    </p>
                   </div>
                 </ListRow>
 
@@ -564,6 +606,7 @@ export function ContractForm({
               qqRechazos={qqRechazos}
               precioRechazos={precioRechazos}
               precioPromedioInv={watchedValues.precioPromedioInv ?? 0}
+              comisionTotal={comisionTotalUSD}
             />
 
             {/* P&L del Contrato and Contexto del Mes — hidden from Octavio */}
