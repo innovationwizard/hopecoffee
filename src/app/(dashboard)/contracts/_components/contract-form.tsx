@@ -104,6 +104,10 @@ export function ContractForm({
   const isFijado = initialData?.status === "FIJADO";
 
   // ── Octavio's direct inputs (his silo) ────────────────────────────────────
+  // Octavio inputs sacos46; sacos69kg is derived as sacos46 / 1.5 for DB storage.
+  const [sacos46, setSacos46] = useState<number>(
+    Math.round((initialData?.sacos69kg ?? 275) * 1.5 * 100) / 100
+  );
   const [gastosDirectos, setGastosDirectos] = useState<number>(
     initialData?.gastosPerSaco ?? 0
   );
@@ -168,7 +172,7 @@ export function ContractForm({
       status: initialData?.status ?? "NEGOCIACION",
       regions: initialData?.regions ?? ["SANTA_ROSA"],
       puntaje: initialData?.puntaje ?? 82,
-      sacos69kg: initialData?.sacos69kg ?? 275,
+      sacos69kg: undefined,
       precioBolsa: initialData?.precioBolsa ?? undefined,
       diferencial: initialData?.diferencial ?? undefined,
       tipoCambio: initialData?.tipoCambio ?? defaultExchangeRate,
@@ -191,11 +195,12 @@ export function ContractForm({
     return (cfMontoCredito * (cfTasa / 12) * cfMeses) / tipoCambio;
   }, [cfMontoCredito, cfTasa, cfMeses, tipoCambio]);
 
+  const sacos69kg = sacos46 > 0 ? sacos46 / 1.5 : 0;
+
   const calc = useMemo(() => {
-    const sacos = watchedValues.sacos69kg;
-    if (!sacos || sacos <= 0) return null;
+    if (!sacos46 || sacos46 <= 0) return null;
     return calculateContract({
-      sacos69kg: sacos,
+      sacos69kg: sacos46 / 1.5,
       puntaje: watchedValues.puntaje || 82,
       precioBolsa: watchedValues.precioBolsa ?? 0,
       diferencial: watchedValues.diferencial ?? 0,
@@ -204,7 +209,7 @@ export function ContractForm({
       costoFinanciero: costoFinancieroComputed || undefined,
     });
   }, [
-    watchedValues.sacos69kg,
+    sacos46,
     watchedValues.puntaje,
     watchedValues.precioBolsa,
     watchedValues.diferencial,
@@ -224,6 +229,7 @@ export function ContractForm({
     try {
       const parsed = ContractCreateSchema.parse({
         ...data,
+        sacos69kg: sacos46 / 1.5,
         shipmentId: data.shipmentId || null,
         posicionBolsa: data.posicionBolsa || null,
         montoCredito: cfMontoCredito || undefined,
@@ -357,16 +363,22 @@ export function ContractForm({
                   />
                 </ListRow>
 
-                <ListRow label="Sacos 46 Kg">
+                <ListRow label="Sacos 46 Kg" badge="D">
                   <input
                     type="number"
                     min={1}
+                    step="0.5"
+                    value={sacos46 || ""}
+                    onChange={(e) => setSacos46(parseFloat(e.target.value) || 0)}
+                    placeholder="0"
                     className={inputCls}
-                    {...register("sacos69kg", { valueAsNumber: true })}
                   />
-                  {errors.sacos69kg && (
-                    <p className="text-xs text-red-600 mt-0.5">{errors.sacos69kg.message}</p>
-                  )}
+                </ListRow>
+
+                <ListRow label="Sacos 69 Kg" badge="F">
+                  <div className={readonlyCls}>
+                    {sacos46 > 0 ? (sacos46 / 1.5).toFixed(2) : "—"}
+                  </div>
                 </ListRow>
 
                 <ListRow label="Precio Bolsa NY">
@@ -541,7 +553,7 @@ export function ContractForm({
               estatus={watchedValues.status ?? ""}
               lote={watchedValues.lote ?? ""}
               puntuacion={watchedValues.puntaje ?? 0}
-              sacos69kg={watchedValues.sacos69kg ?? 0}
+              sacos69kg={sacos69kg}
               precioBolsaNY={watchedValues.precioBolsa ?? 0}
               diferencial={watchedValues.diferencial ?? 0}
               condicionesPago={condicionesPago}
@@ -575,10 +587,15 @@ export function ContractForm({
   );
 }
 
-function ListRow({ label, children }: { label: string; children: React.ReactNode }) {
+function ListRow({ label, badge, children }: { label: string; badge?: "D" | "F"; children: React.ReactNode }) {
   return (
     <div className="flex items-start gap-6 px-6 py-2.5">
-      <span className="w-44 shrink-0 text-sm text-slate-600 dark:text-slate-400 pt-2 leading-tight">
+      <span className="w-44 shrink-0 text-sm text-slate-600 dark:text-slate-400 pt-2 leading-tight flex items-center gap-1.5">
+        {badge && (
+          <span className={`text-[9px] font-mono ${badge === "D" ? "text-blue-400" : "text-amber-400"}`}>
+            {badge}
+          </span>
+        )}
         {label}
       </span>
       <div className="flex-1 min-w-0">{children}</div>
