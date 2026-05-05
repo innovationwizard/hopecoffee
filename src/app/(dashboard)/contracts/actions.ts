@@ -222,6 +222,11 @@ export async function createContract(data: ContractCreateInput) {
       exportCustodio: validated.exportCustodio ?? null,
       exportAgenteAduanal: validated.exportAgenteAduanal ?? null,
       exportComisionOrganico: validated.exportComisionOrganico ?? null,
+      qqRechazos: validated.qqRechazos ?? null,
+      precioRechazos: validated.precioRechazos ?? null,
+      mesesCredito: validated.mesesCredito ?? null,
+      condicionesPago: validated.condicionesPago ?? null,
+      estatusPago: validated.estatusPago ?? null,
       ...computed,
     },
   });
@@ -247,7 +252,6 @@ const FINANCIAL_FIELDS = [
   "exportImpuestoAnacafe2", "exportInspeccionOirsa", "exportFumigacion",
   "exportEmisionDocumento", "exportFletePuerto", "exportSeguro",
   "exportCustodio", "exportAgenteAduanal", "exportComisionOrganico",
-  "posicionBolsa",
 ] as const;
 
 export async function updateContract(data: ContractUpdateInput) {
@@ -273,8 +277,7 @@ export async function updateContract(data: ContractUpdateInput) {
   if (existing.status === "FIJADO") {
     const priceChanged =
       (validated.precioBolsa !== undefined && validated.precioBolsa !== toNum(existing.precioBolsa)) ||
-      (validated.diferencial !== undefined && validated.diferencial !== toNum(existing.diferencial)) ||
-      (validated.posicionBolsa !== undefined && validated.posicionBolsa !== existing.posicionBolsa);
+      (validated.diferencial !== undefined && validated.diferencial !== toNum(existing.diferencial));
     if (priceChanged) {
       throw new Error("El precio está congelado. El contrato ya fue fijado.");
     }
@@ -345,6 +348,11 @@ export async function updateContract(data: ContractUpdateInput) {
       ...(validated.montoCredito !== undefined && { montoCredito: validated.montoCredito }),
       ...(validated.cosecha !== undefined && { cosecha: validated.cosecha }),
       ...(validated.shipmentId !== undefined && { shipmentId: validated.shipmentId ?? null }),
+      ...(validated.qqRechazos !== undefined && { qqRechazos: validated.qqRechazos ?? null }),
+      ...(validated.precioRechazos !== undefined && { precioRechazos: validated.precioRechazos ?? null }),
+      ...(validated.mesesCredito !== undefined && { mesesCredito: validated.mesesCredito ?? null }),
+      ...(validated.condicionesPago !== undefined && { condicionesPago: validated.condicionesPago ?? null }),
+      ...(validated.estatusPago !== undefined && { estatusPago: validated.estatusPago ?? null }),
       sacos69kg,
       precioBolsa,
       diferencial,

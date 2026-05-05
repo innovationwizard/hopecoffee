@@ -37,6 +37,9 @@ export const UserRoleEnum = z.enum([
 
 export const PosicionBolsaEnum = z.enum(["MAR", "MAY", "JUL", "SEP", "DEC"]);
 
+export const CondicionesPagoEnum = z.enum(["CAD", "CREDITO"]);
+export const EstatusPagoEnum = z.enum(["PAGADO", "NO_PAGADO"]);
+
 export const POStatusEnum = z.enum(["PENDIENTE", "RECIBIDO", "LIQUIDADO"]);
 
 export const ShipmentStatusEnum = z.enum(["PREPARACION", "EMBARCADO", "LIQUIDADO"]);
@@ -127,6 +130,11 @@ export const ContractCreateSchema = z.object({
   exportCustodio: z.number().min(0).optional().nullable(),
   exportAgenteAduanal: z.number().min(0).optional().nullable(),
   exportComisionOrganico: z.number().min(0).optional().nullable(),
+  qqRechazos: z.number().min(0).optional().nullable(),
+  precioRechazos: z.number().min(0).optional().nullable(),
+  mesesCredito: z.number().int().min(0).optional().nullable(),
+  condicionesPago: CondicionesPagoEnum.optional().nullable(),
+  estatusPago: EstatusPagoEnum.optional().nullable(),
 });
 
 export const ContractUpdateSchema = ContractCreateSchema.partial().extend({

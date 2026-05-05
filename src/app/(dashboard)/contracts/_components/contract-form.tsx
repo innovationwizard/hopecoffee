@@ -9,16 +9,14 @@ import { ContractCreateSchema } from "@/lib/validations/schemas";
 import type { z } from "zod";
 
 type ContractFormValues = z.input<typeof ContractCreateSchema>;
-import { calculateContract, type ContractCalculation } from "@/lib/services/calculations";
-import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
+import { calculateContract } from "@/lib/services/calculations";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { CalculationPreview } from "./calculation-preview";
 import { MonthlyContext } from "./monthly-context";
+import { OctavioResumen } from "./octavio-resumen";
 import { createContract, updateContract } from "../actions";
 import type { MonthlyContextStats } from "../actions";
-import { formatUSD } from "@/lib/utils/format";
 
 interface Client {
   id: string;
@@ -32,21 +30,11 @@ interface ShipmentOption {
   year: number;
 }
 
-const STATUS_OPTIONS = [
+// Octavio's status vocabulary (his silo's language)
+const OCTAVIO_STATUS_OPTIONS = [
   { value: "NEGOCIACION", label: "Negociación" },
-  { value: "CONFIRMADO", label: "Confirmado" },
-  { value: "FIJADO", label: "Fijado" },
-  { value: "NO_FIJADO", label: "No Fijado" },
-  { value: "EMBARCADO", label: "Embarcado" },
-];
-
-const REGION_OPTIONS = [
-  { value: "SANTA_ROSA", label: "Santa Rosa" },
-  { value: "HUEHUETENANGO", label: "Huehuetenango" },
-  { value: "ORGANICO", label: "Orgánico" },
-  { value: "DANILANDIA", label: "Danilandia" },
-  { value: "SANTA_ISABEL", label: "Santa Isabel" },
-  { value: "OTHER", label: "Otra" },
+  { value: "NO_FIJADO", label: "Confirmado No Fijado" },
+  { value: "FIJADO", label: "Confirmado Fijado" },
 ];
 
 const POSICION_BOLSA_OPTIONS = [
@@ -58,7 +46,19 @@ const POSICION_BOLSA_OPTIONS = [
   { value: "DEC", label: "Diciembre" },
 ];
 
-// Export cost line items with DB defaults
+const CONDICIONES_PAGO_OPTIONS = [
+  { value: "", label: "—" },
+  { value: "CAD", label: "CAD" },
+  { value: "CREDITO", label: "Crédito" },
+];
+
+const ESTATUS_PAGO_OPTIONS = [
+  { value: "", label: "—" },
+  { value: "PAGADO", label: "Pagado" },
+  { value: "NO_PAGADO", label: "No Pagado" },
+];
+
+// Hector's export cost breakdown — preserved in state, not shown to Octavio
 const EXPORT_COST_FIELDS = [
   { key: "trillaPerQQ", label: "Trilla / QQ", default: 7.0 },
   { key: "sacoYute", label: "Saco Yute", default: 1300.0 },
@@ -86,6 +86,11 @@ interface ContractFormProps {
   monthlyContext?: MonthlyContextStats;
 }
 
+const inputCls =
+  "w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:opacity-50";
+const readonlyCls =
+  "w-full px-3 py-2 text-sm border border-gray-200 dark:border-gray-700 rounded-md bg-slate-50 dark:bg-gray-900 text-slate-500 dark:text-slate-400";
+
 export function ContractForm({
   mode,
   clients,
@@ -98,32 +103,56 @@ export function ContractForm({
   const [submitting, setSubmitting] = useState(false);
   const isFijado = initialData?.status === "FIJADO";
 
-  // Export cost line items (local state, not persisted per-contract)
-  const [exportCosts, setExportCosts] = useState<Record<string, number>>(() => {
+  // ── Octavio's direct inputs (his silo) ────────────────────────────────────
+  const [gastosDirectos, setGastosDirectos] = useState<number>(
+    initialData?.gastosPerSaco ?? 0
+  );
+  const [qqRechazos, setQqRechazos] = useState<number>(initialData?.qqRechazos ?? 0);
+  const [precioRechazos, setPrecioRechazos] = useState<number>(initialData?.precioRechazos ?? 0);
+  const [condicionesPago, setCondicionesPago] = useState<string>(initialData?.condicionesPago ?? "");
+  const [estatusPago, setEstatusPago] = useState<string>(initialData?.estatusPago ?? "");
+  const [mesesCredito, setMesesCredito] = useState<number>(initialData?.mesesCredito ?? 0);
+
+  // ── Hector's export cost breakdown (preserved, not shown to Octavio) ──────
+  const [exportCosts] = useState<Record<string, number>>(() => {
+    const saved: Record<string, number | null | undefined> = {
+      trillaPerQQ: initialData?.exportTrillaPerQQ,
+      sacoYute: initialData?.exportSacoYute,
+      estampado: initialData?.exportEstampado,
+      bolsaGrainPro: initialData?.exportBolsaGrainPro,
+      fitoSanitario: initialData?.exportFitoSanitario,
+      impuestoAnacafe1: initialData?.exportImpuestoAnacafe1,
+      impuestoAnacafe2: initialData?.exportImpuestoAnacafe2,
+      inspeccionOirsa: initialData?.exportInspeccionOirsa,
+      fumigacion: initialData?.exportFumigacion,
+      emisionDocumento: initialData?.exportEmisionDocumento,
+      fletePuerto: initialData?.exportFletePuerto,
+      seguro: initialData?.exportSeguro,
+      custodio: initialData?.exportCustodio,
+      agenteAduanal: initialData?.exportAgenteAduanal,
+      comisionExportadorOrganico: initialData?.exportComisionOrganico,
+    };
     const initial: Record<string, number> = {};
     for (const f of EXPORT_COST_FIELDS) {
-      initial[f.key] = f.default;
+      initial[f.key] = saved[f.key] ?? f.default;
     }
     return initial;
   });
 
-  // Costo Financiero components (local state for inline editing)
-  const [cfInputMode, setCfInputMode] = useState<"monto" | "pct">("monto");
+  // ── Costo Financiero ──────────────────────────────────────────────────────
   const [cfMontoCredito, setCfMontoCredito] = useState(initialData?.montoCredito ?? 0);
-  const [cfPct, setCfPct] = useState(0);
   const [cfTasa, setCfTasa] = useState(0.08);
   const [cfMeses, setCfMeses] = useState(2);
 
-  // ISR — percentage or fixed amount (local state)
-  const [isrInputMode, setIsrInputMode] = useState<"pct" | "monto">(
+  // ── ISR (preserved, not shown to Octavio) ────────────────────────────────
+  const [isrInputMode] = useState<"pct" | "monto">(
     initialData?.isrAmount ? "monto" : "pct"
   );
-  const [isrPct, setIsrPct] = useState((initialData?.isrRate ?? 0) * 100);
-  const [isrMonto, setIsrMonto] = useState(initialData?.isrAmount ?? 0);
+  const [isrPct] = useState((initialData?.isrRate ?? 0) * 100);
+  const [isrMonto] = useState(initialData?.isrAmount ?? 0);
 
-  const gastosPerSaco = useMemo(() => {
-    return Object.values(exportCosts).reduce((sum, v) => sum + (v || 0), 0);
-  }, [exportCosts]);
+  // Octavio's gastos drives all calculations in his silo
+  const gastosPerSaco = gastosDirectos;
 
   const {
     register,
@@ -148,45 +177,30 @@ export function ContractForm({
       cosecha: initialData?.cosecha ?? "",
       lote: initialData?.lote ?? "",
       notes: initialData?.notes ?? "",
+      precioPromedioInv: initialData?.precioPromedioInv ?? undefined,
+      subproductosQty: initialData?.subproductosQty ?? undefined,
+      precioSubproducto: initialData?.precioSubproducto ?? undefined,
     },
   });
 
   const watchedValues = watch();
-
-  // Compute costo financiero from components
   const tipoCambio = watchedValues.tipoCambio ?? defaultExchangeRate;
 
-  // Resolve effective montoCredito: either direct input or derived from % of totalPagoQTZ
-  const effectiveMontoCredito = useMemo(() => {
-    if (cfInputMode === "monto") return cfMontoCredito;
-    // In pct mode, we need totalPagoQTZ which depends on calc — use a simple estimate
-    // totalPagoQTZ = utilidadSinCF * tipoCambio, but that's circular with costoFinanciero
-    // Use facturacionKgs * tipoCambio as the contract gross value base
-    const sacos = watchedValues.sacos69kg ?? 0;
-    const bolsa = watchedValues.precioBolsa ?? 0;
-    const dif = watchedValues.diferencial ?? 0;
-    const sacos46 = sacos * 1.5;
-    const grossValue = sacos46 * (bolsa + dif) * tipoCambio;
-    return grossValue > 0 ? (cfPct / 100) * grossValue : 0;
-  }, [cfInputMode, cfMontoCredito, cfPct, watchedValues.sacos69kg, watchedValues.precioBolsa, watchedValues.diferencial, tipoCambio]);
-
   const costoFinancieroComputed = useMemo(() => {
-    if (!effectiveMontoCredito || effectiveMontoCredito <= 0 || !tipoCambio) return 0;
-    return (effectiveMontoCredito * (cfTasa / 12) * cfMeses) / tipoCambio;
-  }, [effectiveMontoCredito, cfTasa, cfMeses, tipoCambio]);
+    if (!cfMontoCredito || cfMontoCredito <= 0 || !tipoCambio) return 0;
+    return (cfMontoCredito * (cfTasa / 12) * cfMeses) / tipoCambio;
+  }, [cfMontoCredito, cfTasa, cfMeses, tipoCambio]);
 
-  const calc: ContractCalculation | null = useMemo(() => {
+  const calc = useMemo(() => {
     const sacos = watchedValues.sacos69kg;
-    const bolsa = watchedValues.precioBolsa;
     if (!sacos || sacos <= 0) return null;
-
     return calculateContract({
       sacos69kg: sacos,
       puntaje: watchedValues.puntaje || 82,
-      precioBolsa: bolsa ?? 0,
+      precioBolsa: watchedValues.precioBolsa ?? 0,
       diferencial: watchedValues.diferencial ?? 0,
       gastosExportPerSaco: gastosPerSaco,
-      tipoCambio: tipoCambio,
+      tipoCambio,
       costoFinanciero: costoFinancieroComputed || undefined,
     });
   }, [
@@ -197,12 +211,13 @@ export function ContractForm({
     tipoCambio,
     gastosPerSaco,
     costoFinancieroComputed,
-    effectiveMontoCredito,
   ]);
 
-  function updateExportCost(key: string, value: number) {
-    setExportCosts((prev) => ({ ...prev, [key]: value }));
-  }
+  const selectedShipment = shipments.find((s) => s.id === watchedValues.shipmentId);
+  const selectedClient = clients.find((c) => c.id === watchedValues.clientId);
+  const selectedPosicion = POSICION_BOLSA_OPTIONS.find(
+    (p) => p.value === watchedValues.posicionBolsa
+  );
 
   async function onSubmit(data: ContractFormValues) {
     setSubmitting(true);
@@ -210,12 +225,15 @@ export function ContractForm({
       const parsed = ContractCreateSchema.parse({
         ...data,
         shipmentId: data.shipmentId || null,
-        montoCredito: effectiveMontoCredito || undefined,
+        posicionBolsa: data.posicionBolsa || null,
+        montoCredito: cfMontoCredito || undefined,
         cfTasaAnual: cfTasa || undefined,
         cfMeses: cfMeses || undefined,
         isrRate: isrInputMode === "pct" && isrPct > 0 ? isrPct / 100 : null,
         isrAmount: isrInputMode === "monto" && isrMonto > 0 ? isrMonto : null,
+        // Octavio's direct gastos figure (his silo)
         gastosPerSaco: gastosPerSaco,
+        // Hector's breakdown preserved from DB — not shown to Octavio but not overwritten
         exportTrillaPerQQ: exportCosts.trillaPerQQ || null,
         exportSacoYute: exportCosts.sacoYute || null,
         exportEstampado: exportCosts.estampado || null,
@@ -231,6 +249,11 @@ export function ContractForm({
         exportCustodio: exportCosts.custodio || null,
         exportAgenteAduanal: exportCosts.agenteAduanal || null,
         exportComisionOrganico: exportCosts.comisionExportadorOrganico || null,
+        qqRechazos: qqRechazos || null,
+        precioRechazos: precioRechazos || null,
+        mesesCredito: mesesCredito || null,
+        condicionesPago: (condicionesPago as "CAD" | "CREDITO") || null,
+        estatusPago: (estatusPago as "PAGADO" | "NO_PAGADO") || null,
       });
       if (mode === "edit" && initialData?.id) {
         await updateContract({ ...parsed, id: initialData.id });
@@ -241,9 +264,7 @@ export function ContractForm({
       }
       router.push("/contracts");
     } catch (err) {
-      toast.error(
-        err instanceof Error ? err.message : "Error guardando contrato"
-      );
+      toast.error(err instanceof Error ? err.message : "Error guardando contrato");
     } finally {
       setSubmitting(false);
     }
@@ -252,454 +273,315 @@ export function ContractForm({
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left: Form fields */}
-        <div className="lg:col-span-2 space-y-6">
 
-          {/* ── Section 1: Datos del Contrato ── */}
+        {/* ── Left: Menu Ingreso Información (Octavio's silo) ── */}
+        <div className="lg:col-span-2 space-y-4">
           <Card>
             <CardHeader>
-              <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300">
-                Datos del Contrato
+              <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wide">
+                Menu Ingreso Información
               </h3>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <Select
-                  label="Cliente"
-                  options={clients.map((c) => ({ value: c.id, label: c.name }))}
-                  placeholder="Seleccionar cliente"
-                  error={errors.clientId?.message}
-                  {...register("clientId")}
-                />
-                <Input
-                  label="Número de Contrato"
-                  placeholder="P40129"
-                  error={errors.contractNumber?.message}
-                  {...register("contractNumber")}
-                />
-              </div>
+            <CardContent className="p-0">
+              <div className="divide-y divide-slate-100 dark:divide-slate-800">
 
-              <div className="grid grid-cols-4 gap-4">
-                <Select
-                  label="Embarque"
-                  options={[
-                    { value: "", label: "Sin asignar" },
-                    ...shipments.map((s) => ({ value: s.id, label: s.name })),
-                  ]}
-                  error={errors.shipmentId?.message}
-                  {...register("shipmentId")}
-                />
-                <Select
-                  label="Estado"
-                  options={STATUS_OPTIONS}
-                  error={errors.status?.message}
-                  {...register("status")}
-                />
-                <Select
-                  label="Posición Bolsa"
-                  options={POSICION_BOLSA_OPTIONS}
-                  error={errors.posicionBolsa?.message}
-                  disabled={isFijado}
-                  {...register("posicionBolsa")}
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <Input
-                  label="Puntaje"
-                  type="number"
-                  min={60}
-                  max={100}
-                  error={errors.puntaje?.message}
-                  {...register("puntaje", { valueAsNumber: true })}
-                />
-                <Input
-                  label="Sacos 69kg"
-                  type="number"
-                  min={1}
-                  error={errors.sacos69kg?.message}
-                  {...register("sacos69kg", { valueAsNumber: true })}
-                />
-              </div>
-
-              <div className="grid grid-cols-3 gap-4">
-                <Input
-                  label="Precio Bolsa (USD)"
-                  type="number"
-                  step="0.01"
-                  disabled={isFijado}
-                  error={errors.precioBolsa?.message}
-                  {...register("precioBolsa", { valueAsNumber: true })}
-                />
-                <Input
-                  label="Diferencial (USD)"
-                  type="number"
-                  step="0.01"
-                  disabled={isFijado}
-                  error={errors.diferencial?.message}
-                  {...register("diferencial", { valueAsNumber: true })}
-                />
-                <Input
-                  label="Tipo de Cambio"
-                  type="number"
-                  step="0.01"
-                  error={errors.tipoCambio?.message}
-                  {...register("tipoCambio", { valueAsNumber: true })}
-                />
-              </div>
-
-              <div className="grid grid-cols-3 gap-4">
-                <Input
-                  label="Cosecha"
-                  placeholder="25/26"
-                  error={errors.cosecha?.message}
-                  {...register("cosecha")}
-                />
-                <Input
-                  label="Lote"
-                  placeholder="Orgánico, Santa Rosa..."
-                  error={errors.lote?.message}
-                  {...register("lote")}
-                />
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Regiones
-                  </label>
-                  <div className="flex flex-wrap gap-2">
-                    {REGION_OPTIONS.map((region) => (
-                      <label key={region.value} className="flex items-center gap-1 text-xs">
-                        <input
-                          type="checkbox"
-                          value={region.value}
-                          {...register("regions")}
-                          className="rounded"
-                        />
-                        {region.label}
-                      </label>
+                <ListRow label="Embarque">
+                  <select className={inputCls} {...register("shipmentId")}>
+                    <option value="">Sin asignar</option>
+                    {shipments.map((s) => (
+                      <option key={s.id} value={s.id}>{s.name}</option>
                     ))}
+                  </select>
+                </ListRow>
+
+                <ListRow label="Posición">
+                  <select className={inputCls} disabled={isFijado} {...register("posicionBolsa")}>
+                    {POSICION_BOLSA_OPTIONS.map((o) => (
+                      <option key={o.value} value={o.value}>{o.label}</option>
+                    ))}
+                  </select>
+                </ListRow>
+
+                <ListRow label="Año">
+                  <div className={readonlyCls}>
+                    {selectedShipment ? selectedShipment.year : "—"}
                   </div>
-                  {errors.regions && (
-                    <p className="mt-1 text-xs text-red-600">
-                      {errors.regions.message}
-                    </p>
+                </ListRow>
+
+                <ListRow label="Cliente">
+                  <select className={inputCls} {...register("clientId")}>
+                    <option value="">Seleccionar...</option>
+                    {clients.map((c) => (
+                      <option key={c.id} value={c.id}>{c.name}</option>
+                    ))}
+                  </select>
+                  {errors.clientId && (
+                    <p className="text-xs text-red-600 mt-0.5">{errors.clientId.message}</p>
                   )}
-                </div>
-              </div>
+                </ListRow>
 
-              <div className="grid grid-cols-3 gap-4">
-                <Input
-                  label="Precio Prom. Inventario"
-                  type="number"
-                  step="0.01"
-                  placeholder="0"
-                  error={errors.precioPromedioInv?.message}
-                  {...register("precioPromedioInv", { valueAsNumber: true })}
-                />
-                <Input
-                  label="Subproductos (Oro)"
-                  type="number"
-                  step="0.01"
-                  placeholder="0"
-                  error={errors.subproductosQty?.message}
-                  {...register("subproductosQty", { valueAsNumber: true })}
-                />
-                <Input
-                  label="Precio Subproducto"
-                  type="number"
-                  step="0.01"
-                  placeholder="0"
-                  error={errors.precioSubproducto?.message}
-                  {...register("precioSubproducto", { valueAsNumber: true })}
-                />
-              </div>
+                <ListRow label="Contrato">
+                  <input
+                    className={inputCls}
+                    placeholder="P40129"
+                    {...register("contractNumber")}
+                  />
+                  {errors.contractNumber && (
+                    <p className="text-xs text-red-600 mt-0.5">{errors.contractNumber.message}</p>
+                  )}
+                </ListRow>
 
-              {isFijado && (
-                <div className="p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-md text-xs text-amber-700 dark:text-amber-400">
-                  Precio congelado — el contrato ya fue fijado. Los campos de precio y posición están deshabilitados.
-                </div>
-              )}
+                <ListRow label="Estatus">
+                  <select className={inputCls} {...register("status")}>
+                    {OCTAVIO_STATUS_OPTIONS.map((o) => (
+                      <option key={o.value} value={o.value}>{o.label}</option>
+                    ))}
+                  </select>
+                </ListRow>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Notas
-                </label>
-                <textarea
-                  rows={2}
-                  className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                  {...register("notes")}
-                />
-              </div>
-            </CardContent>
-          </Card>
+                <ListRow label="Lote">
+                  <input
+                    className={inputCls}
+                    placeholder="Orgánico, Santa Rosa..."
+                    {...register("lote")}
+                  />
+                </ListRow>
 
-          {/* ── Section 2: Costos de Exportación ── */}
-          <Card>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300">
-                  Costos de Exportación
-                </h3>
-                <span className="text-xs font-mono text-slate-500">
-                  Total por saco: {formatUSD(gastosPerSaco)}
-                </span>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-3 md:grid-cols-5 gap-3">
-                {EXPORT_COST_FIELDS.map((field) => (
-                  <div key={field.key}>
-                    <label className="block text-[10px] font-medium text-slate-500 dark:text-slate-400 mb-1 truncate" title={field.label}>
-                      {field.label}
-                    </label>
-                    <input
-                      type="number"
-                      step="0.01"
-                      value={exportCosts[field.key] ?? 0}
-                      onChange={(e) => updateExportCost(field.key, parseFloat(e.target.value) || 0)}
-                      className="w-full px-2 py-1.5 text-xs font-mono border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                    />
-                  </div>
-                ))}
-              </div>
-              <div className="mt-3 pt-3 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between">
-                <span className="text-xs text-slate-500">
-                  Gastos Exportación = {formatUSD(gastosPerSaco)} × {watchedValues.sacos69kg || 0} sacos
-                </span>
-                <span className="text-sm font-mono font-semibold text-red-600">
-                  {formatUSD(gastosPerSaco * (watchedValues.sacos69kg || 0))}
-                </span>
-              </div>
-            </CardContent>
-          </Card>
+                <ListRow label="Puntuación">
+                  <input
+                    type="number"
+                    min={60}
+                    max={100}
+                    className={inputCls}
+                    {...register("puntaje", { valueAsNumber: true })}
+                  />
+                </ListRow>
 
-          {/* ── Section 3: Costo Financiero ── */}
-          <Card>
-            <CardHeader>
-              <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300">
-                Costo Financiero
-              </h3>
-            </CardHeader>
-            <CardContent>
-              {/* Input mode toggle */}
-              <div className="flex gap-1 mb-4 bg-slate-100 dark:bg-orion-800 rounded-lg p-1 w-fit">
-                <button
-                  type="button"
-                  onClick={() => setCfInputMode("monto")}
-                  className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
-                    cfInputMode === "monto"
-                      ? "bg-white dark:bg-orion-700 text-slate-900 dark:text-white shadow-sm"
-                      : "text-slate-500 dark:text-slate-400"
-                  }`}
-                >
-                  Monto (Q)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setCfInputMode("pct")}
-                  className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
-                    cfInputMode === "pct"
-                      ? "bg-white dark:bg-orion-700 text-slate-900 dark:text-white shadow-sm"
-                      : "text-slate-500 dark:text-slate-400"
-                  }`}
-                >
-                  % del Contrato
-                </button>
-              </div>
+                <ListRow label="Sacos 46 Kg">
+                  <input
+                    type="number"
+                    min={1}
+                    className={inputCls}
+                    {...register("sacos69kg", { valueAsNumber: true })}
+                  />
+                  {errors.sacos69kg && (
+                    <p className="text-xs text-red-600 mt-0.5">{errors.sacos69kg.message}</p>
+                  )}
+                </ListRow>
 
-              <div className="grid grid-cols-5 gap-4">
-                {cfInputMode === "monto" ? (
-                  <div>
-                    <label className="block text-[10px] font-medium text-slate-500 dark:text-slate-400 mb-1">
-                      Monto Crédito (Q)
-                    </label>
-                    <input
-                      type="number"
-                      step="0.01"
-                      value={cfMontoCredito || ""}
-                      onChange={(e) => setCfMontoCredito(parseFloat(e.target.value) || 0)}
-                      placeholder="0"
-                      className="w-full px-2 py-1.5 text-xs font-mono border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                    />
-                  </div>
-                ) : (
-                  <div>
-                    <label className="block text-[10px] font-medium text-slate-500 dark:text-slate-400 mb-1">
-                      % del Valor
-                    </label>
-                    <input
-                      type="number"
-                      step="0.1"
-                      value={cfPct || ""}
-                      onChange={(e) => setCfPct(parseFloat(e.target.value) || 0)}
-                      placeholder="0"
-                      className="w-full px-2 py-1.5 text-xs font-mono border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                    />
-                  </div>
-                )}
-                <div>
-                  <label className="block text-[10px] font-medium text-slate-500 dark:text-slate-400 mb-1">
-                    Tasa Anual
-                  </label>
+                <ListRow label="Precio Bolsa NY">
                   <input
                     type="number"
                     step="0.01"
+                    disabled={isFijado}
+                    className={inputCls}
+                    {...register("precioBolsa", { valueAsNumber: true })}
+                  />
+                </ListRow>
+
+                <ListRow label="Diferencial">
+                  <input
+                    type="number"
+                    step="0.01"
+                    disabled={isFijado}
+                    className={inputCls}
+                    {...register("diferencial", { valueAsNumber: true })}
+                  />
+                </ListRow>
+
+                <ListRow label="Gastos Exportación">
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={gastosDirectos || ""}
+                    onChange={(e) => setGastosDirectos(parseFloat(e.target.value) || 0)}
+                    placeholder="0"
+                    className={inputCls}
+                  />
+                </ListRow>
+
+                <ListRow label="Tasa Interés">
+                  <input
+                    type="number"
+                    step="0.001"
                     value={cfTasa}
                     onChange={(e) => setCfTasa(parseFloat(e.target.value) || 0)}
-                    className="w-full px-2 py-1.5 text-xs font-mono border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                    className={inputCls}
                   />
-                </div>
-                <div>
-                  <label className="block text-[10px] font-medium text-slate-500 dark:text-slate-400 mb-1">
-                    Meses
-                  </label>
+                </ListRow>
+
+                <ListRow label="Meses Financiamiento">
                   <input
                     type="number"
                     step="1"
                     value={cfMeses}
                     onChange={(e) => setCfMeses(parseInt(e.target.value) || 0)}
-                    className="w-full px-2 py-1.5 text-xs font-mono border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                    className={inputCls}
                   />
-                </div>
-                <div>
-                  <label className="block text-[10px] font-medium text-slate-500 dark:text-slate-400 mb-1">
-                    Tipo de Cambio
-                  </label>
+                </ListRow>
+
+                <ListRow label="Tipo Cambio">
                   <input
                     type="number"
                     step="0.01"
-                    value={tipoCambio}
-                    disabled
-                    className="w-full px-2 py-1.5 text-xs font-mono border border-gray-300 dark:border-gray-600 rounded bg-slate-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400"
+                    className={inputCls}
+                    {...register("tipoCambio", { valueAsNumber: true })}
                   />
-                </div>
-                {cfInputMode === "pct" && (
-                  <div>
-                    <label className="block text-[10px] font-medium text-slate-500 dark:text-slate-400 mb-1">
-                      = Monto (Q)
-                    </label>
-                    <div className="px-2 py-1.5 text-xs font-mono bg-slate-100 dark:bg-gray-700 text-slate-600 dark:text-slate-300 rounded border border-gray-300 dark:border-gray-600">
-                      Q{effectiveMontoCredito.toLocaleString("es-GT", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                    </div>
+                </ListRow>
+
+                <ListRow label="Precio Pergamino">
+                  <input
+                    type="number"
+                    step="0.01"
+                    placeholder="0"
+                    className={inputCls}
+                    {...register("precioPromedioInv", { valueAsNumber: true })}
+                  />
+                </ListRow>
+
+                <ListRow label="QQ Rechazos">
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={qqRechazos || ""}
+                    onChange={(e) => setQqRechazos(parseFloat(e.target.value) || 0)}
+                    placeholder="0"
+                    className={inputCls}
+                  />
+                </ListRow>
+
+                <ListRow label="Precio Rechazos">
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={precioRechazos || ""}
+                    onChange={(e) => setPrecioRechazos(parseFloat(e.target.value) || 0)}
+                    placeholder="0"
+                    className={inputCls}
+                  />
+                </ListRow>
+
+                <ListRow label="Comisiones Venta">
+                  <div className={readonlyCls}>
+                    {calc ? `$${calc.comisionVenta.toFixed(2)}` : "—"}
                   </div>
-                )}
-              </div>
-              <div className="mt-3 pt-3 border-t border-slate-200 dark:border-slate-700">
-                <div className="flex items-center justify-between text-xs text-slate-500">
-                  <span className="font-mono">
-                    {effectiveMontoCredito > 0
-                      ? `Q${effectiveMontoCredito.toLocaleString("es-GT", { maximumFractionDigits: 0 })} × (${cfTasa} / 12) × ${cfMeses} / ${tipoCambio}`
-                      : "Sin crédito — costo financiero = $0"}
-                  </span>
-                  <span className="text-sm font-mono font-semibold text-red-600">
-                    {formatUSD(costoFinancieroComputed)}
-                  </span>
-                </div>
+                </ListRow>
+
+                <ListRow label="Comisiones Compra">
+                  <div className={readonlyCls}>
+                    {calc ? `$${calc.comisionCompra.toFixed(2)}` : "—"}
+                  </div>
+                </ListRow>
+
+                <ListRow label="Condiciones Pago">
+                  <select
+                    className={inputCls}
+                    value={condicionesPago}
+                    onChange={(e) => setCondicionesPago(e.target.value)}
+                  >
+                    {CONDICIONES_PAGO_OPTIONS.map((o) => (
+                      <option key={o.value} value={o.value}>{o.label}</option>
+                    ))}
+                  </select>
+                </ListRow>
+
+                <ListRow label="Meses de Crédito">
+                  <input
+                    type="number"
+                    step="1"
+                    value={mesesCredito || ""}
+                    onChange={(e) => setMesesCredito(parseInt(e.target.value) || 0)}
+                    placeholder="0"
+                    className={inputCls}
+                  />
+                </ListRow>
+
+                <ListRow label="Estatus Pago">
+                  <select
+                    className={inputCls}
+                    value={estatusPago}
+                    onChange={(e) => setEstatusPago(e.target.value)}
+                  >
+                    {ESTATUS_PAGO_OPTIONS.map((o) => (
+                      <option key={o.value} value={o.value}>{o.label}</option>
+                    ))}
+                  </select>
+                </ListRow>
+
               </div>
             </CardContent>
           </Card>
 
-          {/* ── Section 4: ISR ── */}
-          <Card>
-            <CardHeader>
-              <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300">
-                ISR (Impuesto Sobre la Renta)
-              </h3>
-            </CardHeader>
-            <CardContent>
-              <div className="flex gap-1 mb-4 bg-slate-100 dark:bg-orion-800 rounded-lg p-1 w-fit">
-                <button
-                  type="button"
-                  onClick={() => setIsrInputMode("pct")}
-                  className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
-                    isrInputMode === "pct"
-                      ? "bg-white dark:bg-orion-700 text-slate-900 dark:text-white shadow-sm"
-                      : "text-slate-500 dark:text-slate-400"
-                  }`}
-                >
-                  Porcentaje (%)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setIsrInputMode("monto")}
-                  className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
-                    isrInputMode === "monto"
-                      ? "bg-white dark:bg-orion-700 text-slate-900 dark:text-white shadow-sm"
-                      : "text-slate-500 dark:text-slate-400"
-                  }`}
-                >
-                  Monto Fijo (Q)
-                </button>
-              </div>
+          {isFijado && (
+            <div className="p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-md text-xs text-amber-700 dark:text-amber-400">
+              Precio congelado — el contrato ya fue fijado. Precio Bolsa NY, Diferencial y Posición están deshabilitados.
+            </div>
+          )}
 
-              <div className="grid grid-cols-3 gap-4">
-                {isrInputMode === "pct" ? (
-                  <div>
-                    <label className="block text-[10px] font-medium text-slate-500 dark:text-slate-400 mb-1">
-                      Tasa ISR (%)
-                    </label>
-                    <input
-                      type="number"
-                      step="0.01"
-                      value={isrPct || ""}
-                      onChange={(e) => setIsrPct(parseFloat(e.target.value) || 0)}
-                      placeholder="6"
-                      className="w-full px-2 py-1.5 text-xs font-mono border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                    />
-                  </div>
-                ) : (
-                  <div>
-                    <label className="block text-[10px] font-medium text-slate-500 dark:text-slate-400 mb-1">
-                      Monto ISR (Q)
-                    </label>
-                    <input
-                      type="number"
-                      step="0.01"
-                      value={isrMonto || ""}
-                      onChange={(e) => setIsrMonto(parseFloat(e.target.value) || 0)}
-                      placeholder="0"
-                      className="w-full px-2 py-1.5 text-xs font-mono border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                    />
-                  </div>
-                )}
-              </div>
-
-              <p className="mt-3 text-[10px] text-slate-400">
-                Sujeto a incentivos fiscales. Use porcentaje sobre materia prima o monto fijo según régimen fiscal del contrato.
-              </p>
-            </CardContent>
-          </Card>
-
-          <div className="flex gap-3 pt-2">
+          <div className="flex gap-3">
             <Button type="submit" loading={submitting}>
               {mode === "edit" ? "Guardar Cambios" : "Crear Contrato"}
             </Button>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => router.back()}
-            >
+            <Button type="button" variant="outline" onClick={() => router.back()}>
               Cancelar
             </Button>
           </div>
         </div>
 
-        {/* Right: Calculation preview + Monthly context */}
+        {/* ── Right: Resumen + hidden legacy panels ── */}
         <div className="lg:col-span-1">
           <div className="sticky top-6 space-y-4">
-            <CalculationPreview
+
+            <OctavioResumen
+              embarque={selectedShipment?.name ?? ""}
+              posicion={selectedPosicion?.label ?? ""}
+              anio={selectedShipment?.year}
+              cliente={selectedClient?.name ?? ""}
+              contrato={watchedValues.contractNumber ?? ""}
+              estatus={watchedValues.status ?? ""}
+              lote={watchedValues.lote ?? ""}
+              puntuacion={watchedValues.puntaje ?? 0}
+              sacos69kg={watchedValues.sacos69kg ?? 0}
+              precioBolsaNY={watchedValues.precioBolsa ?? 0}
+              diferencial={watchedValues.diferencial ?? 0}
+              condicionesPago={condicionesPago}
+              estatusPago={estatusPago}
               calc={calc}
               gastosPerSaco={gastosPerSaco}
               costoFinanciero={costoFinancieroComputed}
+              qqRechazos={qqRechazos}
+              precioRechazos={precioRechazos}
               precioPromedioInv={watchedValues.precioPromedioInv ?? 0}
-              subproductosQty={watchedValues.subproductosQty ?? 0}
-              precioSubproducto={watchedValues.precioSubproducto ?? 0}
             />
-            {monthlyContext && (
-              <MonthlyContext stats={monthlyContext} />
-            )}
+
+            {/* P&L del Contrato and Contexto del Mes — hidden from Octavio */}
+            <div className="hidden">
+              <CalculationPreview
+                calc={calc}
+                gastosPerSaco={gastosPerSaco}
+                costoFinanciero={costoFinancieroComputed}
+                precioPromedioInv={watchedValues.precioPromedioInv ?? 0}
+                subproductosQty={watchedValues.subproductosQty ?? 0}
+                precioSubproducto={watchedValues.precioSubproducto ?? 0}
+              />
+              {monthlyContext && <MonthlyContext stats={monthlyContext} />}
+            </div>
+
           </div>
         </div>
+
       </div>
     </form>
+  );
+}
+
+function ListRow({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="flex items-start gap-6 px-6 py-2.5">
+      <span className="w-44 shrink-0 text-sm text-slate-600 dark:text-slate-400 pt-2 leading-tight">
+        {label}
+      </span>
+      <div className="flex-1 min-w-0">{children}</div>
+    </div>
   );
 }

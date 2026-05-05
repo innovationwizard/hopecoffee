@@ -225,6 +225,16 @@ enum PosicionBolsa {
   DEC // Diciembre
 }
 
+enum CondicionesPago {
+  CAD     // Cash Against Documents
+  CREDITO // Buyer credit terms
+}
+
+enum EstatusPago {
+  PAGADO    // Paid
+  NO_PAGADO // Pending payment
+}
+
 enum FacilityType {
   BENEFICIO  // Dry mill processing
   BODEGA     // Warehouse/storage
@@ -380,6 +390,14 @@ model Contract {
   exportComisionOrganico      Decimal?  @db.Decimal(10, 2)
 
   notes           String?
+
+  // Octavio's silo — payment & rejection fields
+  qqRechazos      Decimal?        @db.Decimal(10, 2) // Rejected quintals
+  precioRechazos  Decimal?        @db.Decimal(10, 2) // Price per rejected QQ
+  mesesCredito    Int?                                // Buyer credit term (months)
+  condicionesPago CondicionesPago?                    // CAD | CREDITO
+  estatusPago     EstatusPago?                        // PAGADO | NO_PAGADO
+
   computedAt      DateTime?       // Set by computeContractFields(), staleness = updatedAt > computedAt
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
